@@ -6,9 +6,9 @@ with open(os.path.join(current_folder, 'README.md'), encoding='utf-8') as f:
     long_description = f.read()
 
 setup(
-    name='Simple Photo Gallery,
+    name='Simple Photo Gallery',
     version='0.1.1',
-    description='Create and share simple, but beautiful photo galleries, you are hosing yourself. ',
+    description='Create and share simple, but beautiful photo galleries, you are hosing yourself.',
     long_description=long_description,
     long_description_content_type='text/markdown',
     url='https://github.com/haltakov/simple-photo-gallery',
