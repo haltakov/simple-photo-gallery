@@ -27,4 +27,8 @@ setup(
     project_urls={
         'Documentation': r'https://github.com/haltakov/simple-photo-gallery'
     },
+    package_data={
+        'simplegallery' : ['templates/html/*',
+                           'templates/public/*']
+    }
 )
