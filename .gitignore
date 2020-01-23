@@ -2,3 +2,6 @@
 .DS_store
 __pycache__
 *.pyc
+*.egg-info
+build
+dist
