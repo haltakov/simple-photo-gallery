@@ -7,9 +7,7 @@ import glob
 import shutil
 import json
 from distutils.dir_util import copy_tree
-
-
-logging.basicConfig(level=logging.INFO, format='%(asctime)s  %(levelname)-6s %(message)s')
+import simplegallery.common as spg_common
 
 
 def parse_args():
@@ -141,6 +139,9 @@ def main():
     """
     Initializes a new Simple Photo Gallery in a specified folder
     """
+    # Init the logger
+    spg_common.setup_gallery_logging()
+
     # Parse the arguments
     args = parse_args()
 
