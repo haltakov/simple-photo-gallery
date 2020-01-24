@@ -5,6 +5,8 @@ import simplegallery.common as spg_common
 import simplegallery.media as spg_media
 import sys
 import glob
+import jinja2
+import json
 
 
 def parse_args():
@@ -17,11 +19,11 @@ def parse_args():
 
     parser = argparse.ArgumentParser(description=description)
 
-    parser.add_argument('-g', '--gallery',
-                        dest='gallery_path',
+    parser.add_argument('-g', '--gallery-root',
+                        dest='gallery_root',
                         action='store',
-                        default=os.path.join('.', 'gallery.json'),
-                        help='Path to the gallery.json file')
+                        default='.',
+                        help='Path to the folder containing the gallery.json file')
 
     parser.add_argument('-ft', '--force-thumbnails',
                         dest='force_thumbnails',
@@ -64,6 +66,29 @@ def check_and_create_thumbnails(gallery_config, force=False):
     return count_thumbnails_created
 
 
+def build_html(gallery_root, gallery_config):
+    """
+    Generates the HTML file (index.html) of the gallery
+    :param gallery_config: Gallery configuration dictionary
+    """
+
+    # Load the images_data
+    with open(gallery_config['images_data_file'], 'r') as images_data_in:
+        images_data = json.load(images_data_in)
+
+    # Setup the jinja2 environment
+    file_loader = jinja2.FileSystemLoader(gallery_root)
+    env = jinja2.Environment(loader=file_loader)
+
+    # Renter the HTML template
+    template = env.get_template('index_template.html')
+    html = template.render(images=images_data)
+
+    with open(os.path.join(gallery_config['public_path'], 'index.html'), 'w') as out:
+        out.write(html)
+        logging.info('Generated index.html')
+
+
 def main():
     # Init the logger
     spg_common.setup_gallery_logging()
@@ -72,7 +97,8 @@ def main():
     args = parse_args()
 
     # Read the gallery config
-    gallery_config = spg_common.read_gallery_config(args.gallery_path)
+    gallery_root = args.gallery_root
+    gallery_config = spg_common.read_gallery_config(os.path.join(gallery_root, 'gallery.json'))
     if not gallery_config:
         logging.error(f'Cannot load the gallery.json file ({args.gallery_path})!')
         sys.exit(1)
@@ -104,6 +130,13 @@ def main():
             sys.exit(1)
     else:
         logging.info('The images_data.json file already exists.')
+
+    # Build the HTML from the template
+    try:
+        build_html(gallery_root, gallery_config)
+    except Exception as e:
+        logging.error(f'Something went wrong while generating the gallery HTML: {str(e)}')
+        sys.exit(1)
 
 
 if __name__ == "__main__":
