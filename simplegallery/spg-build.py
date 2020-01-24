@@ -28,6 +28,11 @@ def parse_args():
                         action='store_true',
                         help='Forces the generation of the thumbnails even if they already exist')
 
+    parser.add_argument('-fid', '--force-images-data',
+                        dest='force_images_data',
+                        action='store_true',
+                        help='Forces the generation of the images_data.json file even if it already exist')
+
     return parser.parse_args()
 
 
@@ -42,7 +47,7 @@ def check_and_create_thumbnails(gallery_config, force=False):
     thumbnails_path = gallery_config['thumbnails_path']
     thumbnails_height = gallery_config['thumbnail_height']
 
-    photos = glob.glob(os.path.join(gallery_config['images_path'], '*'))
+    photos = glob.glob(os.path.join(gallery_config['images_path'], '*.*'))
 
     if not photos:
         raise spg_common.SPGException(f'No photos could be found under {gallery_config["images_path"]}')
@@ -82,6 +87,23 @@ def main():
     except Exception as e:
         logging.error(f'Something went wrong while generating the thumbnails: {str(e)}')
         sys.exit(1)
+
+    # CHeck and create the images_data.json file
+    if args.force_images_data or not os.path.exists(gallery_config['images_data_file']):
+        logging.info('Generating the images_data.json file')
+        try:
+            spg_media.create_images_data_file(gallery_config['images_path'],
+                                              gallery_config['thumbnails_path'],
+                                              gallery_config['images_data_file'],
+                                              gallery_config['public_path'])
+        except spg_common.SPGException as e:
+            logging.error(e)
+            sys.exit(1)
+        except Exception as e:
+            logging.error(f'Something went wrong while generating the images_data.json file: {str(e)}')
+            sys.exit(1)
+    else:
+        logging.info('The images_data.json file already exists.')
 
 
 if __name__ == "__main__":
