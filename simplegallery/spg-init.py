@@ -62,7 +62,7 @@ def check_if_gallery_already_exists(gallery_root):
     paths_to_check = [
         os.path.join(gallery_root, 'gallery.json'),
         os.path.join(gallery_root, 'images_data.json'),
-        os.path.join(gallery_root, 'index_template.html'),
+        os.path.join(gallery_root, 'templates'),
         os.path.join(gallery_root, 'public'),
     ]
 
@@ -91,7 +91,7 @@ def create_gallery_folder_structure(gallery_root):
         if basename_lower.endswith('.jpg') or basename_lower.endswith('.jpeg') or basename_lower.endswith('.gif') or basename_lower.endswith('.mp4'):
             shutil.move(path, os.path.join(photos_dir, os.path.basename(path)))
 
-    # Copy the Jinja templates
+    # Copy the Jinja templates folder
     copy_tree(pkg_resources.resource_filename('simplegallery', 'data/templates'), os.path.join(gallery_root, 'templates'))
 
 

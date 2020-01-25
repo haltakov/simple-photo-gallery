@@ -90,6 +90,10 @@ def build_html(gallery_root, gallery_config):
 
 
 def main():
+    """
+    Builds the HTML gallery, generating all required files for display.
+    """
+
     # Init the logger
     spg_common.setup_gallery_logging()
 
@@ -131,7 +135,7 @@ def main():
     else:
         logging.info('The images_data.json file already exists.')
 
-    # Build the HTML from the template
+    # Build the HTML from the templates
     try:
         build_html(gallery_root, gallery_config)
     except Exception as e:
