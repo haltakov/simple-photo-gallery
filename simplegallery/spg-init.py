@@ -34,6 +34,11 @@ def parse_args():
                         action='store_true',
                         help='Overrides existing config and template files files')
 
+    parser.add_argument('--keep-gallery-config',
+                        dest='keep_gallery_config',
+                        action='store_true',
+                        help='Use to only copy the template files, but to not generate a (new) gallery.json')
+
     return parser.parse_args()
 
 
@@ -114,6 +119,7 @@ def create_gallery_json(gallery_root):
     DEFAULT_TITLE = 'My Gallery'
     DEFAULT_DESCRIPTION = 'Default description of my gallery'
     DEFAULT_THUMBNAIL_HEIGHT = '320'
+    DEFAULT_BACKGROUND_OFFSET = '30'
 
     # Ask the user for the title
     gallery_config['title'] = input(f'What is the title of your gallery? (default: "{DEFAULT_TITLE}")\n') or DEFAULT_TITLE
@@ -129,6 +135,20 @@ def create_gallery_json(gallery_root):
             if 32 <= thumbnail_size <= 1024:
                 break
     gallery_config['thumbnail_height'] = thumbnail_size
+
+    # Ask the user for the background image
+    gallery_config['background_photo'] = input(f'Which image should be used as background for the header gallery? (default: "")\n')
+
+    # Ask the user for the background offset
+    while True:
+        background_offset = input(
+            f'What should be the vertical offset of the background image in %? (default: {DEFAULT_BACKGROUND_OFFSET})\n') or DEFAULT_BACKGROUND_OFFSET
+        if background_offset.isdigit():
+            background_offset = int(background_offset)
+            if 0 <= background_offset <= 100:
+                break
+    gallery_config['background_photo_offset'] = background_offset
+
 
     # Save the configuration to a file
     gallery_config_path = os.path.join(gallery_root, 'gallery.json')
@@ -166,7 +186,8 @@ def main():
     create_gallery_folder_structure(gallery_root)
 
     # Create the gallery json file
-    create_gallery_json(gallery_root)
+    if not args.keep_gallery_config:
+        create_gallery_json(gallery_root)
 
 
 if __name__ == "__main__":

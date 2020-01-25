@@ -33,11 +33,6 @@ body {
 
 .header-image {
   height: 400px;
-  background: #333366 url("");
-  background-position: center 30%;
-  background-repeat: no-repeat;
-  background-size: cover;
-  padding-top: 50px;
   color: #eeeeee;
   padding: 0px;
 }

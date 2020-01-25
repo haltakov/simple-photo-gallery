@@ -14,6 +14,16 @@
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:200&display=swap" rel="stylesheet">
 
     <title>{{ gallery_config['title']}}</title>
+
+    <style>
+      {# These definitions are pulled out of the .css file here, so that the background image can be templated. #}
+      .header-image {
+        background: #333366 url("images/photos/{{ gallery_config['background_photo'] }}");
+        background-position: center {{ gallery_config['background_photo_offset'] }}%;
+        background-repeat: no-repeat;
+        background-size: cover;
+      }
+    </style>
   </head>
   <body>
 
