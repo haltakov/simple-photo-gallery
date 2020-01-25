@@ -13,14 +13,14 @@
 
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:200&display=swap" rel="stylesheet">
 
-    <title>Trip Title</title>
+    <title>{{ gallery_config['title']}}</title>
   </head>
   <body>
 
     <div class="jumbotron header-image">
       <div class="header-info">
-        <h1>Trip Title</h1>
-        <div class="header-info-details">Short trip description.</div>
+        <h1>{{ gallery_config['title'] }}</h1>
+        <div class="header-info-details">{{ gallery_config['description'] }}</div>
       </div>
     </div>
 
@@ -59,9 +59,9 @@
 
     <!-- GALLERY DESCRIPTIONS -->
 
-    {{ gallery_html(0, 100,
-                    'Test gallery',
-                    '') }}
+    {{ gallery_html(0, images|length,
+                    gallery_config['title'],
+                    gallery_config['description']) }}
 
     <!-- END GALLERY DESCRIPTIONS -->
 

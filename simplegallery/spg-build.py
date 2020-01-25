@@ -82,7 +82,7 @@ def build_html(gallery_root, gallery_config):
 
     # Renter the HTML template
     template = env.get_template('index_template.html')
-    html = template.render(images=images_data)
+    html = template.render(images=images_data, gallery_config=gallery_config)
 
     with open(os.path.join(gallery_config['public_path'], 'index.html'), 'w') as out:
         out.write(html)
@@ -136,6 +136,7 @@ def main():
         build_html(gallery_root, gallery_config)
     except Exception as e:
         logging.error(f'Something went wrong while generating the gallery HTML: {str(e)}')
+        print(e.with_traceback())
         sys.exit(1)
 
 
