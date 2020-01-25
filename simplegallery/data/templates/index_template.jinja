@@ -1,11 +1,11 @@
+{% import 'gallery_macros.jinja' as gallery_macros %}
+
 <!doctype html>
 <html lang="en">
   <head>
-    <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="css/photoswipe.css">
     <link rel="stylesheet" href="css/default-skin.css">
@@ -25,43 +25,12 @@
     </div>
 
 
-    {% macro gallery(from, to) -%}
-    <div class="row">
-      <div class="col gallery">
-        {% for i in range(from, to) %}
-          <a href="{{ images[i].src }}"
-             class="gallery-photo"
-             data-index="{{ i-from }}"
-             data-type="{{ images[i].type }}"
-             data-gallery="{{ from }}"
-             data-width="{{ images[i].size[0] }}"
-             data-height="{{ images[i].size[1] }}"
-             style="--w: {{ images[i].thumbnail_size[0] }}; --h: {{ images[i].thumbnail_size[1] }}">
-             <img src="{{ images[i].thumbnail }}" class="thumbnail rounded" alt="{{ images[i].description }}"/></a>
-        {% endfor %}
-      </div>
-    </div>
-    {%- endmacro %}
-
-
-    {% macro gallery_html(from, to, title, description) -%}
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col gallery-section">
-          <h2>{{ title }}</h2>
-          <p>{{ description }}</p>
-        </div>
-      </div>
-      {{ gallery(from, to) }}
-    </div>
-    {%- endmacro %}
-
-
     <!-- GALLERY DESCRIPTIONS -->
 
-    {{ gallery_html(0, images|length,
-                    gallery_config['title'],
-                    gallery_config['description']) }}
+    {{ gallery_macros.gallery(0, images|length,
+                              gallery_config['title'],
+                              gallery_config['description'],
+                              images)}}
 
     <!-- END GALLERY DESCRIPTIONS -->
 
@@ -107,11 +76,6 @@
     </div>
 
 
-
-
-
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>

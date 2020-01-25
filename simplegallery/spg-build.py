@@ -77,11 +77,11 @@ def build_html(gallery_root, gallery_config):
         images_data = json.load(images_data_in)
 
     # Setup the jinja2 environment
-    file_loader = jinja2.FileSystemLoader(gallery_root)
+    file_loader = jinja2.FileSystemLoader(gallery_config['templates_path'])
     env = jinja2.Environment(loader=file_loader)
 
     # Renter the HTML template
-    template = env.get_template('index_template.html')
+    template = env.get_template('index_template.jinja')
     html = template.render(images=images_data, gallery_config=gallery_config)
 
     with open(os.path.join(gallery_config['public_path'], 'index.html'), 'w') as out:

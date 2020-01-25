@@ -82,7 +82,7 @@ def create_gallery_folder_structure(gallery_root):
     """
 
     # Copy the public folder
-    copy_tree(pkg_resources.resource_filename('simplegallery', 'templates/public'), os.path.join(gallery_root, 'public'))
+    copy_tree(pkg_resources.resource_filename('simplegallery', 'data/public'), os.path.join(gallery_root, 'public'))
 
     # Move all images and videos to the correct subfolder under public
     photos_dir = os.path.join(gallery_root, 'public', 'images', 'photos')
@@ -91,8 +91,8 @@ def create_gallery_folder_structure(gallery_root):
         if basename_lower.endswith('.jpg') or basename_lower.endswith('.jpeg') or basename_lower.endswith('.gif') or basename_lower.endswith('.mp4'):
             shutil.move(path, os.path.join(photos_dir, os.path.basename(path)))
 
-    # Copy the HTML template
-    copy_tree(pkg_resources.resource_filename('simplegallery', 'templates/html'), gallery_root)
+    # Copy the Jinja templates
+    copy_tree(pkg_resources.resource_filename('simplegallery', 'data/templates'), os.path.join(gallery_root, 'templates'))
 
 
 def create_gallery_json(gallery_root):
@@ -105,6 +105,7 @@ def create_gallery_json(gallery_root):
     gallery_config = dict(
         images_data_file=os.path.join(gallery_root, 'images_data.json'),
         public_path=os.path.join(gallery_root, 'public'),
+        templates_path=os.path.join(gallery_root, 'templates'),
         images_path=os.path.join(gallery_root, 'public', 'images', 'photos'),
         thumbnails_path=os.path.join(gallery_root, 'public', 'images', 'thumbnails'),
     )
