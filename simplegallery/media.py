@@ -4,6 +4,7 @@ import os
 import json
 from PIL import Image, ExifTags
 import simplegallery.common as spg_common
+from collections import OrderedDict
 
 
 # Mapping of the string representation if an Exif tag to its id
@@ -112,35 +113,36 @@ def create_images_data_file(images_path, thumbnails_path, images_data_path, publ
     # Get all images
     images = glob.glob(os.path.join(images_path, '*.*'))
 
-    data = []
+    images_data = OrderedDict()
     # Get the required metadata for each image
     for image in sorted(images):
-        thumbnail_path = os.path.join(thumbnails_path, os.path.basename(image))
+        photo_name = os.path.basename(image)
+        thumbnail_path = os.path.join(thumbnails_path, photo_name)
 
         # Paths should be relative to the public folder, because they will directly be used in the HTML
-        d = dict(src=os.path.relpath(image, public_path))
+        image_data = dict(src=os.path.relpath(image, public_path))
 
         if image.lower().endswith('.jpg') or image.lower().endswith('.jpeg'):
-            d['size'] = get_image_size(image)
-            d['type'] = 'image'
-            d['description'] = get_image_description(image)
+            image_data['size'] = get_image_size(image)
+            image_data['type'] = 'image'
+            image_data['description'] = get_image_description(image)
         elif image.lower().endswith('.gif'):
-            d['size'] = get_image_size(image)
-            d['type'] = 'image'
-            d['description'] = ''
+            image_data['size'] = get_image_size(image)
+            image_data['type'] = 'image'
+            image_data['description'] = ''
         elif image.lower().endswith('.mp4'):
-            d['size'] = get_video_size(image)
-            d['type'] = 'video'
-            d['description'] = ''
+            image_data['size'] = get_video_size(image)
+            image_data['type'] = 'video'
+            image_data['description'] = ''
             thumbnail_path = thumbnail_path.replace('.mp4', '.jpg')
         else:
             raise spg_common.SPGException(f'Unsupported file type {os.path.basename(image)}')
 
-        d['thumbnail'] = os.path.relpath(thumbnail_path, public_path)
-        d['thumbnail_size'] = get_image_size(thumbnail_path)
+        image_data['thumbnail'] = os.path.relpath(thumbnail_path, public_path)
+        image_data['thumbnail_size'] = get_image_size(thumbnail_path)
 
-        data.append(d)
+        images_data[photo_name] = image_data
 
     # Write the data to a JSON file
     with open(images_data_path, 'w') as images_out:
-        json.dump(data, images_out, indent=4, separators=(',', ': '))
+        json.dump(images_data, images_out, indent=4, separators=(',', ': '))
