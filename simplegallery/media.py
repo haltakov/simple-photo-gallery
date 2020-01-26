@@ -11,6 +11,32 @@ from collections import OrderedDict
 EXIF_TAG_MAP = {ExifTags.TAGS[tag]: tag for tag in ExifTags.TAGS}
 
 
+def rotate_image_by_orientation(im):
+    """
+    Rotates an image according to it's Orientation EXIF Tag
+    :param im: Image
+    :return: Rotated image
+    """
+
+    exif = im._getexif()
+    if exif and EXIF_TAG_MAP['Orientation'] in exif:
+        orientation = exif[EXIF_TAG_MAP['Orientation']]
+
+        if orientation == 3:
+            rotation_angle = 180
+        elif orientation == 6:
+            rotation_angle = 270
+        elif orientation == 8:
+            rotation_angle = 90
+        else:
+            rotation_angle = 0
+
+        if rotation_angle != 0:
+            return im.rotate(rotation_angle, expand=True)
+
+    return im
+
+
 def create_image_thumbnail(image_path, thumbnail_path, height):
     """
     Creates a thumbnail for an image
@@ -19,8 +45,12 @@ def create_image_thumbnail(image_path, thumbnail_path, height):
     :param height: height of the thumbnail in pixels
     """
     im = Image.open(image_path)
+
+    im = rotate_image_by_orientation(im)
+
     width = round((float(height)/im.size[1]) * im.size[0])
     im = im.resize((width, height), Image.ANTIALIAS)
+
     im.save(thumbnail_path)
     im.close()
 
