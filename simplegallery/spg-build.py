@@ -7,6 +7,7 @@ import sys
 import glob
 import jinja2
 import json
+from collections import OrderedDict
 
 
 def parse_args():
@@ -29,11 +30,6 @@ def parse_args():
                         dest='force_thumbnails',
                         action='store_true',
                         help='Forces the generation of the thumbnails even if they already exist')
-
-    parser.add_argument('-fid', '--force-images-data',
-                        dest='force_images_data',
-                        action='store_true',
-                        help='Forces the generation of the images_data.json file even if it already exist')
 
     return parser.parse_args()
 
@@ -74,9 +70,9 @@ def build_html(gallery_root, gallery_config):
 
     # Load the images_data
     with open(gallery_config['images_data_file'], 'r') as images_data_in:
-        images_data = json.load(images_data_in)
+        images_data = json.load(images_data_in, object_pairs_hook=OrderedDict)
 
-    images_data_list = [images_data[image] for image in sorted(images_data.keys())]
+    images_data_list = [images_data[image] for image in images_data.keys()]
 
     # Setup the jinja2 environment
     file_loader = jinja2.FileSystemLoader(gallery_config['templates_path'])
@@ -120,22 +116,20 @@ def main():
         logging.error(f'Something went wrong while generating the thumbnails: {str(e)}')
         sys.exit(1)
 
-    # CHeck and create the images_data.json file
-    if args.force_images_data or not os.path.exists(gallery_config['images_data_file']):
-        logging.info('Generating the images_data.json file')
-        try:
-            spg_media.create_images_data_file(gallery_config['images_path'],
-                                              gallery_config['thumbnails_path'],
-                                              gallery_config['images_data_file'],
-                                              gallery_config['public_path'])
-        except spg_common.SPGException as e:
-            logging.error(e)
-            sys.exit(1)
-        except Exception as e:
-            logging.error(f'Something went wrong while generating the images_data.json file: {str(e)}')
-            sys.exit(1)
-    else:
-        logging.info('The images_data.json file already exists.')
+    # Generate the images_data.json
+    logging.info('Generating the images_data.json file')
+    try:
+        spg_media.create_images_data_file(gallery_config['images_data_file'],
+                                          gallery_config['images_path'],
+                                          gallery_config['thumbnails_path'],
+                                          gallery_config['public_path'])
+    except spg_common.SPGException as e:
+        logging.error(e)
+        sys.exit(1)
+    except Exception as e:
+        logging.error(f'Something went wrong while generating the images_data.json file: {str(e)}')
+        sys.exit(1)
+
 
     # Build the HTML from the templates
     try:

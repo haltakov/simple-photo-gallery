@@ -100,49 +100,72 @@ def get_image_description(image):
     return description
 
 
-def create_images_data_file(images_path, thumbnails_path, images_data_path, public_path):
+def get_metadata(image, thumbnail_path, public_path):
     """
-    Creates the images_data.json file containing metadata for each image (including size, description and thumbnail)
+    Gets the metadata of a media file (image or vieo)
+    :param image: Path to the media fule
+    :param thumbnail_path: Path to the thumbnail image of the media file
+    :param public_path: Path to the public folder of the gallery
+    :return:
+    """
+    # Paths should be relative to the public folder, because they will directly be used in the HTML
+    image_data = dict(src=os.path.relpath(image, public_path),
+                      mtime=os.path.getmtime(image))
+
+    if image.lower().endswith('.jpg') or image.lower().endswith('.jpeg'):
+        image_data['size'] = get_image_size(image)
+        image_data['type'] = 'image'
+        image_data['description'] = get_image_description(image)
+    elif image.lower().endswith('.gif'):
+        image_data['size'] = get_image_size(image)
+        image_data['type'] = 'image'
+        image_data['description'] = ''
+    elif image.lower().endswith('.mp4'):
+        image_data['size'] = get_video_size(image)
+        image_data['type'] = 'video'
+        image_data['description'] = ''
+        thumbnail_path = thumbnail_path.replace('.mp4', '.jpg')
+    else:
+        raise spg_common.SPGException(f'Unsupported file type {os.path.basename(image)}')
+
+    image_data['thumbnail'] = os.path.relpath(thumbnail_path, public_path)
+    image_data['thumbnail_size'] = get_image_size(thumbnail_path)
+
+    return image_data
+
+
+def create_images_data_file(images_data_path, images_path, thumbnails_path, public_path):
+    """
+    Updates the images_data.json file for each new image to store metadata (like size, description and thumbnail)
+    :param images_data_path: Path to the images_data.json file
     :param images_path: Path to the folder containing all images
     :param thumbnails_path: Path to the folder containing all thumbnails
-    :param images_data_path: Path to the images_data.json file
     :param public_path: Path to the public folder of the gallery
-    :param force: Forces the generation of the images_data.json file if set to true
     """
 
     # Get all images
     images = glob.glob(os.path.join(images_path, '*.*'))
 
-    images_data = OrderedDict()
+    # Load the existing file or create an empty dict
+    if os.path.exists(images_data_path):
+        with open(images_data_path, 'r') as images_data_in:
+            images_data = json.load(images_data_in)
+    else:
+        images_data = {}
+
     # Get the required metadata for each image
-    for image in sorted(images):
+    for image in images:
         photo_name = os.path.basename(image)
         thumbnail_path = os.path.join(thumbnails_path, photo_name)
 
-        # Paths should be relative to the public folder, because they will directly be used in the HTML
-        image_data = dict(src=os.path.relpath(image, public_path))
+        image_data = get_metadata(image, thumbnail_path, public_path)
 
-        if image.lower().endswith('.jpg') or image.lower().endswith('.jpeg'):
-            image_data['size'] = get_image_size(image)
-            image_data['type'] = 'image'
-            image_data['description'] = get_image_description(image)
-        elif image.lower().endswith('.gif'):
-            image_data['size'] = get_image_size(image)
-            image_data['type'] = 'image'
-            image_data['description'] = ''
-        elif image.lower().endswith('.mp4'):
-            image_data['size'] = get_video_size(image)
-            image_data['type'] = 'video'
-            image_data['description'] = ''
-            thumbnail_path = thumbnail_path.replace('.mp4', '.jpg')
-        else:
-            raise spg_common.SPGException(f'Unsupported file type {os.path.basename(image)}')
+        # Check if the image file has changed and only then use the new metadata. This allows changes that were made to
+        # the metadata (for example to the descriptions) to be preserved, unless the photo itself changed.
 
-        image_data['thumbnail'] = os.path.relpath(thumbnail_path, public_path)
-        image_data['thumbnail_size'] = get_image_size(thumbnail_path)
-
-        images_data[photo_name] = image_data
+        if photo_name not in images_data or images_data[photo_name]['mtime'] != image_data['mtime']:
+            images_data[photo_name] = image_data
 
     # Write the data to a JSON file
     with open(images_data_path, 'w') as images_out:
-        json.dump(images_data, images_out, indent=4, separators=(',', ': '))
+        json.dump(images_data, images_out, indent=4, separators=(',', ': '), sort_keys=True)
