@@ -102,7 +102,7 @@ def main():
     gallery_root = args.gallery_root
     gallery_config = spg_common.read_gallery_config(os.path.join(gallery_root, 'gallery.json'))
     if not gallery_config:
-        logging.error(f'Cannot load the gallery.json file ({args.gallery_path})!')
+        logging.error(f'Cannot load the gallery.json file ({args.gallery_root})!')
         sys.exit(1)
 
     # Check if thumbnails exist and generate them if needed or if specified by the user
@@ -129,7 +129,6 @@ def main():
     except Exception as e:
         logging.error(f'Something went wrong while generating the images_data.json file: {str(e)}')
         sys.exit(1)
-
 
     # Build the HTML from the templates
     try:

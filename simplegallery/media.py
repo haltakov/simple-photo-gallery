@@ -127,6 +127,8 @@ def get_image_description(image):
     else:
         description = ''
 
+    im.close()
+
     return description
 
 
