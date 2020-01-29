@@ -149,7 +149,6 @@ def create_gallery_json(gallery_root):
                 break
     gallery_config['background_photo_offset'] = background_offset
 
-
     # Save the configuration to a file
     gallery_config_path = os.path.join(gallery_root, 'gallery.json')
     with open(gallery_config_path, 'w') as out:
