@@ -16,7 +16,7 @@ class SPGBuildTestCase(unittest.TestCase):
     def test_nonexisting_gallery_config(self):
         with TempDirectory() as tempdir:
             with self.assertRaises(SystemExit) as cm:
-                sys.argv = ['gallery_build', '-g', tempdir.path]
+                sys.argv = ['gallery_build', '-p', tempdir.path]
                 gallery_build.main()
 
             self.assertEqual(cm.exception.code, 1)
@@ -40,19 +40,19 @@ class SPGBuildTestCase(unittest.TestCase):
             tempdir.compare([], path='public/images/thumbnails')
 
             # Check thumbnail created
-            sys.argv = ['gallery_build', '-g', tempdir.path]
+            sys.argv = ['gallery_build', '-p', tempdir.path]
             gallery_build.main()
             tempdir.compare(['photo.jpg'], path='public/images/thumbnails')
             self.assertEqual((640, 320), spg_media.get_image_size(thumbnail_path))
 
             # Check thumbnail not regenerated without force
             self.create_mock_image(os.path.join(tempdir.path, 'public', 'images', 'photos', 'photo.jpg'), 500, 500)
-            sys.argv = ['gallery_build', '-g', tempdir.path]
+            sys.argv = ['gallery_build', '-p', tempdir.path]
             gallery_build.main()
             self.assertEqual((640, 320), spg_media.get_image_size(thumbnail_path))
 
             # Check thumbnail regenerated with force
-            sys.argv = ['gallery_build', '-g', tempdir.path, '-ft']
+            sys.argv = ['gallery_build', '-p', tempdir.path, '-ft']
             gallery_build.main()
             self.assertEqual((320, 320), spg_media.get_image_size(thumbnail_path))
 
@@ -75,7 +75,7 @@ class SPGBuildTestCase(unittest.TestCase):
             sys.argv = ['gallery_init', '-p', tempdir.path]
             gallery_init.main()
 
-            sys.argv = ['gallery_build', '-g', tempdir.path]
+            sys.argv = ['gallery_build', '-p', tempdir.path]
             gallery_build.main()
 
             tempdir.compare(['templates', 'public', 'gallery.json', 'images_data.json'], recursive=False)
@@ -95,7 +95,7 @@ class SPGBuildTestCase(unittest.TestCase):
             gallery_init.main()
 
             # Check images data generated and
-            sys.argv = ['gallery_build', '-g', tempdir.path]
+            sys.argv = ['gallery_build', '-p', tempdir.path]
             gallery_build.main()
 
             with open(os.path.join(tempdir.path, 'images_data.json'), 'r') as json_in:
@@ -111,7 +111,7 @@ class SPGBuildTestCase(unittest.TestCase):
             # Add new image and check description of the first is preserved
             self.create_mock_image(os.path.join(tempdir.path, 'public', 'images', 'photos', 'photo2.jpg'), 1000, 500)
 
-            sys.argv = ['gallery_build', '-g', tempdir.path]
+            sys.argv = ['gallery_build', '-p', tempdir.path]
             gallery_build.main()
 
             with open(os.path.join(tempdir.path, 'images_data.json'), 'r') as json_in_out:
@@ -127,7 +127,7 @@ class SPGBuildTestCase(unittest.TestCase):
             sys.argv = ['gallery_init', '-p', tempdir.path]
             gallery_init.main()
 
-            sys.argv = ['gallery_build', '-g', tempdir.path]
+            sys.argv = ['gallery_build', '-p', tempdir.path]
             gallery_build.main()
 
             tempdir.compare(['css', 'images', 'js', 'index.html'], path='public', recursive=False)
