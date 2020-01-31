@@ -11,7 +11,7 @@ import simplegallery.media as spg_media
 
 
 
-class SPGInitTestCase(unittest.TestCase):
+class SPGBuildTestCase(unittest.TestCase):
 
     def test_nonexisting_gallery_config(self):
         with TempDirectory() as tempdir:
