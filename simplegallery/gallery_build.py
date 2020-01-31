@@ -20,8 +20,8 @@ def parse_args():
 
     parser = argparse.ArgumentParser(description=description)
 
-    parser.add_argument('-g', '--gallery-root',
-                        dest='gallery_root',
+    parser.add_argument('-p', '--path',
+                        dest='path',
                         action='store',
                         default='.',
                         help='Path to the folder containing the gallery.json file')
@@ -99,10 +99,10 @@ def main():
     args = parse_args()
 
     # Read the gallery config
-    gallery_root = args.gallery_root
+    gallery_root = args.path
     gallery_config = spg_common.read_gallery_config(os.path.join(gallery_root, 'gallery.json'))
     if not gallery_config:
-        logging.error(f'Cannot load the gallery.json file ({args.gallery_root})!')
+        logging.error(f'Cannot load the gallery.json file ({gallery_root})!')
         sys.exit(1)
 
     # Check if thumbnails exist and generate them if needed or if specified by the user
