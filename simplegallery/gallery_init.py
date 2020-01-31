@@ -32,11 +32,6 @@ def parse_args():
                         action='store_true',
                         help='Overrides existing config and template files files')
 
-    parser.add_argument('-v', '--verbose',
-                        dest='verbose',
-                        action='store_true',
-                        help='Enables verbose output')
-
     parser.add_argument('--keep-gallery-config',
                         dest='keep_gallery_config',
                         action='store_true',
