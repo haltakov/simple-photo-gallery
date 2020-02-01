@@ -1,4 +1,3 @@
-import logging
 import json
 
 
@@ -11,13 +10,6 @@ class SPGException(Exception):
 
     def __init__(self, message):
         self.message = message
-
-
-def setup_gallery_logging():
-    """
-    Configures the default logger
-    """
-    logging.basicConfig(level=logging.INFO, format='%(asctime)s  %(levelname)-6s %(message)s')
 
 
 def log(message):
