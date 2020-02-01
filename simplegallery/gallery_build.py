@@ -1,12 +1,12 @@
 import argparse
 import os
-import simplegallery.common as spg_common
-import simplegallery.media as spg_media
 import sys
 import glob
-import jinja2
 import json
 from collections import OrderedDict
+import jinja2
+import simplegallery.common as spg_common
+import simplegallery.media as spg_media
 
 
 def parse_args():
@@ -15,7 +15,7 @@ def parse_args():
     :return: Parsed arguments
     """
 
-    description = '''Generated all files needed to display the gallery (thumbnails, image descriptions and HTML page). 
+    description = '''Generated all files needed to display the gallery (thumbnails, image descriptions and HTML page).
                     For detailed documentation please refer to https://github.com/haltakov/simple-photo-gallery.'''
 
     parser = argparse.ArgumentParser(description=description)
@@ -61,7 +61,7 @@ def check_and_create_thumbnails(gallery_config, force=False):
     spg_common.log(f'New thumbnails generated: {count_thumbnails_created}')
 
 
-def build_html(gallery_root, gallery_config):
+def build_html(gallery_config):
     """
     Generates the HTML file (index.html) of the gallery
     :param gallery_config: Gallery configuration dictionary
@@ -106,11 +106,11 @@ def main():
     try:
         spg_common.log('Generating thumbnails...')
         check_and_create_thumbnails(gallery_config, args.force_thumbnails)
-    except spg_common.SPGException as e:
-        spg_common.log(e)
+    except spg_common.SPGException as exception:
+        spg_common.log(exception)
         sys.exit(1)
-    except Exception as e:
-        spg_common.log(f'Something went wrong while generating the thumbnails: {str(e)}')
+    except Exception as exception:
+        spg_common.log(f'Something went wrong while generating the thumbnails: {str(exception)}')
         sys.exit(1)
 
     # Generate the images_data.json
@@ -122,19 +122,19 @@ def main():
                                           gallery_config['public_path'])
         spg_common.log('The image descriptions are stored in images_data.json. You can edit the file to add more '
                        'descriptions and build the gallery again.')
-    except spg_common.SPGException as e:
-        spg_common.log(e)
+    except spg_common.SPGException as exception:
+        spg_common.log(exception)
         sys.exit(1)
-    except Exception as e:
-        spg_common.log(f'Something went wrong while generating the images_data.json file: {str(e)}')
+    except Exception as exception:
+        spg_common.log(f'Something went wrong while generating the images_data.json file: {str(exception)}')
         sys.exit(1)
 
     # Build the HTML from the templates
     try:
         spg_common.log('Creating the index.html...')
-        build_html(gallery_root, gallery_config)
-    except Exception as e:
-        spg_common.log(f'Something went wrong while generating the gallery HTML: {str(e)}')
+        build_html(gallery_config)
+    except Exception as exception:
+        spg_common.log(f'Something went wrong while generating the gallery HTML: {str(exception)}')
         sys.exit(1)
 
     spg_common.log('The gallery was built successfully. Open public/index.html to view it.')
@@ -142,4 +142,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-

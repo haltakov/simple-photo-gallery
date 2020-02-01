@@ -1,7 +1,7 @@
 import glob
-import cv2
 import os
 import json
+import cv2
 from PIL import Image, ExifTags
 import simplegallery.common as spg_common
 
@@ -10,14 +10,14 @@ import simplegallery.common as spg_common
 EXIF_TAG_MAP = {ExifTags.TAGS[tag]: tag for tag in ExifTags.TAGS}
 
 
-def rotate_image_by_orientation(im):
+def rotate_image_by_orientation(image):
     """
     Rotates an image according to it's Orientation EXIF Tag
     :param im: Image
     :return: Rotated image
     """
 
-    exif = im._getexif()
+    exif = image._getexif()
     if exif and EXIF_TAG_MAP['Orientation'] in exif:
         orientation = exif[EXIF_TAG_MAP['Orientation']]
 
@@ -31,9 +31,9 @@ def rotate_image_by_orientation(im):
             rotation_angle = 0
 
         if rotation_angle != 0:
-            return im.rotate(rotation_angle, expand=True)
+            return image.rotate(rotation_angle, expand=True)
 
-    return im
+    return image
 
 
 def create_image_thumbnail(image_path, thumbnail_path, height):
@@ -43,15 +43,15 @@ def create_image_thumbnail(image_path, thumbnail_path, height):
     :param thumbnail_path: path to the thumbnail file
     :param height: height of the thumbnail in pixels
     """
-    im = Image.open(image_path)
+    image = Image.open(image_path)
 
-    im = rotate_image_by_orientation(im)
+    image = rotate_image_by_orientation(image)
 
-    width = round((float(height)/im.size[1]) * im.size[0])
-    im = im.resize((width, height), Image.ANTIALIAS)
+    width = round((float(height)/image.size[1]) * image.size[0])
+    image = image.resize((width, height), Image.ANTIALIAS)
 
-    im.save(thumbnail_path)
-    im.close()
+    image.save(thumbnail_path)
+    image.close()
 
 
 def create_video_thumbnail(video_path, thumbnail_path, height):
@@ -86,15 +86,15 @@ def create_thumbnail(input_path, thumbnails_path, height):
         raise spg_common.SPGException(f'Unsupported file type ({os.path.basename(input_path)})')
 
 
-def get_image_size(image):
+def get_image_size(image_path):
     """
     Gets the size of an image in pixels
-    :param image: Path to the image
+    :param image_path: Path to the image
     :return: tuple containing the width and the height of the image in pixels
     """
-    im = Image.open(image)
-    size = im.size
-    im.close()
+    image = Image.open(image_path)
+    size = image.size
+    image.close()
 
     return size
 
@@ -112,21 +112,21 @@ def get_video_size(video):
 
 
 # Get the image description from the EXIF data
-def get_image_description(image):
+def get_image_description(image_path):
     """
     Gets the description of an image from the ImageDescription tag as a utf-8 string
-    :param image: Path to the image
+    :param image_path: Path to the image
     :return: String (utf-8) containing the image description
     """
-    im = Image.open(image)
-    exif = im._getexif()
+    image = Image.open(image_path)
+    exif = image._getexif()
     if exif and EXIF_TAG_MAP['ImageDescription'] in exif:
-        description = exif[EXIF_TAG_MAP['ImageDescription'] ].encode(encoding='utf-16')[2::2].decode('utf-8')
+        description = exif[EXIF_TAG_MAP['ImageDescription']].encode(encoding='utf-16')[2::2].decode('utf-8')
         description = description.replace('\'', '&apos;').replace('"', '&quot;')
     else:
         description = ''
 
-    im.close()
+    image.close()
 
     return description
 

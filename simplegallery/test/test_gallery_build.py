@@ -10,6 +10,11 @@ import simplegallery.gallery_build as gallery_build
 import simplegallery.media as spg_media
 
 
+def create_mock_image(path, width, height):
+    img = Image.new('RGB', (width, height), color='red')
+    img.save(path)
+    img.close()
+
 
 class SPGBuildTestCase(unittest.TestCase):
 
@@ -21,15 +26,10 @@ class SPGBuildTestCase(unittest.TestCase):
 
             self.assertEqual(cm.exception.code, 1)
 
-    def create_mock_image(self, path, width, height):
-        img = Image.new('RGB', (width, height), color='red')
-        img.save(path)
-        img.close()
-
     @mock.patch('builtins.input', side_effect=['', '', '', ''])
     def test_thumbnails_generation(self, input):
         with TempDirectory() as tempdir:
-            self.create_mock_image(os.path.join(tempdir.path, 'photo.jpg'), 1000, 500)
+            create_mock_image(os.path.join(tempdir.path, 'photo.jpg'), 1000, 500)
 
             thumbnail_path = os.path.join(tempdir.path, 'public', 'images', 'thumbnails', 'photo.jpg')
 
@@ -46,7 +46,7 @@ class SPGBuildTestCase(unittest.TestCase):
             self.assertEqual((640, 320), spg_media.get_image_size(thumbnail_path))
 
             # Check thumbnail not regenerated without force
-            self.create_mock_image(os.path.join(tempdir.path, 'public', 'images', 'photos', 'photo.jpg'), 500, 500)
+            create_mock_image(os.path.join(tempdir.path, 'public', 'images', 'photos', 'photo.jpg'), 500, 500)
             sys.argv = ['gallery_build', '-p', tempdir.path]
             gallery_build.main()
             self.assertEqual((640, 320), spg_media.get_image_size(thumbnail_path))
@@ -69,7 +69,7 @@ class SPGBuildTestCase(unittest.TestCase):
     @mock.patch('builtins.input', side_effect=['', '', '', ''])
     def test_images_data_generation(self, input):
         with TempDirectory() as tempdir:
-            self.create_mock_image(os.path.join(tempdir.path, 'photo.jpg'), 1000, 500)
+            create_mock_image(os.path.join(tempdir.path, 'photo.jpg'), 1000, 500)
 
             sys.argv = ['gallery_init', '-p', tempdir.path]
             gallery_init.main()
@@ -88,7 +88,7 @@ class SPGBuildTestCase(unittest.TestCase):
     @mock.patch('builtins.input', side_effect=['', '', '', ''])
     def test_images_data_preserve_descriptions(self, input):
         with TempDirectory() as tempdir:
-            self.create_mock_image(os.path.join(tempdir.path, 'photo.jpg'), 1000, 500)
+            create_mock_image(os.path.join(tempdir.path, 'photo.jpg'), 1000, 500)
 
             sys.argv = ['gallery_init', '-p', tempdir.path]
             gallery_init.main()
@@ -108,7 +108,7 @@ class SPGBuildTestCase(unittest.TestCase):
                 json.dump(images_data, json_out)
 
             # Add new image and check description of the first is preserved
-            self.create_mock_image(os.path.join(tempdir.path, 'public', 'images', 'photos', 'photo2.jpg'), 1000, 500)
+            create_mock_image(os.path.join(tempdir.path, 'public', 'images', 'photos', 'photo2.jpg'), 1000, 500)
 
             sys.argv = ['gallery_build', '-p', tempdir.path]
             gallery_build.main()
@@ -121,7 +121,7 @@ class SPGBuildTestCase(unittest.TestCase):
     @mock.patch('builtins.input', side_effect=['', '', '', ''])
     def test_index_html(self, input):
         with TempDirectory() as tempdir:
-            self.create_mock_image(os.path.join(tempdir.path, 'photo.jpg'), 1000, 500)
+            create_mock_image(os.path.join(tempdir.path, 'photo.jpg'), 1000, 500)
 
             sys.argv = ['gallery_init', '-p', tempdir.path]
             gallery_init.main()

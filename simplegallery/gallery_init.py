@@ -1,11 +1,11 @@
 import argparse
 import os
 import sys
-import pkg_resources
 import glob
 import shutil
 import json
 from distutils.dir_util import copy_tree
+import pkg_resources
 import simplegallery.common as spg_common
 
 
@@ -15,7 +15,7 @@ def parse_args():
     :return: Parsed arguments
     """
 
-    description = '''Initializes a new Simple Photo Gallery in the specified folder (default is the current folder). 
+    description = '''Initializes a new Simple Photo Gallery in the specified folder (default is the current folder).
     For detailed documentation please refer to https://github.com/haltakov/simple-photo-gallery'''
 
     parser = argparse.ArgumentParser(description=description)
@@ -119,19 +119,19 @@ def create_gallery_json(gallery_root):
     )
 
     # Set configuration defaults
-    DEFAULT_TITLE = 'My Gallery'
-    DEFAULT_DESCRIPTION = 'Default description of my gallery'
-    DEFAULT_THUMBNAIL_HEIGHT = '320'
+    default_title = 'My Gallery'
+    default_description = 'Default description of my gallery'
+    default_thumbnail_height = '320'
 
     # Ask the user for the title
-    gallery_config['title'] = input(f'What is the title of your gallery? (default: "{DEFAULT_TITLE}")\n') or DEFAULT_TITLE
+    gallery_config['title'] = input(f'What is the title of your gallery? (default: "{default_title}")\n') or default_title
 
     # Ask the user for the description
-    gallery_config['description'] = input(f'What is the description of your gallery? (default: "{DEFAULT_DESCRIPTION}")\n') or DEFAULT_DESCRIPTION
+    gallery_config['description'] = input(f'What is the description of your gallery? (default: "{default_description}")\n') or default_description
 
     # Ask the user for the thumbnail size
     while True:
-        thumbnail_size = input(f'What should be the height of your thumbnails (between 32 and 1024)? (default: {DEFAULT_THUMBNAIL_HEIGHT})\n') or DEFAULT_THUMBNAIL_HEIGHT
+        thumbnail_size = input(f'What should be the height of your thumbnails (between 32 and 1024)? (default: {default_thumbnail_height})\n') or default_thumbnail_height
         if thumbnail_size.isdigit():
             thumbnail_size = int(thumbnail_size)
             if 32 <= thumbnail_size <= 1024:
@@ -177,16 +177,16 @@ def main():
     # Copy the template files to the gallery root
     try:
         create_gallery_folder_structure(gallery_root)
-    except Exception as e:
-        spg_common.log(f'Something went wrong while generating the gallery structure: {str(e)}')
+    except Exception as exception:
+        spg_common.log(f'Something went wrong while generating the gallery structure: {str(exception)}')
         sys.exit(1)
 
     # Create the gallery json file
     try:
         if not args.keep_gallery_config:
             create_gallery_json(gallery_root)
-    except Exception as e:
-        spg_common.log(f'Something went wrong while creating the gallery.json file: {str(e)}')
+    except Exception as exception:
+        spg_common.log(f'Something went wrong while creating the gallery.json file: {str(exception)}')
         sys.exit(1)
 
     spg_common.log('Simple Photo Gallery initialized successfully!')

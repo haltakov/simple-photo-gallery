@@ -9,6 +9,7 @@ class SPGException(Exception):
     """
 
     def __init__(self, message):
+        super().__init__()
         self.message = message
 
 
@@ -31,4 +32,3 @@ def read_gallery_config(gallery_path):
             return json.load(gallery_in)
     except OSError:
         return []
-
