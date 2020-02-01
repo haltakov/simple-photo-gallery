@@ -1,4 +1,3 @@
-import logging
 import json
 
 
@@ -13,14 +12,20 @@ class SPGException(Exception):
         self.message = message
 
 
-def setup_gallery_logging():
+def log(message):
     """
-    Configures the default logger
+    Log a message to the console
+    :param message: message string
     """
-    logging.basicConfig(level=logging.INFO, format='%(asctime)s  %(levelname)-6s %(message)s')
+    print(message)
 
 
 def read_gallery_config(gallery_path):
+    """
+    Read the gallery config from the gallery.json file
+    :param gallery_path: path to the JSON file
+    :return: dict containing the gallery config
+    """
     try:
         with open(gallery_path, 'r') as gallery_in:
             return json.load(gallery_in)

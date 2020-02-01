@@ -4,7 +4,6 @@ import os
 import json
 from PIL import Image, ExifTags
 import simplegallery.common as spg_common
-from collections import OrderedDict
 
 
 # Mapping of the string representation if an Exif tag to its id

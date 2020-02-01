@@ -26,7 +26,7 @@ class SPGBuildTestCase(unittest.TestCase):
         img.save(path)
         img.close()
 
-    @mock.patch('builtins.input', side_effect=['', '', '', '', ''])
+    @mock.patch('builtins.input', side_effect=['', '', '', ''])
     def test_thumbnails_generation(self, input):
         with TempDirectory() as tempdir:
             self.create_mock_image(os.path.join(tempdir.path, 'photo.jpg'), 1000, 500)
@@ -66,8 +66,7 @@ class SPGBuildTestCase(unittest.TestCase):
         self.assertEqual(thumbnail_size, image_data['thumbnail_size'])
         self.assertEqual('image', image_data['type'])
 
-
-    @mock.patch('builtins.input', side_effect=['', '', '', '', ''])
+    @mock.patch('builtins.input', side_effect=['', '', '', ''])
     def test_images_data_generation(self, input):
         with TempDirectory() as tempdir:
             self.create_mock_image(os.path.join(tempdir.path, 'photo.jpg'), 1000, 500)
@@ -86,7 +85,7 @@ class SPGBuildTestCase(unittest.TestCase):
                 self.assertEqual(1, len(images_data))
                 self.check_image_data(images_data, 'photo.jpg', '', [1000, 500], [640, 320])
 
-    @mock.patch('builtins.input', side_effect=['', '', '', '', ''])
+    @mock.patch('builtins.input', side_effect=['', '', '', ''])
     def test_images_data_preserve_descriptions(self, input):
         with TempDirectory() as tempdir:
             self.create_mock_image(os.path.join(tempdir.path, 'photo.jpg'), 1000, 500)
@@ -119,7 +118,7 @@ class SPGBuildTestCase(unittest.TestCase):
                 self.assertEqual(2, len(images_data))
                 self.check_image_data(images_data, 'photo.jpg', 'Test description', [1000, 500], [640, 320])
 
-    @mock.patch('builtins.input', side_effect=['', '', '', '', ''])
+    @mock.patch('builtins.input', side_effect=['', '', '', ''])
     def test_index_html(self, input):
         with TempDirectory() as tempdir:
             self.create_mock_image(os.path.join(tempdir.path, 'photo.jpg'), 1000, 500)

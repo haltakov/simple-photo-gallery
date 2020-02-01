@@ -1,5 +1,4 @@
 import argparse
-import logging
 import os
 import sys
 import pkg_resources
@@ -17,9 +16,7 @@ def parse_args():
     """
 
     description = '''Initializes a new Simple Photo Gallery in the specified folder (default is the current folder). 
-
-    This script creates config files, copies the required templates for the gallery and moves the photos to the correct 
-    subfolder in the newly created structure.'''
+    For detailed documentation please refer to https://github.com/haltakov/simple-photo-gallery'''
 
     parser = argparse.ArgumentParser(description=description)
 
@@ -37,7 +34,7 @@ def parse_args():
     parser.add_argument('--keep-gallery-config',
                         dest='keep_gallery_config',
                         action='store_true',
-                        help='Use to only copy the template files, but to not generate a (new) gallery.json')
+                        help='Use to copy the template files only, without generating a gallery.json')
 
     return parser.parse_args()
 
@@ -51,7 +48,7 @@ def check_if_gallery_creation_possible(gallery_root):
 
     # Check if the path exists
     if not os.path.exists(gallery_root):
-        logging.error(f'The specified gallery path does not exist ({gallery_root}).')
+        spg_common.log(f'The specified gallery path does not exist: {gallery_root}.')
         return False
 
     return True
@@ -86,18 +83,19 @@ def create_gallery_folder_structure(gallery_root):
     :param gallery_root: Path to the gallery root
     """
 
-    # Copy the public folder
+    # Copy the public and templates folder
+    spg_common.log('Copying gallery template files...')
+    copy_tree(pkg_resources.resource_filename('simplegallery', 'data/templates'), os.path.join(gallery_root, 'templates'))
     copy_tree(pkg_resources.resource_filename('simplegallery', 'data/public'), os.path.join(gallery_root, 'public'))
 
     # Move all images and videos to the correct subfolder under public
     photos_dir = os.path.join(gallery_root, 'public', 'images', 'photos')
+    spg_common.log(f'Moving all photos and videos to {photos_dir}...')
+
     for path in glob.glob(os.path.join(gallery_root, '*')):
         basename_lower = os.path.basename(path).lower()
         if basename_lower.endswith('.jpg') or basename_lower.endswith('.jpeg') or basename_lower.endswith('.gif') or basename_lower.endswith('.mp4'):
             shutil.move(path, os.path.join(photos_dir, os.path.basename(path)))
-
-    # Copy the Jinja templates folder
-    copy_tree(pkg_resources.resource_filename('simplegallery', 'data/templates'), os.path.join(gallery_root, 'templates'))
 
 
 def create_gallery_json(gallery_root):
@@ -106,6 +104,10 @@ def create_gallery_json(gallery_root):
     :param gallery_root: Path to the gallery root
     """
 
+    spg_common.log('Creating the gallery config...')
+    spg_common.log('You can answer the following questions in order to set some important gallery properties. You can '
+                   'also just press Enter to leave the default and change it later in the gallery.json file.')
+
     # Initialize the gallery config with the main gallery paths
     gallery_config = dict(
         images_data_file=os.path.join(gallery_root, 'images_data.json'),
@@ -113,13 +115,13 @@ def create_gallery_json(gallery_root):
         templates_path=os.path.join(gallery_root, 'templates'),
         images_path=os.path.join(gallery_root, 'public', 'images', 'photos'),
         thumbnails_path=os.path.join(gallery_root, 'public', 'images', 'thumbnails'),
+        background_photo_offset=30
     )
 
     # Set configuration defaults
     DEFAULT_TITLE = 'My Gallery'
     DEFAULT_DESCRIPTION = 'Default description of my gallery'
     DEFAULT_THUMBNAIL_HEIGHT = '320'
-    DEFAULT_BACKGROUND_OFFSET = '30'
 
     # Ask the user for the title
     gallery_config['title'] = input(f'What is the title of your gallery? (default: "{DEFAULT_TITLE}")\n') or DEFAULT_TITLE
@@ -137,30 +139,20 @@ def create_gallery_json(gallery_root):
     gallery_config['thumbnail_height'] = thumbnail_size
 
     # Ask the user for the background image
-    gallery_config['background_photo'] = input(f'Which image should be used as background for the header gallery? (default: "")\n')
-
-    # Ask the user for the background offset
-    while True:
-        background_offset = input(
-            f'What should be the vertical offset of the background image in %? (default: {DEFAULT_BACKGROUND_OFFSET})\n') or DEFAULT_BACKGROUND_OFFSET
-        if background_offset.isdigit():
-            background_offset = int(background_offset)
-            if 0 <= background_offset <= 100:
-                break
-    gallery_config['background_photo_offset'] = background_offset
+    gallery_config['background_photo'] = input(f'Which image should be used as background for the header? (default: "")\n')
 
     # Save the configuration to a file
     gallery_config_path = os.path.join(gallery_root, 'gallery.json')
     with open(gallery_config_path, 'w') as out:
         json.dump(gallery_config, out, indent=4, separators=(',', ': '))
 
+    spg_common.log('Gallery config stored in gallery.json')
+
 
 def main():
     """
     Initializes a new Simple Photo Gallery in a specified folder
     """
-    # Init the logger
-    spg_common.setup_gallery_logging()
 
     # Parse the arguments
     args = parse_args()
@@ -175,11 +167,12 @@ def main():
     # Check if the specified gallery root already contains a gallery
     if check_if_gallery_already_exists(gallery_root):
         if not args.force:
-            logging.info('A Simple Photo Gallery already exists at the specified location. Set the --force parameter '
-                         'if you want to overwrite it.')
+            spg_common.log('A Simple Photo Gallery already exists at the specified location. Set the --force parameter '
+                           'if you want to overwrite it.')
             sys.exit(0)
         else:
-            logging.info('A Simple Photo Gallery already exists at the specified location, but will be overwritten.')
+            spg_common.log('A Simple Photo Gallery already exists at the specified location, but will be overwritten.')
+    spg_common.log('Creating a Simple Photo Gallery...')
 
     # Copy the template files to the gallery root
     create_gallery_folder_structure(gallery_root)
@@ -187,6 +180,8 @@ def main():
     # Create the gallery json file
     if not args.keep_gallery_config:
         create_gallery_json(gallery_root)
+
+    spg_common.log('Simple Photo Gallery initialized successfully!')
 
 
 if __name__ == "__main__":
