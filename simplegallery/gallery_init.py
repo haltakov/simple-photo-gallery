@@ -175,11 +175,19 @@ def main():
     spg_common.log('Creating a Simple Photo Gallery...')
 
     # Copy the template files to the gallery root
-    create_gallery_folder_structure(gallery_root)
+    try:
+        create_gallery_folder_structure(gallery_root)
+    except Exception as e:
+        spg_common.log(f'Something went wrong while generating the gallery structure: {str(e)}')
+        sys.exit(1)
 
     # Create the gallery json file
-    if not args.keep_gallery_config:
-        create_gallery_json(gallery_root)
+    try:
+        if not args.keep_gallery_config:
+            create_gallery_json(gallery_root)
+    except Exception as e:
+        spg_common.log(f'Something went wrong while creating the gallery.json file: {str(e)}')
+        sys.exit(1)
 
     spg_common.log('Simple Photo Gallery initialized successfully!')
 
