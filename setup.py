@@ -30,5 +30,11 @@ setup(
     package_data={
         'simplegallery' : ['data/templates/*',
                            'data/public/*']
-    }
+    },
+    entry_points={
+        "console_scripts": [
+            "gallery-init=simplegallery.gallery_init:main",
+            "gallery-build=simplegallery.gallery_build:main",
+        ]
+    },
 )

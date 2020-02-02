@@ -95,9 +95,10 @@ def main():
 
     # Read the gallery config
     gallery_root = args.path
-    gallery_config = spg_common.read_gallery_config(os.path.join(gallery_root, 'gallery.json'))
+    gallery_config_path = os.path.join(gallery_root, 'gallery.json')
+    gallery_config = spg_common.read_gallery_config(gallery_config_path)
     if not gallery_config:
-        spg_common.log(f'Cannot load the gallery.json file ({gallery_root})!')
+        spg_common.log(f'Cannot load the gallery.json file ({gallery_config_path})!')
         sys.exit(1)
 
     spg_common.log('Building the Simple Photo Gallery...')
