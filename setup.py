@@ -6,8 +6,8 @@ with open(os.path.join(current_folder, 'README.md'), encoding='utf-8') as f:
     long_description = f.read()
 
 setup(
-    name='Simple Photo Gallery',
-    version='0.1.2',
+    name='simple-photo-gallery',
+    version='0.1.3',
     description='Create and share simple, but beautiful photo galleries, you are hosing yourself.',
     long_description=long_description,
     long_description_content_type='text/markdown',
