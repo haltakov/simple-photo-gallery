@@ -108,10 +108,10 @@ def main():
         spg_common.log('Generating thumbnails...')
         check_and_create_thumbnails(gallery_config, args.force_thumbnails)
     except spg_common.SPGException as exception:
-        spg_common.log(exception)
+        spg_common.log(exception.message)
         sys.exit(1)
     except Exception as exception:
-        spg_common.log(f'Something went wrong while generating the thumbnails: {str(exception)}')
+        spg_common.log(f'Something went wrong while generating the thumbnails: {str(exception.message)}')
         sys.exit(1)
 
     # Generate the images_data.json
@@ -124,10 +124,10 @@ def main():
         spg_common.log('The image descriptions are stored in images_data.json. You can edit the file to add more '
                        'descriptions and build the gallery again.')
     except spg_common.SPGException as exception:
-        spg_common.log(exception)
+        spg_common.log(exception.message)
         sys.exit(1)
     except Exception as exception:
-        spg_common.log(f'Something went wrong while generating the images_data.json file: {str(exception)}')
+        spg_common.log(f'Something went wrong while generating the images_data.json file: {str(exception.message)}')
         sys.exit(1)
 
     # Build the HTML from the templates
@@ -135,7 +135,7 @@ def main():
         spg_common.log('Creating the index.html...')
         build_html(gallery_config)
     except Exception as exception:
-        spg_common.log(f'Something went wrong while generating the gallery HTML: {str(exception)}')
+        spg_common.log(f'Something went wrong while generating the gallery HTML: {str(exception.message)}')
         sys.exit(1)
 
     spg_common.log('The gallery was built successfully. Open public/index.html to view it.')
