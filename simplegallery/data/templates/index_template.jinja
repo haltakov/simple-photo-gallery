@@ -15,8 +15,8 @@
 
     <title>{{ gallery_config['title']}}</title>
 
+    {# These definitions are pulled out of the .css file here, so that the background image can be templated. #}
     <style>
-      {# These definitions are pulled out of the .css file here, so that the background image can be templated. #}
       .header-image {
         background: #333366 url("images/photos/{{ gallery_config['background_photo'] }}");
         background-position: center {{ gallery_config['background_photo_offset'] }}%;
@@ -39,7 +39,7 @@
 
     {{ gallery_macros.gallery(0, images|length,
                               gallery_config['title'],
-                              gallery_config['description'],
+                              '',
                               images)}}
 
     <!-- END GALLERY DESCRIPTIONS -->
