@@ -37,12 +37,12 @@ class SPGBuildTestCase(unittest.TestCase):
             gallery_init.main()
 
             # Check no thumbnails exist
-            tempdir.compare([], path='public/images/thumbnails')
+            tempdir.compare(['.empty'], path='public/images/thumbnails')
 
             # Check thumbnail created
             sys.argv = ['gallery_build', '-p', tempdir.path]
             gallery_build.main()
-            tempdir.compare(['photo.jpg'], path='public/images/thumbnails')
+            tempdir.compare(['.empty', 'photo.jpg'], path='public/images/thumbnails')
             self.assertEqual((640, 320), spg_media.get_image_size(thumbnail_path))
 
             # Check thumbnail not regenerated without force
@@ -135,8 +135,9 @@ class SPGBuildTestCase(unittest.TestCase):
                 html = html_in.read()
 
                 self.assertIn('<title>My Gallery</title>', html)
+                self.assertIn('<h1>My Gallery</h1>', html)
+                self.assertIn('<div class="header-info-details">Default description of my gallery</div>', html)
                 self.assertIn('<h2>My Gallery</h2>', html)
-                self.assertIn('<p>Default description of my gallery</p>', html)
                 self.assertIn('<a href="images/photos/photo.jpg"', html)
 
 

@@ -11,7 +11,7 @@ def check_gallery_files(tempdir, files_photos, files_other):
     tempdir.compare(['templates', 'public', 'gallery.json'] + files_other, recursive=False)
     tempdir.compare(['index_template.jinja', 'gallery_macros.jinja'], path='templates', recursive=False)
     tempdir.compare(['css', 'images', 'js'], path='public', recursive=False)
-    tempdir.compare(files_photos, path='public/images/photos')
+    tempdir.compare(['.empty'] + files_photos, path='public/images/photos')
 
 
 class SPGInitTestCase(unittest.TestCase):
