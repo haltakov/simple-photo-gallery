@@ -4,7 +4,6 @@
     "templates_path": "./templates",
     "images_path": "./public/images/photos",
     "thumbnails_path": "./public/images/thumbnails",
-    "background_photo_offset": 30,
     "title": "San Francisco 2019",
     "description": "We visited San Francisco for a couple of days in May 2019 as part of our California trip.",
     "thumbnail_height": 320,
