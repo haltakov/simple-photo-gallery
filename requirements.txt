@@ -1,3 +1,0 @@
-py-opencv>=3.4.2
-pillow>=7.0.0
-jinja2>=2.10.3
