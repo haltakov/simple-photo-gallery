@@ -7,7 +7,7 @@ with open(os.path.join(current_folder, 'README.md'), encoding='utf-8') as f:
 
 setup(
     name='simple-photo-gallery',
-    version='0.1.4',
+    version='0.1.6',
     description='Create and share simple, but beautiful photo galleries, you are hosing yourself.',
     long_description=long_description,
     long_description_content_type='text/markdown',
@@ -35,7 +35,7 @@ setup(
         ]
     },
     install_requires=[
-        'python-opencv>=3.4.2',
+        'opencv-python>=4.2.0.32',
         'pillow>=7.0.0',
         'jinja2>=2.10.3',
     ]
