@@ -31,14 +31,17 @@ pip install simple-photo-gallery
 You can create a gallery is very simple and requires just 3 steps:
 
 1. Collect all the photos and videos you want to have in the gallery into a folder.
-2. On the terminal go to the folder with your photos and use the following command to initialize the gallery:
+2. Open a terminal go to the folder with your photos. Use the following command to initialize the gallery. The script will ask you a few questions, like gallery name or background image. You can always just press Enter for the default settings and change them later.
 ```
 gallery_init
 ```
-The script will ask you a few questions, like gallery name or background image. You can always just press Enter for the default settings and change them later.
 
 3. To generate the photos' thumbnails and to create the gallery HTML, CSS and JS files use the following command:
 ```
 gallery-build
 ```
 
+You are ready! You can view it by opening the `index.html` file in the `public` folder. The `public` folder contains all the files you need for your gallery and you can host it on any static hosting provider.
+
+> **Note**
+> Your photos and videos are copied in `public/images/photos`.
