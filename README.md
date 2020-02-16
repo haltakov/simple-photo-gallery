@@ -9,14 +9,17 @@ With Simple Photo Gallery you can easily create static HTML galleries that you c
 
 Simple Photo Gallery is a Python package that provides a simple command line interface to create static HTML photo and video galleries. Thumbnails, HTML, CSS and JavaScript files are generated automatically and you can just upload them to any static hosting, like for example [AWS S3](https://aws.amazon.com/s3/). The most important features:
 
-* Responsive layout suitable for any device.
-* Touch gestures support.
-* Support for JPG, GIF and MP4 files.
+* Responsive layout suitable for any device (including
+touch gestures support).
 * Image captions extracted from the image metadata (EXIF tags).
-* Sensible defaults for very quick gallery setup.
-* Easy customization of the gallery.
+* Fully customizable layout with sensible defaults to get started quickly.
 * Based on the [PhotoSwipe](https://photoswipe.com/) JavaScript library.
 
+1. [Installation](#installation)
+2. [Usage](#usage)
+3. [Hosting](#hosting)
+4. [Configuration](#configuration)
+5. [About](#about)
 
 ## Installation
 
@@ -115,3 +118,10 @@ In the [multi-section example gallery](https://github.com/haltakov/simple-photo-
 ### Advanced Layout Configuration
 
 Feel free to modify any part of the layout you want by just modifying the corresponding HTML, CSS or JavaScript files.
+
+
+## About
+
+Simple Photo Gallery is developed by Vladimir Haltakov. I wanted an easy way to share photos with friends, but wasn't happy with the limited customization options that existing sharing solutions like Amazon Photos or iCloud offer.
+
+Please contact me if you have any questions, ideas for improvement or feature requests.
