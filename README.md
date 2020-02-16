@@ -2,7 +2,7 @@
 
 With Simple Photo Gallery you can easily create static HTML galleries that you can host yourself. Check out the [example gallery](http://www.haltakov.net/gallery_usa_multi/CUPcTB5AcbutK3vyLQ26/).
 
-[![Example gallery](https://github.com/haltakov/simple-photo-gallery/raw/master/examples/screenshot_gallery_use_multi.png)](http://www.haltakov.net/gallery_usa_multi/CUPcTB5AcbutK3vyLQ26/)
+[![Example gallery](https://github.com/haltakov/simple-photo-gallery/raw/master/examples/screenshot_gallery_use_multi.jpg)](http://www.haltakov.net/gallery_usa_multi/CUPcTB5AcbutK3vyLQ26/)
 
 
 ## Overview
@@ -13,7 +13,7 @@ With Simple Photo Gallery you can easily create static HTML galleries that you c
 4. [Configuration](#configuration)
 5. [About](#about)
 
-Simple Photo Gallery is a Python package that provides a simple command line interface to create static HTML photo and video galleries. Thumbnails, HTML, CSS and JavaScript files are generated automatically and you can just upload them to any static hosting, like for example [AWS S3](https://aws.amazon.com/s3/). The most important features:
+Simple Photo Gallery is a Python package that provides a simple command line interface gitsto create static HTML photo and video galleries. Thumbnails, HTML, CSS and JavaScript files are generated automatically and you can just upload them to any static hosting, like for example [AWS S3](https://aws.amazon.com/s3/). The most important features:
 
 * Responsive layout suitable for any device (including
 touch gestures support).
@@ -87,9 +87,9 @@ You can change the gallery layout in the `templates/index_template.jinja` file. 
 
 ```
   {{ gallery_macros.section(0, images|length,
-                              gallery_config['title'],
-                              '',
-                              images)}}
+                               gallery_config['title'],
+                               '',
+                               images)}}
 ```
 You can call the macro as many times as sections you want to have and modify its 5 parameters to specify each section:
 
@@ -102,13 +102,15 @@ You can call the macro as many times as sections you want to have and modify its
 In the [multi-section example gallery](https://github.com/haltakov/simple-photo-gallery/blob/create_readme/examples/gallery_usa_multi/templates/index_template.jinja) there are 3 sections defined like this:
 ```
 {{ gallery_macros.section(0, 20,
-                              'Joshua Tree National Park',
-                              'We spent 2 days in Joshua Tree National park. We spent the first night in the Black Rock campground. After that we traveled through the park for the whole day visiting several interesting view points and trails. AFter we spent the second night in the Jumbo Rocks campground we left the park from the south exit stopping at several places along the way.',
-                              images)}}
+                             'Joshua Tree National Park',
+                             'We spent 2 days in Joshua Tree National park. We spent the first night in the Black Rock campground. After that we traveled through the park for the whole day visiting several interesting view points and trails. AFter we spent the second night in the Jumbo Rocks campground we left the park from the south exit stopping at several places along the way.',
+                             images)}}
+                             
 {{ gallery_macros.section(20, 36,
                               'Sequoia and King\'s Canyon National Park',
                               'We visited Sequoia and King\'s Canyon National Park for another two nights. Since all campgrounds were still closed because of the cold weather we stayed at the John Muir and at the Wuksachi Lodge. We looked at the Giant Sequoias along several trails and also drove down the King\'s Canyon to do a tour of the amazing Zumwalt Meadows.',
                               images)}}
+                              
 {{ gallery_macros.section(36, images|length,
                               'San Francosco',
                               'Our trip ended in San Francisco, where we spent a lot of time in the great Golden Gate park and other must see places like the Embarcadero, Downtown and Alcatraz.',
@@ -122,6 +124,6 @@ Feel free to modify any part of the layout you want by just modifying the corres
 
 ## About
 
-Simple Photo Gallery is developed by Vladimir Haltakov. I wanted an easy way to share photos with friends, but wasn't happy with the limited customization options that existing sharing solutions like Amazon Photos or iCloud offer.
+Simple Photo Gallery is developed by [Vladimir Haltakov](www.haltakov.net). I wanted an easy way to share photos with friends, but wasn't happy with the limited customization options that existing sharing solutions like Amazon Photos or iCloud offer.
 
 Please contact me if you have any questions, ideas for improvement or feature requests.
