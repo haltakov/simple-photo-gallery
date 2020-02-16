@@ -20,10 +20,25 @@ Simple Photo Gallery is a Python package that provides a simple command line int
 
 ## Installation
 
-Simple Photo Gallery is available as a Python package, which installs several scripts to easily create galleries. You can install it using `pip`:
-
+Simple Photo Gallery is available as a Python package that you can install with `pip`. It installs several scripts to easily create galleries.
 ```
 pip install simple-photo-gallery
 ```
 
+
 ## Usage
+
+You can create a gallery is very simple and requires just 3 steps:
+
+1. Collect all the photos and videos you want to have in the gallery into a folder.
+2. On the terminal go to the folder with your photos and use the following command to initialize the gallery:
+```
+gallery_init
+```
+The script will ask you a few questions, like gallery name or background image. You can always just press Enter for the default settings and change them later.
+
+3. To generate the photos' thumbnails and to create the gallery HTML, CSS and JS files use the following command:
+```
+gallery-build
+```
+
