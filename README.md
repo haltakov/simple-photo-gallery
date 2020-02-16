@@ -46,8 +46,17 @@ You are ready! You can view it by opening the `index.html` file in the `public` 
 > **Note**
 > Your photos and videos are copied in `public/images/photos`.
 
-See below for more details how you can customize your gallery. You can also find two example galleries in the [`examples`](https://github.com/haltakov/simple-photo-gallery/tree/create_readme/examples) folder.
+See the [Configuration](#configuration) section for more details how you can customize your gallery. You can also find two example galleries in the [`examples`](https://github.com/haltakov/simple-photo-gallery/tree/create_readme/examples) folder.
 
+
+## Hosting
+
+You can host your gallery on any static hosting provider, like for example [AWS S3](https://aws.amazon.com/s3/), [Github Pages](https://pages.github.com/), [Netlify](https://www.netlify.com/) or others. Some scripts for automatic upload of the gallery are under work.
+
+
+## Configuration
+
+The gallery is fully customizable. For the most common use-cases, there are some simple configuration options, described in details below.
 
 ### Gallery Configuration (`gallery.json`)
 
@@ -89,15 +98,15 @@ You can call the macro as many times as sections you want to have and modify its
 
 In the [multi-section example gallery](https://github.com/haltakov/simple-photo-gallery/blob/create_readme/examples/gallery_usa_multi/templates/index_template.jinja) there are 3 sections defined like this:
 ```
-{{ gallery_macros.gallery(0, 20,
+{{ gallery_macros.section(0, 20,
                               'Joshua Tree National Park',
                               'We spent 2 days in Joshua Tree National park. We spent the first night in the Black Rock campground. After that we traveled through the park for the whole day visiting several interesting view points and trails. AFter we spent the second night in the Jumbo Rocks campground we left the park from the south exit stopping at several places along the way.',
                               images)}}
-    {{ gallery_macros.gallery(20, 36,
+{{ gallery_macros.section(20, 36,
                               'Sequoia and King\'s Canyon National Park',
                               'We visited Sequoia and King\'s Canyon National Park for another two nights. Since all campgrounds were still closed because of the cold weather we stayed at the John Muir and at the Wuksachi Lodge. We looked at the Giant Sequoias along several trails and also drove down the King\'s Canyon to do a tour of the amazing Zumwalt Meadows.',
                               images)}}
-    {{ gallery_macros.gallery(36, images|length,
+{{ gallery_macros.section(36, images|length,
                               'San Francosco',
                               'Our trip ended in San Francisco, where we spent a lot of time in the great Golden Gate park and other must see places like the Embarcadero, Downtown and Alcatraz.',
                               images)}}
