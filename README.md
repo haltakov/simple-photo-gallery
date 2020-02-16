@@ -45,3 +45,15 @@ You are ready! You can view it by opening the `index.html` file in the `public` 
 
 > **Note**
 > Your photos and videos are copied in `public/images/photos`.
+
+See below for more details how you can customize your gallery.
+
+
+### Gallery configuration (`gallery.json`)
+
+The `gallery.json` file in the gallery root folder contains important settings for the gallery. Some of them are filled by the questions asked by the `gallery-init` command, while others are settings used by other scripts. You can modify the following configurations to customize your gallery. You can also take a look at `gallery.json` of the [example gallery](https://github.com/haltakov/simple-photo-gallery/blob/create_readme/examples/gallery_usa_multi/gallery.json).
+
+* `title` - the title of the gallery shown in the browser title and on the overview image. Example: `"USA Trip 2019"`.
+* `description` - a longer text shown under the title on the overview image. Example: `"We took a road trip with an RV..."`.
+* `background_photo` - the file name of the photo that should be used as background image. Example: `"usa-170.jpg"`.
+* `background_photo_offset` - the vertical offset of the overview image in percentage. Use this to shift the portion of the overview image that is shown to focus on the most important pars. Example: `30`.
