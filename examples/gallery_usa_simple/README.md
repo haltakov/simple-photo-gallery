@@ -3,3 +3,28 @@
 This is an example gallery containing only one photo section. The gallery code without the photos is available on Github. You can view the gallery here: [http://www.haltakov.net/gallery_usa_simple/qn3Sj4RidXdq2SqpCgJk/](http://www.haltakov.net/gallery_usa_simple/qn3Sj4RidXdq2SqpCgJk/)
 
 [![Example gallery simple](https://github.com/haltakov/simple-photo-gallery/blob/master/examples/gallery_usa_simple/screenshot_gallery_usa_simple.jpg?raw=true)](http://www.haltakov.net/gallery_usa_simple/qn3Sj4RidXdq2SqpCgJk/)
+
+## How to create this gallery
+
+This gallery was created in the following way.
+
+1. Initialize the gallery - execute the following command in the folder containing the images
+```
+gallery-init
+```
+
+2. Answer the questions asked by the script as shown below:
+```
+What is the title of your gallery? (default: "My Gallery")
+> San Francisco 2019
+What is the description of your gallery? (default: "Default description of my gallery")
+> We visited San Francisco for a couple of days in May 2019 as part of our California trip.
+Which image should be used as background for the header? (default: "")
+> usa-494.jpg
+```
+
+3. Build the gallery - execute the following command:
+```
+gallery-build
+```
+
