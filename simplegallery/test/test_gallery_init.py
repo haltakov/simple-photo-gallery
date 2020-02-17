@@ -51,7 +51,7 @@ class SPGInitTestCase(unittest.TestCase):
             self.assertEqual(gallery_config['background_photo_offset'], 30)
 
 
-    @mock.patch('builtins.input', side_effect=['Test Gallery', 'Test Description', '200', 'photo.jpg'])
+    @mock.patch('builtins.input', side_effect=['Test Gallery', 'Test Description', 'photo.jpg'])
     def test_new_gallery_created(self, input):
         files_photos = ['photo.jpg', 'photo.jpeg', 'photo.gif', 'video.mp4']
         files_other = ['something.txt']
@@ -64,9 +64,9 @@ class SPGInitTestCase(unittest.TestCase):
             gallery_init.main()
 
             check_gallery_files(tempdir, files_photos, files_other)
-            self.check_gallery_config(os.path.join(tempdir.path, 'gallery.json'), tempdir.path, 'Test Gallery', 'Test Description', 200, 'photo.jpg')
+            self.check_gallery_config(os.path.join(tempdir.path, 'gallery.json'), tempdir.path, 'Test Gallery', 'Test Description', 320, 'photo.jpg')
 
-    @mock.patch('builtins.input', side_effect=['Test Gallery', 'Test Description', '200', 'photo.jpg'])
+    @mock.patch('builtins.input', side_effect=['Test Gallery', 'Test Description', 'photo.jpg'])
     def test_existing_gallery_override(self, input):
         files_photos = ['photo.jpg', 'photo.jpeg', 'photo.gif', 'video.mp4']
         files_other = ['something.txt']
@@ -82,9 +82,9 @@ class SPGInitTestCase(unittest.TestCase):
 
             check_gallery_files(tempdir, files_photos, files_other)
             self.check_gallery_config(os.path.join(tempdir.path, 'gallery.json'), tempdir.path, 'Test Gallery',
-                                      'Test Description', 200, 'photo.jpg')
+                                      'Test Description', 320, 'photo.jpg')
 
-    @mock.patch('builtins.input', side_effect=['', '', '', ''])
+    @mock.patch('builtins.input', side_effect=['', '', ''])
     def test_default_gallery_config(self, input):
         with TempDirectory() as tempdir:
             sys.argv = ['gallery_init', '-p', tempdir.path]
@@ -92,15 +92,6 @@ class SPGInitTestCase(unittest.TestCase):
 
             self.check_gallery_config(os.path.join(tempdir.path, 'gallery.json'), tempdir.path, 'My Gallery',
                                       'Default description of my gallery', 320, '')
-
-    @mock.patch('builtins.input', side_effect=['', '', 'nan', '-10', '10000', '10', '400', ''])
-    def test_gallery_config_input_ranges(self, input):
-        with TempDirectory() as tempdir:
-            sys.argv = ['gallery_init', '-p', tempdir.path]
-            gallery_init.main()
-
-            self.check_gallery_config(os.path.join(tempdir.path, 'gallery.json'), tempdir.path, 'My Gallery',
-                                      'Default description of my gallery', 400, '')
 
 
 if __name__ == '__main__':

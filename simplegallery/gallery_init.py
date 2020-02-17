@@ -115,13 +115,12 @@ def create_gallery_json(gallery_root):
         templates_path=os.path.join(gallery_root, 'templates'),
         images_path=os.path.join(gallery_root, 'public', 'images', 'photos'),
         thumbnails_path=os.path.join(gallery_root, 'public', 'images', 'thumbnails'),
-        background_photo_offset=30
+        thumbnail_height=320,
     )
 
     # Set configuration defaults
     default_title = 'My Gallery'
     default_description = 'Default description of my gallery'
-    default_thumbnail_height = '320'
 
     # Ask the user for the title
     gallery_config['title'] = input(f'What is the title of your gallery? (default: "{default_title}")\n') or default_title
@@ -129,17 +128,11 @@ def create_gallery_json(gallery_root):
     # Ask the user for the description
     gallery_config['description'] = input(f'What is the description of your gallery? (default: "{default_description}")\n') or default_description
 
-    # Ask the user for the thumbnail size
-    while True:
-        thumbnail_size = input(f'What should be the height of your thumbnails (between 32 and 1024)? (default: {default_thumbnail_height})\n') or default_thumbnail_height
-        if thumbnail_size.isdigit():
-            thumbnail_size = int(thumbnail_size)
-            if 32 <= thumbnail_size <= 1024:
-                break
-    gallery_config['thumbnail_height'] = thumbnail_size
-
     # Ask the user for the background image
     gallery_config['background_photo'] = input(f'Which image should be used as background for the header? (default: "")\n')
+
+    # Set the default background offset right after the background image
+    gallery_config['background_photo_offset'] = 30
 
     # Save the configuration to a file
     gallery_config_path = os.path.join(gallery_root, 'gallery.json')
