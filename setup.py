@@ -7,8 +7,8 @@ with open(os.path.join(current_folder, 'README.md'), encoding='utf-8') as f:
 
 setup(
     name='simple-photo-gallery',
-    version='0.1.6',
-    description='Create and share simple, but beautiful photo galleries, you are hosing yourself.',
+    version='0.2b.1',
+    description='Pretty and simple HTML photo galleries you can host yourself.',
     long_description=long_description,
     long_description_content_type='text/markdown',
     url='https://github.com/haltakov/simple-photo-gallery',
@@ -16,10 +16,9 @@ setup(
     author_email='vladimir.haltakov@gmail.com',
     license='MIT',
     classifiers=[
-        'Development Status :: 3 - Alpha',
+        'Development Status :: 4 - Beta',
         'License :: OSI Approved :: MIT License',
-        'Programming Language :: Python :: 3.6',
-        'Programming Language :: Python :: 3.7',
+        'Programming Language :: Python :: 3'
     ],
     keywords='photo video gallery self-hosted html',
     packages=find_packages(),
