@@ -124,6 +124,6 @@ Feel free to modify any part of the layout you want by just modifying the corres
 
 ## About
 
-Simple Photo Gallery is developed by [Vladimir Haltakov](www.haltakov.net). I wanted an easy way to share photos with friends, but wasn't happy with the limited customization options that existing sharing solutions like Amazon Photos or iCloud offer.
+Simple Photo Gallery is developed by [Vladimir Haltakov](http://www.haltakov.net). I wanted an easy way to share photos with friends, but wasn't happy with the limited customization options that existing sharing solutions like Amazon Photos or iCloud offer.
 
 Please contact me if you have any questions, ideas for improvement or feature requests.
