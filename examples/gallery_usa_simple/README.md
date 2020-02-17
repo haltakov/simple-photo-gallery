@@ -23,7 +23,13 @@ Which image should be used as background for the header? (default: "")
 > usa-494.jpg
 ```
 
-3. Build the gallery - execute the following command:
+3. Modify the `gallery.json` file to adjust the offset of the background image from 30% to 50%:
+
+```
+"background_photo_offset": 50
+```
+
+4. Build the gallery - execute the following command:
 ```
 gallery-build
 ```
