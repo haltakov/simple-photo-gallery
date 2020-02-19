@@ -7,7 +7,7 @@ with open(os.path.join(current_folder, 'README.md'), encoding='utf-8') as f:
 
 setup(
     name='simple-photo-gallery',
-    version='0.2b.1',
+    version='0.2b.2',
     description='Pretty and simple HTML photo galleries you can host yourself.',
     long_description=long_description,
     long_description_content_type='text/markdown',
