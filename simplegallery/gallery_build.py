@@ -81,7 +81,7 @@ def build_html(gallery_config):
     template = env.get_template('index_template.jinja')
     html = template.render(images=images_data_list, gallery_config=gallery_config)
 
-    with open(os.path.join(gallery_config['public_path'], 'index.html'), 'w') as out:
+    with open(os.path.join(gallery_config['public_path'], 'index.html'), 'w', encoding='utf-8') as out:
         out.write(html)
 
 

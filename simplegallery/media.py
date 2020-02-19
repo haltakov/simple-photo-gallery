@@ -198,5 +198,5 @@ def create_images_data_file(images_data_path, images_path, thumbnails_path, publ
             images_data[photo_name] = image_data
 
     # Write the data to a JSON file
-    with open(images_data_path, 'w') as images_out:
+    with open(images_data_path, 'w', encoding='utf-8') as images_out:
         json.dump(images_data, images_out, indent=4, separators=(',', ': '), sort_keys=True)
