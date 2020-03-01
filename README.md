@@ -1,8 +1,8 @@
 # Simple Photo Gallery
 
-With Simple Photo Gallery you can easily create static HTML galleries that you can host yourself. Check out the [example gallery](http://www.haltakov.net/gallery_usa_multi/CUPcTB5AcbutK3vyLQ26/).
+With Simple Photo Gallery you can easily create static HTML galleries that you can host yourself. Check out the [example gallery](http://www.haltakov.net/gallery_usa_multi/CUPcTB5AcbutK3vyLQ26/index.html).
 
-[![Example gallery](https://github.com/haltakov/simple-photo-gallery/blob/master/examples/gallery_usa_multi/screenshot_gallery_usa_multi.jpg?raw=true)](http://www.haltakov.net/gallery_usa_multi/CUPcTB5AcbutK3vyLQ26/)
+[![Example gallery](https://github.com/haltakov/simple-photo-gallery/blob/master/examples/gallery_usa_multi/screenshot_gallery_usa_multi.jpg?raw=true)](http://www.haltakov.net/gallery_usa_multi/CUPcTB5AcbutK3vyLQ26/index.html)
 
 
 ## Overview
