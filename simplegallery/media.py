@@ -1,6 +1,4 @@
-import glob
 import os
-import json
 import cv2
 from PIL import Image, ExifTags
 import simplegallery.common as spg_common
@@ -163,40 +161,3 @@ def get_metadata(image, thumbnail_path, public_path):
     image_data['thumbnail_size'] = get_image_size(thumbnail_path)
 
     return image_data
-
-
-def create_images_data_file(images_data_path, images_path, thumbnails_path, public_path):
-    """
-    Updates the images_data.json file for each new image to store metadata (like size, description and thumbnail)
-    :param images_data_path: Path to the images_data.json file
-    :param images_path: Path to the folder containing all images
-    :param thumbnails_path: Path to the folder containing all thumbnails
-    :param public_path: Path to the public folder of the gallery
-    """
-
-    # Get all images
-    images = glob.glob(os.path.join(images_path, '*.*'))
-
-    # Load the existing file or create an empty dict
-    if os.path.exists(images_data_path):
-        with open(images_data_path, 'r') as images_data_in:
-            images_data = json.load(images_data_in)
-    else:
-        images_data = {}
-
-    # Get the required metadata for each image
-    for image in images:
-        photo_name = os.path.basename(image)
-        thumbnail_path = os.path.join(thumbnails_path, photo_name)
-
-        image_data = get_metadata(image, thumbnail_path, public_path)
-
-        # Check if the image file has changed and only then use the new metadata. This allows changes that were made to
-        # the metadata (for example to the descriptions) to be preserved, unless the photo itself changed.
-
-        if photo_name not in images_data or images_data[photo_name]['mtime'] != image_data['mtime']:
-            images_data[photo_name] = image_data
-
-    # Write the data to a JSON file
-    with open(images_data_path, 'w', encoding='utf-8') as images_out:
-        json.dump(images_data, images_out, indent=4, separators=(',', ': '), sort_keys=True)
