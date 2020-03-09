@@ -11,3 +11,13 @@ def get_gallery_logic(gallery_config):
     :return: gallery logic object
     """
     return FilesGalleryLogic(gallery_config)
+
+
+def get_gallery_type(remote_link):
+    """
+    Get the type of a remote gallery based on the provided link
+    :param remote_link: Link to a shared album
+    :return: remote gallery type
+    """
+
+    return ""
