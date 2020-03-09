@@ -4,9 +4,24 @@ import sys
 import os
 import json
 import simplegallery.logic.gallery_logic as gallery_logic
+from simplegallery.logic.files_gallery_logic import FilesGalleryLogic
+from simplegallery.logic.onedrive_gallery_logic import OnedriveGalleryLogic
+from simplegallery.logic.google_gallery_logic import GoogleGalleryLogic
 
 
 class SPGInitTestCase(unittest.TestCase):
+
+    def test_get_gallery_logic(self):
+        config_logic_mapping = [
+            (dict(), FilesGalleryLogic),
+            (dict(remote_gallery_type=''), FilesGalleryLogic),
+            (dict(remote_gallery_type='onedrive'), OnedriveGalleryLogic),
+            (dict(remote_gallery_type='google'), GoogleGalleryLogic),
+            (dict(remote_gallery_type='aaaaaaaa'), FilesGalleryLogic),
+        ]
+
+        for config_logic in config_logic_mapping:
+            self.assertIs(config_logic[1], gallery_logic.get_gallery_logic(config_logic[0]).__class__)
 
     def test_get_gallery_type(self):
         link_type_mapping = [
