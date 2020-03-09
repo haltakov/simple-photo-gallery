@@ -7,6 +7,7 @@ import json
 from distutils.dir_util import copy_tree
 import pkg_resources
 import simplegallery.common as spg_common
+import simplegallery.logic.gallery_logic as gallery_logic
 
 
 def parse_args():
@@ -19,6 +20,12 @@ def parse_args():
     For detailed documentation please refer to https://github.com/haltakov/simple-photo-gallery'''
 
     parser = argparse.ArgumentParser(description=description)
+
+    parser.add_argument('remote_link',
+                        metavar='URL',
+                        nargs="?",
+                        default="",
+                        help="Link to a remote shared album (OneDrive or Google Photos supported)")
 
     parser.add_argument('-p', '--path',
                         dest='path',
@@ -98,10 +105,11 @@ def create_gallery_folder_structure(gallery_root):
             shutil.move(path, os.path.join(photos_dir, os.path.basename(path)))
 
 
-def create_gallery_json(gallery_root):
+def create_gallery_json(gallery_root, remote_link):
     """
     Creates a new gallery.json file, based on settings specified by the user
     :param gallery_root: Path to the gallery root
+    :param remote_link: Optional link to a remote shared album containing the photos for the gallery
     """
 
     spg_common.log('Creating the gallery config...')
@@ -117,6 +125,16 @@ def create_gallery_json(gallery_root):
         thumbnails_path=os.path.join(gallery_root, 'public', 'images', 'thumbnails'),
         thumbnail_height=320,
     )
+
+    # Initialize remote gallery configuration
+    if remote_link:
+        remote_gallery_type = gallery_logic.get_gallery_type(remote_link)
+
+        if not remote_gallery_type:
+            raise spg_common.SPGException('Cannot initialize remote gallery - please check the provided link.')
+        else:
+            gallery_config['remote_gallery_type'] = remote_gallery_type
+            gallery_config['remote_link'] = remote_link
 
     # Set configuration defaults
     default_title = 'My Gallery'
@@ -167,19 +185,22 @@ def main():
             spg_common.log('A Simple Photo Gallery already exists at the specified location, but will be overwritten.')
     spg_common.log('Creating a Simple Photo Gallery...')
 
+    # Create the gallery json file
+    try:
+        if not args.keep_gallery_config:
+            create_gallery_json(gallery_root, args.remote_link)
+    except spg_common.SPGException as exception:
+        spg_common.log(exception.message)
+        sys.exit(1)
+    except Exception as exception:
+        spg_common.log(f'Something went wrong while creating the gallery.json file: {str(exception)}')
+        sys.exit(1)
+
     # Copy the template files to the gallery root
     try:
         create_gallery_folder_structure(gallery_root)
     except Exception as exception:
         spg_common.log(f'Something went wrong while generating the gallery structure: {str(exception)}')
-        sys.exit(1)
-
-    # Create the gallery json file
-    try:
-        if not args.keep_gallery_config:
-            create_gallery_json(gallery_root)
-    except Exception as exception:
-        spg_common.log(f'Something went wrong while creating the gallery.json file: {str(exception)}')
         sys.exit(1)
 
     spg_common.log('Simple Photo Gallery initialized successfully!')
