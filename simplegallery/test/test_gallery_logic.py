@@ -1,8 +1,4 @@
 import unittest
-from unittest import mock
-import sys
-import os
-import json
 import simplegallery.logic.gallery_logic as gallery_logic
 from simplegallery.logic.files_gallery_logic import FilesGalleryLogic
 from simplegallery.logic.onedrive_gallery_logic import OnedriveGalleryLogic
