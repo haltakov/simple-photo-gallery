@@ -1,4 +1,6 @@
 from simplegallery.logic.files_gallery_logic import FilesGalleryLogic
+from simplegallery.logic.onedrive_gallery_logic import OnedriveGalleryLogic
+from simplegallery.logic.google_gallery_logic import GoogleGalleryLogic
 import simplegallery.common as spg_common
 
 
@@ -11,7 +13,17 @@ def get_gallery_logic(gallery_config):
     :param gallery_config: gallery config dictionary as read from the gallery.json
     :return: gallery logic object
     """
-    return FilesGalleryLogic(gallery_config)
+    if 'remote_gallery_type' not in gallery_config:
+        return FilesGalleryLogic(gallery_config)
+    elif not gallery_config['remote_gallery_type']:
+        return FilesGalleryLogic(gallery_config)
+    elif gallery_config['remote_gallery_type'] == 'onedrive':
+        return OnedriveGalleryLogic(gallery_config)
+    elif gallery_config['remote_gallery_type'] == 'google':
+        return GoogleGalleryLogic(gallery_config)
+    else:
+        spg_common.log('Unrecognized option for remote_gallery_type. Proceeding as a local gallery.')
+        return FilesGalleryLogic(gallery_config)
 
 
 def get_gallery_type(remote_link):
