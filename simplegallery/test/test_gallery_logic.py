@@ -5,7 +5,7 @@ from simplegallery.logic.onedrive_gallery_logic import OnedriveGalleryLogic
 from simplegallery.logic.google_gallery_logic import GoogleGalleryLogic
 
 
-class SPGInitTestCase(unittest.TestCase):
+class GalleryLogicTestCase(unittest.TestCase):
 
     def test_get_gallery_logic(self):
         config_logic_mapping = [
