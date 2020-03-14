@@ -1,5 +1,7 @@
 import os
 import cv2
+import requests
+from io import BytesIO
 from PIL import Image, ExifTags
 import simplegallery.common as spg_common
 
@@ -34,6 +36,17 @@ def rotate_image_by_orientation(image):
     return image
 
 
+def get_thumbnail_size(image_size, thumbnail_height):
+    """
+    Computes the size of a thumbnail
+    :param image_size: original image size
+    :param thumbnail_height: thumbnail height
+    :return: thumbnail size tuple
+    """
+    width = round((float(thumbnail_height) / image_size[1]) * image_size[0])
+    return width, thumbnail_height
+
+
 def create_image_thumbnail(image_path, thumbnail_path, height):
     """
     Creates a thumbnail for an image
@@ -45,8 +58,8 @@ def create_image_thumbnail(image_path, thumbnail_path, height):
 
     image = rotate_image_by_orientation(image)
 
-    width = round((float(height)/image.size[1]) * image.size[0])
-    image = image.resize((width, height), Image.ANTIALIAS)
+    thumbnail_size = get_thumbnail_size(image.size, height)
+    image = image.resize(thumbnail_size, Image.ANTIALIAS)
 
     image.save(thumbnail_path)
     image.close()
@@ -82,6 +95,20 @@ def create_thumbnail(input_path, thumbnails_path, height):
         create_video_thumbnail(input_path, thumbnail_path, height)
     else:
         raise spg_common.SPGException(f'Unsupported file type ({os.path.basename(input_path)})')
+
+
+def get_remote_image_size(image_url):
+    """
+    Get the size of a remote image in pixels
+    :param
+    :return: tuple containing the width and the height of the image in pixels
+    """
+    response = requests.get(image_url)
+    image = Image.open(BytesIO(response.content))
+    size = image.size
+    image.close()
+
+    return size
 
 
 def get_image_size(image_path):

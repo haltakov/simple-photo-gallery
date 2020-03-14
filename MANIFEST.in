@@ -7,3 +7,6 @@ include LICENSE.txt
 # Include the data files
 recursive-include simplegallery/data/templates *
 recursive-include simplegallery/data/public *
+
+# Include binary files
+recursive-include simplegallery/bin *
