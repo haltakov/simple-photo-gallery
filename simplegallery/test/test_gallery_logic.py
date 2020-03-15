@@ -1,8 +1,8 @@
 import unittest
 import simplegallery.logic.gallery_logic as gallery_logic
-from simplegallery.logic.files_gallery_logic import FilesGalleryLogic
-from simplegallery.logic.onedrive_gallery_logic import OnedriveGalleryLogic
-from simplegallery.logic.google_gallery_logic import GoogleGalleryLogic
+from simplegallery.logic.variants.files_gallery_logic import FilesGalleryLogic
+from simplegallery.logic.variants.onedrive_gallery_logic import OnedriveGalleryLogic
+from simplegallery.logic.variants.google_gallery_logic import GoogleGalleryLogic
 
 
 class GalleryLogicTestCase(unittest.TestCase):
