@@ -56,16 +56,6 @@ class SPGBuildTestCase(unittest.TestCase):
             gallery_build.main()
             self.assertEqual((320, 320), spg_media.get_image_size(thumbnail_path))
 
-    def check_image_data(self, images_data, image_name, description, size, thumbnail_size):
-        image_data = images_data[image_name]
-        self.assertEqual(description, image_data['description'])
-        self.assertTrue(image_data['mtime'])
-        self.assertEqual(size, image_data['size'])
-        self.assertEqual(os.path.join('images', 'photos', image_name), image_data['src'])
-        self.assertEqual(os.path.join('images', 'thumbnails', image_name), image_data['thumbnail'])
-        self.assertEqual(thumbnail_size, image_data['thumbnail_size'])
-        self.assertEqual('image', image_data['type'])
-
     @mock.patch('builtins.input', side_effect=['', '', ''])
     def test_images_data_generation(self, input):
         with TempDirectory() as tempdir:
@@ -78,45 +68,6 @@ class SPGBuildTestCase(unittest.TestCase):
             gallery_build.main()
 
             tempdir.compare(['templates', 'public', 'gallery.json', 'images_data.json'], recursive=False)
-
-            with open(os.path.join(tempdir.path, 'images_data.json'), 'r') as json_in:
-                images_data = json.load(json_in)
-
-                self.assertEqual(1, len(images_data))
-                self.check_image_data(images_data, 'photo.jpg', '', [1000, 500], [640, 320])
-
-    @mock.patch('builtins.input', side_effect=['', '', ''])
-    def test_images_data_preserve_descriptions(self, input):
-        with TempDirectory() as tempdir:
-            create_mock_image(os.path.join(tempdir.path, 'photo.jpg'), 1000, 500)
-
-            sys.argv = ['gallery_init', '-p', tempdir.path]
-            gallery_init.main()
-
-            # Check images data generated and
-            sys.argv = ['gallery_build', '-p', tempdir.path]
-            gallery_build.main()
-
-            with open(os.path.join(tempdir.path, 'images_data.json'), 'r') as json_in:
-                images_data = json.load(json_in)
-                self.assertEqual(1, len(images_data))
-                self.check_image_data(images_data, 'photo.jpg', '', [1000, 500], [640, 320])
-
-            with open(os.path.join(tempdir.path, 'images_data.json'), 'w') as json_out:
-                images_data['photo.jpg']['description'] = 'Test description'
-                self.check_image_data(images_data, 'photo.jpg', 'Test description', [1000, 500], [640, 320])
-                json.dump(images_data, json_out)
-
-            # Add new image and check description of the first is preserved
-            create_mock_image(os.path.join(tempdir.path, 'public', 'images', 'photos', 'photo2.jpg'), 1000, 500)
-
-            sys.argv = ['gallery_build', '-p', tempdir.path]
-            gallery_build.main()
-
-            with open(os.path.join(tempdir.path, 'images_data.json'), 'r') as json_in_out:
-                images_data = json.load(json_in_out)
-                self.assertEqual(2, len(images_data))
-                self.check_image_data(images_data, 'photo.jpg', 'Test description', [1000, 500], [640, 320])
 
     @mock.patch('builtins.input', side_effect=['', '', ''])
     def test_index_html(self, input):

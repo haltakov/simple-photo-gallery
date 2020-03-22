@@ -1,7 +1,7 @@
-import glob
 import os
-import json
 import cv2
+import requests
+from io import BytesIO
 from PIL import Image, ExifTags
 import simplegallery.common as spg_common
 
@@ -36,6 +36,17 @@ def rotate_image_by_orientation(image):
     return image
 
 
+def get_thumbnail_size(image_size, thumbnail_height):
+    """
+    Computes the size of a thumbnail
+    :param image_size: original image size
+    :param thumbnail_height: thumbnail height
+    :return: thumbnail size tuple
+    """
+    width = round((float(thumbnail_height) / image_size[1]) * image_size[0])
+    return width, thumbnail_height
+
+
 def create_image_thumbnail(image_path, thumbnail_path, height):
     """
     Creates a thumbnail for an image
@@ -47,8 +58,8 @@ def create_image_thumbnail(image_path, thumbnail_path, height):
 
     image = rotate_image_by_orientation(image)
 
-    width = round((float(height)/image.size[1]) * image.size[0])
-    image = image.resize((width, height), Image.ANTIALIAS)
+    thumbnail_size = get_thumbnail_size(image.size, height)
+    image = image.resize(thumbnail_size, Image.ANTIALIAS)
 
     image.save(thumbnail_path)
     image.close()
@@ -84,6 +95,20 @@ def create_thumbnail(input_path, thumbnails_path, height):
         create_video_thumbnail(input_path, thumbnail_path, height)
     else:
         raise spg_common.SPGException(f'Unsupported file type ({os.path.basename(input_path)})')
+
+
+def get_remote_image_size(image_url):
+    """
+    Get the size of a remote image in pixels
+    :param
+    :return: tuple containing the width and the height of the image in pixels
+    """
+    response = requests.get(image_url)
+    image = Image.open(BytesIO(response.content))
+    size = image.size
+    image.close()
+
+    return size
 
 
 def get_image_size(image_path):
@@ -163,40 +188,3 @@ def get_metadata(image, thumbnail_path, public_path):
     image_data['thumbnail_size'] = get_image_size(thumbnail_path)
 
     return image_data
-
-
-def create_images_data_file(images_data_path, images_path, thumbnails_path, public_path):
-    """
-    Updates the images_data.json file for each new image to store metadata (like size, description and thumbnail)
-    :param images_data_path: Path to the images_data.json file
-    :param images_path: Path to the folder containing all images
-    :param thumbnails_path: Path to the folder containing all thumbnails
-    :param public_path: Path to the public folder of the gallery
-    """
-
-    # Get all images
-    images = glob.glob(os.path.join(images_path, '*.*'))
-
-    # Load the existing file or create an empty dict
-    if os.path.exists(images_data_path):
-        with open(images_data_path, 'r') as images_data_in:
-            images_data = json.load(images_data_in)
-    else:
-        images_data = {}
-
-    # Get the required metadata for each image
-    for image in images:
-        photo_name = os.path.basename(image)
-        thumbnail_path = os.path.join(thumbnails_path, photo_name)
-
-        image_data = get_metadata(image, thumbnail_path, public_path)
-
-        # Check if the image file has changed and only then use the new metadata. This allows changes that were made to
-        # the metadata (for example to the descriptions) to be preserved, unless the photo itself changed.
-
-        if photo_name not in images_data or images_data[photo_name]['mtime'] != image_data['mtime']:
-            images_data[photo_name] = image_data
-
-    # Write the data to a JSON file
-    with open(images_data_path, 'w', encoding='utf-8') as images_out:
-        json.dump(images_data, images_out, indent=4, separators=(',', ': '), sort_keys=True)

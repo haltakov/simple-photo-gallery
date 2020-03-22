@@ -38,5 +38,7 @@ setup(
         'opencv-python>=4.2.0.32',
         'pillow>=7.0.0',
         'jinja2>=2.10.3',
+        'selenium>=3.141.0',
+        'requests>=2.22.0',
     ]
 )

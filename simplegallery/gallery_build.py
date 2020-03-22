@@ -1,12 +1,11 @@
 import argparse
 import os
 import sys
-import glob
 import json
-from collections import OrderedDict
 import jinja2
+from collections import OrderedDict
 import simplegallery.common as spg_common
-import simplegallery.media as spg_media
+from simplegallery.logic.gallery_logic import get_gallery_logic
 
 
 def parse_args():
@@ -32,33 +31,6 @@ def parse_args():
                         help='Forces the generation of the thumbnails even if they already exist')
 
     return parser.parse_args()
-
-
-def check_and_create_thumbnails(gallery_config, force=False):
-    """
-    Checks if every image has an existing thumbnail and generates it if not (or if forced by the user)
-    :param gallery_config: gallery configuration dictionary
-    :param force: Forces generation of thumbnails if set to true
-    """
-
-    thumbnails_path = gallery_config['thumbnails_path']
-    thumbnails_height = gallery_config['thumbnail_height']
-
-    photos = glob.glob(os.path.join(gallery_config['images_path'], '*.*'))
-
-    if not photos:
-        raise spg_common.SPGException(f'No photos could be found under {gallery_config["images_path"]}')
-
-    count_thumbnails_created = 0
-    for photo in photos:
-        photo_name = os.path.basename(photo).split('.')[0]
-
-        # Check if the corresponding thumbnail is missing or if forced by the user
-        if force or len(glob.glob(os.path.join(thumbnails_path, photo_name + '.*'))) == 0:
-            spg_media.create_thumbnail(photo, thumbnails_path, thumbnails_height)
-            count_thumbnails_created += 1
-
-    spg_common.log(f'New thumbnails generated: {count_thumbnails_created}')
 
 
 def build_html(gallery_config):
@@ -103,10 +75,13 @@ def main():
 
     spg_common.log('Building the Simple Photo Gallery...')
 
+    # Get the gallery logic
+    gallery_logic = get_gallery_logic(gallery_config)
+
     # Check if thumbnails exist and generate them if needed or if specified by the user
     try:
         spg_common.log('Generating thumbnails...')
-        check_and_create_thumbnails(gallery_config, args.force_thumbnails)
+        gallery_logic.create_thumbnails(args.force_thumbnails)
     except spg_common.SPGException as exception:
         spg_common.log(exception.message)
         sys.exit(1)
@@ -117,10 +92,7 @@ def main():
     # Generate the images_data.json
     try:
         spg_common.log('Generating the images_data.json file...')
-        spg_media.create_images_data_file(gallery_config['images_data_file'],
-                                          gallery_config['images_path'],
-                                          gallery_config['thumbnails_path'],
-                                          gallery_config['public_path'])
+        gallery_logic.create_images_data_file()
         spg_common.log('The image descriptions are stored in images_data.json. You can edit the file to add more '
                        'descriptions and build the gallery again.')
     except spg_common.SPGException as exception:
