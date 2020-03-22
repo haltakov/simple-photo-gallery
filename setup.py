@@ -31,6 +31,7 @@ setup(
         "console_scripts": [
             "gallery-init=simplegallery.gallery_init:main",
             "gallery-build=simplegallery.gallery_build:main",
+            "gallery-upload=simplegallery.gallery_upload:main",
         ]
     },
     install_requires=[
