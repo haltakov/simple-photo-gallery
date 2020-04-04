@@ -6,7 +6,6 @@ import zipfile
 import jinja2
 import pkg_resources
 import tempfile
-import time
 from urllib import parse
 from http.server import HTTPServer, BaseHTTPRequestHandler
 import simplegallery.common as spg_common
@@ -61,6 +60,33 @@ class SimplePhotoGalleryHTTPRequestHandler(BaseHTTPRequestHandler):
             self.process_error('Invalid request')
 
 
+def deploy_to_netlify(zip_file_path, token):
+    # Read the content of the ZIP file
+    with open(zip_file_path, 'rb') as zip_in:
+        gallery_data = zip_in.read()
+
+    sites_url = 'https://api.netlify.com/api/v1/sites'
+    headers = {'Authorization': f'Bearer {token}',
+               'Content-Type': 'application/zip'}
+
+    spg_common.log('Uploading gallery to Netlify...')
+    r = requests.post(sites_url, headers=headers, data=gallery_data)
+    response = json.loads(r.text)
+
+    return response.get('url')
+
+
+def create_website_zip(gallery_path, zip_file_path):
+    zip_file = zipfile.ZipFile(zip_file_path, 'w', zipfile.ZIP_DEFLATED)
+
+    for root, dirs, files in os.walk(gallery_path):
+        for file in files:
+            file_path = os.path.join(root, file)
+            zip_file.write(file_path, arcname=os.path.relpath(file_path, gallery_path))
+
+    zip_file.close()
+
+
 class NetlifyUploader(BaseUploader):
     client_id = 'f5668dd35a2fceaecbef1acd0b979a9d17484ae794df0c9b519b343ee2188596'
     client_secret = '9283bc00893b493c8b4e1ceed167dd4463767362b6ae669ccb5f513f2704d876'
@@ -69,16 +95,6 @@ class NetlifyUploader(BaseUploader):
 
     def check_location(self, location):
         return True
-
-    def create_website_zip(self, gallery_path, zip_file_path):
-        zip_file = zipfile.ZipFile(zip_file_path, 'w', zipfile.ZIP_DEFLATED)
-
-        for root, dirs, files in os.walk(gallery_path):
-            for file in files:
-                file_path = os.path.join(root, file)
-                zip_file.write(file_path, arcname=os.path.relpath(file_path, gallery_path))
-
-        zip_file.close()
 
     def get_authorization_token(self, httpd):
         # Open the Netlify authorization page
@@ -95,26 +111,11 @@ class NetlifyUploader(BaseUploader):
 
         return httpd.token
 
-    def deploy_to_netlify(self, zip_file_path, token):
-        # Read the content of the ZIP file
-        with open(zip_file_path, 'rb') as zip_in:
-            gallery_data = zip_in.read()
-
-        sites_url = 'https://api.netlify.com/api/v1/sites'
-        headers = {'Authorization': f'Bearer {token}',
-                   'Content-Type': 'application/zip'}
-
-        spg_common.log('Uploading gallery to Netlify...')
-        r = requests.post(sites_url, headers=headers, data=gallery_data)
-        response = json.loads(r.text)
-
-        return response.get('url')
-
     def upload_gallery(self, location, gallery_path):
         # Create a zip file for the gallery
         spg_common.log('Creating ZIP file of the gallery...')
         zip_file_path = os.path.join(tempfile.gettempdir(), 'simple_photo_gallery.zip')
-        self.create_website_zip(gallery_path, zip_file_path)
+        create_website_zip(gallery_path, zip_file_path)
         spg_common.log('Gallery ZIP file created!')
 
         # Start the HTTP server that handles OAuth authentication at Netlify
@@ -124,7 +125,7 @@ class NetlifyUploader(BaseUploader):
         token = self.get_authorization_token(httpd)
 
         # Deploy the website
-        gallery_url = self.deploy_to_netlify(zip_file_path, token)
+        gallery_url = deploy_to_netlify(zip_file_path, token)
 
         # Delete the zip file
         os.remove(zip_file_path)

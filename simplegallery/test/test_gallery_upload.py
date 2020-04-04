@@ -88,9 +88,6 @@ class SPGUploadTestCase(unittest.TestCase):
             subprocess_run.ass
             subprocess_run.assert_called_with(['aws', 's3', 'sync', public_path, 's3://testbucket/path/', '--exclude', '.DS_Store'])
 
-    def test_upload_netlify(self):
-        self.assertTrue(False)
-
 
 if __name__ == '__main__':
     unittest.main()
