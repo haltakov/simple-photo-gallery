@@ -74,13 +74,13 @@ def main():
         sys.exit(1)
 
     # Check if the gallery is built
-    if not os.path.exists(os.path.join(gallery_config['public_path'], 'index.html')):
+    if not os.path.exists(os.path.join(gallery_root, gallery_config['public_path'], 'index.html')):
         spg_common.log(f'Cannot find index.html. Please build the gallery first with gallery_build.!')
         sys.exit(1)
 
     # Upload the gallery
     try:
-        uploader.upload_gallery(location, gallery_config['public_path'])
+        uploader.upload_gallery(location, os.path.join(gallery_root, gallery_config['public_path']))
     except spg_common.SPGException as exception:
         spg_common.log(exception.message)
         sys.exit(1)
