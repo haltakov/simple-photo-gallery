@@ -13,27 +13,29 @@ With Simple Photo Gallery you can easily create static HTML galleries that you c
 4. [Configuration](#configuration)
 5. [About](#about)
 
-Simple Photo Gallery is a Python package that provides a simple command line interface to create static HTML photo and video galleries. Thumbnails, HTML, CSS and JavaScript files are generated automatically and you can just upload them to any static hosting, like for example [AWS S3](https://aws.amazon.com/s3/). The most important features:
+Simple Photo Gallery is a simple command line tool that helps you create static HTML photo and video galleries that tell a story. Thumbnails, HTML, CSS and JavaScript files are generated automatically and can be uploaded to any static hosting, like for example [AWS S3](https://aws.amazon.com/s3/) or [Netlify](https://www.netlify.com/). The most important features:
 
 * Responsive layout suitable for any device (including touch gestures support).
 * Image captions extracted from the image metadata (EXIF tags).
 * Fully customizable layout with sensible defaults to get started quickly.
+* Create a gallery from an existing OneDrive or Google Photos album, without downloading the photos.
+* Automatic upload of the gallery to [AWS S3](https://aws.amazon.com/s3/) or [Netlify](https://www.netlify.com/).
 * Based on the [PhotoSwipe](https://photoswipe.com/) JavaScript library.
 
 ## Installation
 
-Simple Photo Gallery is available as a Python package that you can install with `pip`. It installs several scripts to easily create galleries.
+Simple Photo Gallery can be easily installed with `pip`. If you don't have `pip`, please install the [latest Python release](https://www.python.org/downloads/).
 ```
 pip install simple-photo-gallery
 ```
 
 
-## Usage
+## Example Usage
 
-You can create a gallery is very simple and requires just 3 steps:
+You can quickly create a gallery with the default settings. For more detailed information see [Usage](doc/Usage.md).
 
 1. Collect all the photos and videos you want to have in the gallery into a folder.
-2. Open a terminal go to the folder with your photos. Use the following command to initialize the gallery. The script will ask you a few questions, like gallery name or background image. You can always just press Enter for the default settings and change them later.
+2. Open a terminal and go to the folder with your photos. Use the following command to initialize the gallery. The script will ask you a few questions, like gallery name or background image. You can always just press Enter for the default settings and change them later.
 ```
 gallery-init
 ```
@@ -43,17 +45,31 @@ gallery-init
 gallery-build
 ```
 
-You are ready! You can view it by opening the `index.html` file in the `public` folder. The `public` folder contains all the files you need for your gallery and you can host it on any static hosting provider.
+The gallery is ready! You can view it by opening the `index.html` file in the `public` folder. The `public` folder contains all the files you need for your gallery and you can host it on any static hosting provider.
 
 > **Note**
 > Your photos and videos are copied in `public/images/photos`.
+
+4. Optionally, you can directly publish the gallery on [Netlify](https://www.netlify.com/), which offers a free plan.
 
 See the [Configuration](#configuration) section for more details how you can customize your gallery. You can also find two example galleries in the [`examples`](https://github.com/haltakov/simple-photo-gallery/tree/create_readme/examples) folder.
 
 
 ## Hosting
 
-You can host your gallery on any static hosting provider, like for example [AWS S3](https://aws.amazon.com/s3/), [GitHub Pages](https://pages.github.com/), [Netlify](https://www.netlify.com/) or others. Some scripts for automatic upload of the gallery are under work.
+You can automatically upload the gallery to [AWS S3](https://aws.amazon.com/s3/) or [Netlify](https://www.netlify.com/).
+
+For Netlify you just need a free account and then you can run the following command to upload to a new website.
+```
+gallery-upload netlify
+```
+
+For AWS S3 you need to have [Amazon Command Line Interface](https://aws.amazon.com/cli/) installed and configured and a bucket that can be accessed publicly (see the [AWS tutorial](https://aws.amazon.com/getting-started/projects/host-static-website/) for hosting a static website).
+```
+gallery-upload aws s3://<your_bucket>/<path>/
+```
+
+You can upload your gallery manually on any static hosting provider, like for example [AWS S3](https://aws.amazon.com/s3/), [GitHub Pages](https://pages.github.com/), [Netlify](https://www.netlify.com/) or others. Some scripts for automatic upload of the gallery are under work.
 
 
 ## Configuration
