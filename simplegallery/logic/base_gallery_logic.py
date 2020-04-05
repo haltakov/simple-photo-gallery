@@ -1,5 +1,6 @@
 import os
 import json
+from collections import OrderedDict
 
 
 class BaseGalleryLogic:
@@ -40,7 +41,7 @@ class BaseGalleryLogic:
         # Load the existing file or create an empty dict
         if os.path.exists(images_data_path):
             with open(images_data_path, 'r') as images_data_in:
-                images_data = json.load(images_data_in)
+                images_data = json.load(images_data_in, object_pairs_hook=OrderedDict)
         else:
             images_data = {}
 
@@ -49,4 +50,4 @@ class BaseGalleryLogic:
 
         # Write the data to the JSON file
         with open(images_data_path, 'w', encoding='utf-8') as images_out:
-            json.dump(images_data, images_out, indent=4, separators=(',', ': '), sort_keys=True)
+            json.dump(images_data, images_out, indent=4, separators=(',', ': '))

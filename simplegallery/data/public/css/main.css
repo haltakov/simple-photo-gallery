@@ -10,7 +10,6 @@ body {
 
 .gallery > a, .gallery::after {
   --ratio: calc(var(--w) / var(--h));
-  --row-height: 9rem;
   flex-basis: calc(var(--ratio) * var(--row-height));
 }
 
