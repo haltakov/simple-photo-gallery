@@ -51,6 +51,14 @@ function openPhotoSwipe() {
 
   var gallery = new PhotoSwipe( $('.pswp')[0], PhotoSwipeUI_Default, slides[gallery_id], options);
 
+  gallery.listen('initialZoomOut', function() {
+    if (this.currItem.html) {
+      var videos = $('div.pswp__item video[data-index='+this.getCurrentIndex()+']')
+      if (videos.length > 0)
+        videos[0].pause()
+    }
+  });
+
   gallery.listen('afterChange', function() {
     var videos = $('div.pswp__item video')
     for (var i=0; i<videos.length; ++i)
