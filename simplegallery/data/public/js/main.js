@@ -12,7 +12,7 @@ function createSlides() {
     if (photo.getAttribute('data-type') == 'image')
       slide['src'] = photo.getAttribute('href');
     else
-      slide['html'] = '<video style="margin: 0px auto; height: 100%; max-width: 100%; max-height: 100%;" data-index="' + photo.getAttribute('data-index') +
+      slide['html'] = '<video style="margin: 0px auto; height: 100%; max-width: 100%; max-height: 100%; display: block" data-index="' + photo.getAttribute('data-index') +
                       '" controls><source src="' + photo.getAttribute('href') + '" type="video/mp4"></video>';
 
     var gallery_id = parseInt(photo.getAttribute('data-gallery'));
