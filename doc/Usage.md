@@ -2,6 +2,14 @@
 
 This section describes in detail how to use the Simple Photo Gallery command line tools.
 
+* [Start a new gallery (`gallery-init`)](#start-a-new-gallery-gallery-init)
+  * [Folder with photos/videos](#folder-with-photosvideos)
+  * [Online album](#online-album)
+* [Build the gallery files (`gallery-build`)](#build-the-gallery-files-gallery-build)
+* [Publishing your gallery (`gallery-upload`)](#publishing-your-gallery-gallery-upload)
+  * [Uploading to Netlify](#uploading-to-netlify)
+  * [Uploading to AWS S3](#uploading-the-aws-s3)
+
 ## Start a new gallery (`gallery-init`)
 
 The `gallery-init` command is used to create a new gallery.
@@ -25,6 +33,10 @@ gallery-init -p <path/to/photos>
 
 ### Online album
 
+> *Warning*: This is an experimental feature, because OneDrive and Google Photos don't officially support links to individual photos, but only to albums that can be viewed on their web sites. Therefore, your gallery may stop working at some point in time.
+
+> Note: currently only photos and no videos are supported.
+
 You can also create a gallery from an online album on [OneDrive](https://onedrive.live.com/) or [Google Photos](https://www.google.com/photos/about/) (please let me know if you want support for other cloud providers). You need to create an album and get link that can be shared with other people (click on the share button).
 
 ```
@@ -32,10 +44,6 @@ gallery-init <link_to_shared_album>
 ```
 
 Using an online album will not download the photos, but just create links to them.
-
-> Note: currently only photos and no videos are supported.
-
-> *Warning*: This is an experimental feature, because OneDrive and Google Photos don't officially support links to individual photos, but only to albums that can be viewed on their web sites. Therefore, your gallery may stop working at some point in time.
 
 
 ## Build the gallery files (`gallery-build`)
@@ -76,6 +84,8 @@ gallery-upload netlify
 ```
 
 You will then need to give permissions to the Simple Photo Gallery app on Netlify to create websites for you. After that the gallery will be uploaded, a new website will be created and it will be opened in your browser. You can then log in to your Netlify account and change the website's name or link it to a [custom domain](https://docs.netlify.com/domains-https/custom-domains/).
+
+> Note: it is not recommended uploading huge galleries to Netlify, because you may exceed the quota of the free account. In this case, it is better to upload the photos to OneDrive or Google Photos and create the gallery from the online album. In this way, you will just need to upload the HTML, JavaScript and CSS files to Netlify, which are very small.
 
 
 ### Uploading the AWS S3
