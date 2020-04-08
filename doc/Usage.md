@@ -60,11 +60,35 @@ The option `-ft` or `--force-thumbnails` can be used to trigger the generation o
 gallery-build -ft
 ```
 
-In order for your HTML gallery to be updated, Yyou should call the `gallery-build` command every time that you make changes to the gallery (`gallery.json`), the image descriptions (`images_data.json`) or the photos and videos.
+In order for your HTML gallery to be updated, Yyou should call the `gallery-build` command every time that you make changes to the gallery (`gallery.json`), the image descriptions (`images_data.json`), HTML templates (`templates/index_template.jinja`) or the photos and videos.
 
 
+## Publishing your gallery (`gallery-upload`)
+
+After your gallery is built, you can either upload it manually to your hosting provider or you can use one of the automatic upload options.
+
+### Uploading to Netlify
+
+[Netlify](https://www.netlify.com/) offers a [free hosting plan](https://www.netlify.com/pricing/) for static websites. First, you need to [create a free account](https://app.netlify.com/signup) on Netlify and then you can just call the `gallery-upload` command from the folder containing your gallery:
+
+```
+gallery-upload netlify
+```
+
+You will then need to give permissions to the Simple Photo Gallery app on Netlify to create websites for you. After that the gallery will be uploaded, a new website will be created and it will be opened in your browser. You can then log in to your Netlify account and change the website's name or link it to a [custom domain](https://docs.netlify.com/domains-https/custom-domains/).
 
 
+### Uploading the AWS S3
+
+To use the automatic upload to [AWS S3](https://aws.amazon.com/s3/) you need to have a AWS account and to create a bucket in S3 that is publicly visible (see the [AWS tutorial](https://aws.amazon.com/getting-started/projects/host-static-website/). You also need to setup the [Amazon Command Line Interface](https://aws.amazon.com/cli/) in your environment, because the `gallery-upload` command will call `aws s3 sync` command.
+
+Once your setup is done, you can call `gallery-upload`:
+
+```
+gallery-upload aws s3://<bucket>/<path>
+```
+
+Alternatively, you can also put your bucket and path in the `gallery.json` file under `aws_location`.
 
 
 
