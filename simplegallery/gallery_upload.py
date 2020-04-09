@@ -65,8 +65,8 @@ def main():
     # Get the location from the command line or from the gallery.json
     location = args.location
     if not location:
-        if 'aws_location' in gallery_config:
-            location = gallery_config['aws_location']
+        if 'remote_location' in gallery_config:
+            location = gallery_config['remote_location']
 
     # Check if the uploader location is valid
     if not uploader.check_location(location):

@@ -77,13 +77,19 @@ After your gallery is built, you can either upload it manually to your hosting p
 
 ### Uploading to Netlify
 
-[Netlify](https://www.netlify.com/) offers a [free hosting plan](https://www.netlify.com/pricing/) for static websites. First, you need to [create a free account](https://app.netlify.com/signup) on Netlify and then you can just call the `gallery-upload` command from the folder containing your gallery:
+[Netlify](https://www.netlify.com/) offers a [free hosting plan](https://www.netlify.com/pricing/) for static websites. First, you need to [create a free account](https://app.netlify.com/signup) on Netlify and then you can just call the `gallery-upload` command from the folder containing your gallery to create a new site:
 
 ```
 gallery-upload netlify
 ```
 
 You will then need to give permissions to the Simple Photo Gallery app on Netlify to create websites for you. After that the gallery will be uploaded, a new website will be created and it will be opened in your browser. You can then log in to your Netlify account and change the website's name or link it to a [custom domain](https://docs.netlify.com/domains-https/custom-domains/).
+
+If you want to upload to an existing site, you can specify its name or URL in the `gallery.json` file as `remote_location` or provide it as a parameter:
+
+```
+gallery-upload netlify <site_name>
+```
 
 > Note: it is not recommended uploading huge galleries to Netlify, because you may exceed the quota of the free account. In this case, it is better to upload the photos to OneDrive or Google Photos and create the gallery from the online album. In this way, you will just need to upload the HTML, JavaScript and CSS files to Netlify, which are very small.
 
@@ -98,7 +104,7 @@ Once your setup is done, you can call `gallery-upload`:
 gallery-upload aws s3://<bucket>/<path>
 ```
 
-Alternatively, you can also put your bucket and path in the `gallery.json` file under `aws_location`.
+Alternatively, you can also put your bucket and path in the `gallery.json` file under `remote_location`.
 
 
 
