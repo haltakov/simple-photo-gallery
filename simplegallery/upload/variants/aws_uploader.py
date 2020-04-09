@@ -6,12 +6,22 @@ from simplegallery.upload.base_uploader import BaseUploader
 class AWSUploader(BaseUploader):
 
     def check_location(self, location):
+        """
+        Checks if the location is empty or not
+        :param location: S3 bucket where the gallery should be uploaded
+        :return: True if the location is not empty, False otherwise
+        """
         if not location:
             spg_common.log("Location cannot be empty when uploading to AWS")
 
         return bool(location)
 
     def upload_gallery(self, location, gallery_path):
+        """
+        Upload the gallery to the specified location
+        :param location: S3 bucket where the gallery should be uploaded
+        :param gallery_path: path to the root of the public files of the gallery
+        """
         # Add s3 protocol if needed
         if not location.startswith('s3://'):
             location = 's3://' + location

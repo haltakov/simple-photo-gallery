@@ -11,7 +11,7 @@ def parse_args():
     :return: Parsed arguments
     """
 
-    description = ''' Uploads the gallery to a supported hosting provider. Currently supported: AWS S3. 
+    description = '''Uploads the gallery to a supported hosting provider. Currently supported: AWS S3 and Netlify.
                     For detailed documentation please refer to https://github.com/haltakov/simple-photo-gallery.'''
 
     parser = argparse.ArgumentParser(description=description)
@@ -38,7 +38,7 @@ def parse_args():
 
 def main():
     """
-
+    Uploads the gallery to the specified hosting provider
     """
 
     # Parse the arguments

@@ -13,16 +13,40 @@ from simplegallery.upload.base_uploader import BaseUploader
 
 
 class SimplePhotoGalleryHTTPServer(HTTPServer):
+    """
+    Class deriving from the HTTPServer, defining new properties
+    """
+
+    """
+    Authentication token that was sent to the server by the Netlify API
+    """
     token = ''
+
+    """
+    Flag specifying if an error occurred during the OAuth 2.0 process
+    """
     error_detected = False
 
 
 class SimplePhotoGalleryHTTPRequestHandler(BaseHTTPRequestHandler):
+    """
+    Class implementing the handling of the OAUth 2.0 process with the Netlify API
+    """
 
     def get_params(self):
+        """
+        Get the parameters of the URL the request handler is processing
+        :return: dict with URL parameters
+        """
         return dict(parse.parse_qsl(parse.urlsplit(self.path).query))
 
     def render_page(self, page, data, status):
+        """
+        Renders a Jinja2 template and writes it in the handler's repsonse
+        :param page: name of the page to be rendered
+        :param data: data to be passed to the Jinja2 template
+        :param status: response status code
+        """
         self.send_response(status)
         self.end_headers()
 
@@ -32,9 +56,15 @@ class SimplePhotoGalleryHTTPRequestHandler(BaseHTTPRequestHandler):
         self.wfile.write(template.render(data=data).encode('utf-8'))
 
     def process_index(self):
+        """
+        Renders the default index page
+        """
         self.render_page('index.jinja', [], 200)
 
     def process_token(self):
+        """
+        Retrieves the authentication token from the URL's parameters or raises an error
+        """
         params = self.get_params()
 
         if 'access_token' in params:
@@ -44,14 +74,23 @@ class SimplePhotoGalleryHTTPRequestHandler(BaseHTTPRequestHandler):
             self.process_error('Did not receive a valid access token')
 
     def process_error(self, message):
+        """
+        Renders an error page
+        :param message: error message
+        """
         self.server.error_detected = True
         self.render_page('error.jinja', dict(message=message), 400)
 
-    # Suppress the logging
     def log_message(self, format, *args):
+        """
+        Suppresses the logging of the HTTP server
+        """
         return
 
     def do_GET(self):
+        """
+        Handles GET requests to the server
+        """
         if self.path == '/':
             self.process_index()
         elif self.path.startswith('/token'):
@@ -61,6 +100,12 @@ class SimplePhotoGalleryHTTPRequestHandler(BaseHTTPRequestHandler):
 
 
 def get_netlify_site_id(location, token):
+    """
+    Retrieves the ID of a site from the Netlify API
+    :param location: name of the Netlify site
+    :param token: OAuth 2.0 authentication token
+    :return: the site ID if the site exists, None otherwise
+    """
     sites_url = 'https://api.netlify.com/api/v1/sites'
     headers = {'Authorization': f'Bearer {token}'}
 
@@ -77,6 +122,13 @@ def get_netlify_site_id(location, token):
 
 
 def deploy_to_netlify(zip_file_path, token, site_id):
+    """
+    Deploys the gallery to Netlify using the Deploy API
+    :param zip_file_path: path to the zip file containing the gallery's files
+    :param token: OAuth 2.0 authentication token
+    :param site_id: ID of the Netlify site (optional - if no ID is provided, a new site will be created)
+    :return: URL to the site where the gallery was uploaded
+    """
     # Read the content of the ZIP file
     with open(zip_file_path, 'rb') as zip_in:
         gallery_data = zip_in.read()
@@ -98,6 +150,11 @@ def deploy_to_netlify(zip_file_path, token, site_id):
 
 
 def create_website_zip(gallery_path, zip_file_path):
+    """
+    Create a ZIP archive of the gallery's public files
+    :param gallery_path: path to the public files of the gallery
+    :param zip_file_path: path where the zip file should be stored
+    """
     zip_file = zipfile.ZipFile(zip_file_path, 'w', zipfile.ZIP_DEFLATED)
 
     for root, dirs, files in os.walk(gallery_path):
@@ -115,9 +172,20 @@ class NetlifyUploader(BaseUploader):
     state = ''
 
     def check_location(self, location):
+        """
+        Always returns True, because the uploader will create a new site if no location is provided or is invalid
+        (authentication is required to check if the site exists)
+        :param location: Netlify site where the gallery should be uploaded
+        :return: True
+        """
         return True
 
     def get_authorization_token(self, httpd):
+        """
+        Retrieve an OAuth 2.0 authentication token from the Netlify API
+        :param httpd: HTTP Server performing the OAuth 2.0 authentication
+        :return: authentication token
+        """
         # Open the Netlify authorization page
         auth_code_url = f'https://app.netlify.com/authorize?' + \
                         f'response_type=token&' + \
@@ -133,6 +201,11 @@ class NetlifyUploader(BaseUploader):
         return httpd.token
 
     def upload_gallery(self, location, gallery_path):
+        """
+        Upload the gallery to the specified location
+        :param location: Netlify site where the gallery should be uploaded
+        :param gallery_path: path to the root of the public files of the gallery
+        """
         # Create a zip file for the gallery
         spg_common.log('Creating ZIP file of the gallery...')
         zip_file_path = os.path.join(tempfile.gettempdir(), 'simple_photo_gallery.zip')

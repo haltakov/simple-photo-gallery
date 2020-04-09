@@ -9,6 +9,8 @@ def get_gallery_logic(gallery_config):
     Factory function that returns an object of a class derived from BaseGalleryLogic based on the gallery config.
     Supported gallery logics:
     - FilesGalleryLogic - logic for local files gallery
+    - OneDriveGallerLogic - logic for shared album from OneDrive
+    - GoogleGallerLogic - logic for shared album from Google Photos
 
     :param gallery_config: gallery config dictionary as read from the gallery.json
     :return: gallery logic object
