@@ -60,20 +60,41 @@ class SimplePhotoGalleryHTTPRequestHandler(BaseHTTPRequestHandler):
             self.process_error('Invalid request')
 
 
-def deploy_to_netlify(zip_file_path, token):
+def get_netlify_site_id(location, token):
+    sites_url = 'https://api.netlify.com/api/v1/sites'
+    headers = {'Authorization': f'Bearer {token}'}
+
+    response_string = requests.get(sites_url, headers=headers)
+    sites = json.loads(response_string.text)
+
+    for site in sites:
+        if site['name'] == location or site['url'].endswith(location):
+            spg_common.log(f'Found Netlify site: {location}')
+            return site['id']
+
+    spg_common.log(f'Cannot find Netlify site {location}. Creating new site...')
+    return None
+
+
+def deploy_to_netlify(zip_file_path, token, site_id):
     # Read the content of the ZIP file
     with open(zip_file_path, 'rb') as zip_in:
         gallery_data = zip_in.read()
 
-    sites_url = 'https://api.netlify.com/api/v1/sites'
+    sites_url = 'https://api.netlify.com/api/v1/sites' + (f'/{site_id}' if site_id else '')
     headers = {'Authorization': f'Bearer {token}',
                'Content-Type': 'application/zip'}
 
     spg_common.log('Uploading gallery to Netlify...')
-    r = requests.post(sites_url, headers=headers, data=gallery_data)
-    response = json.loads(r.text)
 
-    return response.get('url')
+    if site_id:
+        response_string = requests.put(sites_url, headers=headers, data=gallery_data)
+    else:
+        response_string = requests.post(sites_url, headers=headers, data=gallery_data)
+
+    response = json.loads(response_string.text)
+
+    return f'https://{response.get("subdomain")}.netlify.com'
 
 
 def create_website_zip(gallery_path, zip_file_path):
@@ -124,8 +145,11 @@ class NetlifyUploader(BaseUploader):
         # Get the authorization token
         token = self.get_authorization_token(httpd)
 
+        # Check if the website already exists and get its ID
+        site_id = get_netlify_site_id(location, token)
+
         # Deploy the website
-        gallery_url = deploy_to_netlify(zip_file_path, token)
+        gallery_url = deploy_to_netlify(zip_file_path, token, site_id)
 
         # Delete the zip file
         os.remove(zip_file_path)

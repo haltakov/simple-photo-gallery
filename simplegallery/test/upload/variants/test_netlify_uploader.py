@@ -2,7 +2,7 @@ import unittest
 from unittest import mock
 from unittest.mock import Mock
 import os
-import subprocess
+import json
 from testfixtures import TempDirectory
 import simplegallery.upload.variants.netlify_uploader as netlify
 from simplegallery.upload.uploader_factory import get_uploader
@@ -33,32 +33,54 @@ class NetlifyUploaderTestCase(unittest.TestCase):
             'state='
         )
 
+    @mock.patch('requests.get')
+    def test_get_netlify_site_id(self, requests_get):
+        sites_mock = [dict(id='1', name='existing_site', url='http://www.existing_site.com'),
+                      dict(id='2', name='another__site', url='http://www.another_site.com')]
+        response = Mock()
+        response.text = json.dumps(sites_mock)
+        requests_get.return_value = response
+
+        self.assertEqual('1', netlify.get_netlify_site_id('existing_site', 'test_token'))
+        self.assertEqual(None, netlify.get_netlify_site_id('non_existing_site', 'test_token'))
+
     @mock.patch('requests.post')
-    def test_deploy_to_netlify(self, requests_post):
+    @mock.patch('requests.put')
+    def test_deploy_to_netlify(self, requests_put, requests_post):
         with TempDirectory() as tempdir:
             tempdir.write('test.zip', b'Test')
+            zip_path = os.path.join(tempdir.path, 'test.zip')
 
             # Mock the response to the deploy call
             response = Mock()
-            response.text = '{"url": "test_url"}'
+            response.text = '{"subdomain": "test"}'
             requests_post.return_value = response
+            requests_put.return_value = response
 
-            self.assertEqual('test_url', netlify.deploy_to_netlify(os.path.join(tempdir.path, 'test.zip'), 'test_token'))
-
-            # Check that the deploy call was correct
             headers = {'Authorization': f'Bearer test_token',
                        'Content-Type': 'application/zip'}
+
+            # Test with new site
+            self.assertEqual('https://test.netlify.com', netlify.deploy_to_netlify(zip_path, 'test_token', None))
             requests_post.assert_called_with('https://api.netlify.com/api/v1/sites',
                                              headers=headers,
                                              data=b'Test')
 
+            # Test with existing site
+            self.assertEqual('https://test.netlify.com', netlify.deploy_to_netlify(zip_path, 'test_token', '1'))
+            requests_put.assert_called_with('https://api.netlify.com/api/v1/sites/1',
+                                             headers=headers,
+                                             data=b'Test')
+
+    @mock.patch('simplegallery.upload.variants.netlify_uploader.get_netlify_site_id')
     @mock.patch('simplegallery.upload.variants.netlify_uploader.deploy_to_netlify')
     @mock.patch('simplegallery.upload.variants.netlify_uploader.NetlifyUploader.get_authorization_token')
-    def test_upload_gallery(self, get_authorization_token, deploy_to_netlify):
+    def test_upload_gallery(self, get_authorization_token, deploy_to_netlify, get_netlify_site_id):
         with TempDirectory() as tempdir:
             # Setup mock file
             tempdir.write('index.html', b'')
             # Set Natlify API call mocks
+            get_netlify_site_id.return_value = '[]'
             get_authorization_token.return_value = 'test_token'
             deploy_to_netlify.return_value = 'test_url'
 
