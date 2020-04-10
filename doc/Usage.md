@@ -68,7 +68,7 @@ The option `-ft` or `--force-thumbnails` can be used to trigger the generation o
 gallery-build -ft
 ```
 
-In order for your HTML gallery to be updated, Yyou should call the `gallery-build` command every time that you make changes to the gallery (`gallery.json`), the image descriptions (`images_data.json`), HTML templates (`templates/index_template.jinja`) or the photos and videos.
+In order for your HTML gallery to be updated, You should call the `gallery-build` command every time that you make changes to the gallery (`gallery.json`), the image descriptions (`images_data.json`), HTML templates (`templates/index_template.jinja`) or the photos and videos.
 
 
 ## Publishing your gallery (`gallery-upload`)
