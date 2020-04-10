@@ -31,6 +31,8 @@ Alternatively, you can also provide a path to a folder where the photos are stor
 gallery-init -p <path/to/photos>
 ```
 
+The script will ask you to provide some input in order to customize your gallery, like title, description, background photo or URL. You can always just press Enter to skip the question and then modify the `gallery.json` file manually. See [Basic Configuration](GalleryConfiguration.md#basic-configuration-galleryjson) for more details.
+
 ### Online album
 
 > *Warning*: This is an experimental feature, because OneDrive and Google Photos don't officially support links to individual photos, but only to albums that can be viewed on their web sites. Therefore, your gallery may stop working at some point in time.

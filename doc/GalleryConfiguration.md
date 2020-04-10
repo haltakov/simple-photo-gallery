@@ -10,6 +10,7 @@ The `gallery.json` file in the gallery root folder contains important settings f
 * `description` - a longer text shown under the title on the overview image. Example: `"We took a road trip with an RV..."`.
 * `background_photo` - the file name of the photo that should be used as background image. Example: `"usa-170.jpg"`.
 * `background_photo_offset` - the vertical offset of the overview image in percentage. Use this to shift the portion of the overview image that is shown to focus on the most important pars. Example: `30`.
+* `url` - URL of the website where your gallery will be hosted. This information is only needed to enable better display when you share a link to your gallery on social media like Twitter or Facebook. Example: `"https://www.haltakov.net/gallery_usa_multi/CUPcTB5AcbutK3vyLQ26"`.
 
 
 ## Photo Captions
