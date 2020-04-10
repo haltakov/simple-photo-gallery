@@ -43,8 +43,8 @@ class FilesGalleryLogic(BaseGalleryLogic):
         :return updated images data dictionary
         """
 
-        # Get all images
-        images = glob.glob(os.path.join(self.gallery_config['images_path'], '*.*'))
+        # Get all images sorted by name
+        images = sorted(glob.glob(os.path.join(self.gallery_config['images_path'], '*.*')))
 
         # Get the required metadata for each image
         for image in images:
@@ -53,8 +53,8 @@ class FilesGalleryLogic(BaseGalleryLogic):
 
             image_data = spg_media.get_metadata(image, thumbnail_path, self.gallery_config['public_path'])
 
-            # Check if the image file has changed and only then use the new metadata. This allows changes that were made to
-            # the metadata (for example to the descriptions) to be preserved, unless the photo itself changed.
+            # Check if the image file has changed and only then use the new metadata. This allows changes that were made
+            # to the metadata (for example to the descriptions) to be preserved, unless the photo itself changed.
             if photo_name not in images_data or images_data[photo_name]['mtime'] != image_data['mtime']:
                 images_data[photo_name] = image_data
 

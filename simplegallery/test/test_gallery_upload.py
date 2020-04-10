@@ -58,7 +58,7 @@ class SPGUploadTestCase(unittest.TestCase):
 
             self.assertEqual(cm.exception.code, 1)
 
-    @mock.patch('builtins.input', side_effect=['', '', ''])
+    @mock.patch('builtins.input', side_effect=['', '', '', ''])
     def test_gallery_not_built(self, input):
         with TempDirectory() as tempdir:
             sys.argv = ['gallery_init', '-p', tempdir.path]
@@ -70,7 +70,7 @@ class SPGUploadTestCase(unittest.TestCase):
 
             self.assertEqual(cm.exception.code, 1)
 
-    @mock.patch('builtins.input', side_effect=['', '', ''])
+    @mock.patch('builtins.input', side_effect=['', '', '', ''])
     @mock.patch('subprocess.run')
     def test_upload_aws(self, subprocess_run, input):
         subprocess_run.return_value = subprocess.CompletedProcess([], returncode=0)
@@ -98,7 +98,7 @@ class SPGUploadTestCase(unittest.TestCase):
             gallery_upload.main()
             subprocess_run.assert_called_with(['aws', 's3', 'sync', public_path, 's3://testbucket/path/', '--exclude', '.DS_Store'])
 
-    @mock.patch('builtins.input', side_effect=['', '', ''])
+    @mock.patch('builtins.input', side_effect=['', '', '', ''])
     @mock.patch('simplegallery.upload.variants.netlify_uploader.NetlifyUploader.upload_gallery')
     def test_upload_netlify(self, upload_gallery, input):
         with TempDirectory() as tempdir:

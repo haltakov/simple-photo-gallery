@@ -12,7 +12,7 @@ function createSlides() {
     if (photo.getAttribute('data-type') == 'image')
       slide['src'] = photo.getAttribute('href');
     else
-      slide['html'] = '<video style="margin: 0px auto; height: 100%; max-width: 100%; max-height: 100%;" data-index="' + photo.getAttribute('data-index') +
+      slide['html'] = '<video style="margin: 0px auto; height: 100%; max-width: 100%; max-height: 100%; display: block" data-index="' + photo.getAttribute('data-index') +
                       '" controls><source src="' + photo.getAttribute('href') + '" type="video/mp4"></video>';
 
     var gallery_id = parseInt(photo.getAttribute('data-gallery'));
@@ -50,6 +50,14 @@ function openPhotoSwipe() {
   };
 
   var gallery = new PhotoSwipe( $('.pswp')[0], PhotoSwipeUI_Default, slides[gallery_id], options);
+
+  gallery.listen('initialZoomOut', function() {
+    if (this.currItem.html) {
+      var videos = $('div.pswp__item video[data-index='+this.getCurrentIndex()+']')
+      if (videos.length > 0)
+        videos[0].pause()
+    }
+  });
 
   gallery.listen('afterChange', function() {
     var videos = $('div.pswp__item video')

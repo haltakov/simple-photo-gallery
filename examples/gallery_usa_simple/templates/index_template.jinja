@@ -7,6 +7,15 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
+  <meta property="og:title" content="{{ gallery_config['title']}}">
+  <meta property="og:description" content="{{ gallery_config['description'] }}">
+  <meta property="og:image" content="{{ gallery_config['url'] }}/images/photos/{{ background_photo }}">
+  <meta property="og:url" content="{{ gallery_config['url'] }}">
+  <meta property="og:site_name" content="{{ gallery_config['title']}}">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image:alt" content="{{ gallery_config['title']}}">
+
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
   <link rel="stylesheet" href="css/photoswipe.css">
   <link rel="stylesheet" href="css/default-skin.css">
@@ -19,7 +28,7 @@
   {# These definitions are pulled out of the .css file here, so that the background image can be templated. #}
   <style>
     .header-image {
-      background: #333366 url("images/photos/{{ gallery_config['background_photo'] }}");
+      background: #333366 url("images/photos/{{ background_photo }}");
       background-position: center {{ gallery_config['background_photo_offset'] }}%;
       background-repeat: no-repeat;
       background-size: cover;
@@ -87,11 +96,9 @@
     </div>
   </div>
 
-
   <footer class="container-fluid">
-      <p class="float-right">Created by <a href="https://github.com/haltakov/simple-photo-gallery">Simple Photo Gallery</a></p>
+    <p class="float-right">Created by <a href="https://github.com/haltakov/simple-photo-gallery">Simple Photo Gallery</a></p>
   </footer>
-
 
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>

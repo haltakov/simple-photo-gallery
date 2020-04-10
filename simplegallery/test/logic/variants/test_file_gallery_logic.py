@@ -9,7 +9,7 @@ from simplegallery.logic.variants.files_gallery_logic import FilesGalleryLogic
 
 class FileGalleryLogicTestCase(unittest.TestCase):
 
-    @mock.patch('builtins.input', side_effect=['', '', ''])
+    @mock.patch('builtins.input', side_effect=['', '', '', ''])
     def test_create_thumbnails(self, input):
         with TempDirectory() as tempdir:
             helpers.create_mock_image(os.path.join(tempdir.path, 'photo.jpg'), 1000, 500)
@@ -37,7 +37,7 @@ class FileGalleryLogicTestCase(unittest.TestCase):
             file_gallery_logic.create_thumbnails(force=True)
             self.assertEqual((320, 320), spg_media.get_image_size(thumbnail_path))
 
-    @mock.patch('builtins.input', side_effect=['', '', ''])
+    @mock.patch('builtins.input', side_effect=['', '', '', ''])
     def test_generate_images_data(self, input):
         with TempDirectory() as tempdir:
             helpers.create_mock_image(os.path.join(tempdir.path, 'photo.jpg'), 1000, 500)

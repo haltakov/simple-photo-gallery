@@ -10,7 +10,7 @@ class GoogleGalleryTestCase(unittest.TestCase):
 
     remote_link = 'https://photos.app.goo.gl/cevaz94hQiF8Z5p67'
 
-    @mock.patch('builtins.input', side_effect=['', '', ''])
+    @mock.patch('builtins.input', side_effect=['', '', '', ''])
     def test_create_thumbnails(self, input):
         with TempDirectory() as tempdir:
             # Init files gallery logic
@@ -22,7 +22,7 @@ class GoogleGalleryTestCase(unittest.TestCase):
             tempdir.compare(['.empty'], path='public/images/thumbnails')
 
     @unittest.skipUnless('RUN_LONG_TESTS' in os.environ, 'Long test - it involves downloading files from Google.')
-    @mock.patch('builtins.input', side_effect=['', '', ''])
+    @mock.patch('builtins.input', side_effect=['', '', '', ''])
     def test_generate_images_data(self, input):
         with TempDirectory() as tempdir:
             # Init files gallery logic
