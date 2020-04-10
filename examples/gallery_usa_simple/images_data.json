@@ -1,347 +1,347 @@
 {
     "usa-418.jpg": {
-        "description": "Arriving in San Francisco over the Bay Bridge",
+        "src": "images/photos/usa-418.jpg",
         "mtime": 1581363595.618876,
         "size": [
             2880,
             2160
         ],
-        "src": "images/photos/usa-418.jpg",
+        "type": "image",
+        "description": "Arriving in San Francisco over the Bay Bridge",
         "thumbnail": "images/thumbnails/usa-418.jpg",
         "thumbnail_size": [
-            427,
-            320
-        ],
-        "type": "image"
+            208,
+            156
+        ]
     },
     "usa-431.jpg": {
-        "description": "Stow Lake in GOlden Gate Park",
+        "src": "images/photos/usa-431.jpg",
         "mtime": 1581363601.986631,
         "size": [
             2880,
             1920
         ],
-        "src": "images/photos/usa-431.jpg",
+        "type": "image",
+        "description": "Stow Lake in GOlden Gate Park",
         "thumbnail": "images/thumbnails/usa-431.jpg",
         "thumbnail_size": [
-            480,
-            320
-        ],
-        "type": "image"
+            234,
+            156
+        ]
     },
     "usa-434.jpg": {
-        "description": "View over the Golden Gate Bridge from Strawberry Hill",
+        "src": "images/photos/usa-434.jpg",
         "mtime": 1581363607.1019092,
         "size": [
             2880,
             1920
         ],
-        "src": "images/photos/usa-434.jpg",
+        "type": "image",
+        "description": "View over the Golden Gate Bridge from Strawberry Hill",
         "thumbnail": "images/thumbnails/usa-434.jpg",
         "thumbnail_size": [
-            480,
-            320
-        ],
-        "type": "image"
+            234,
+            156
+        ]
     },
     "usa-461.jpg": {
-        "description": "View from the De Young Museum Tower",
+        "src": "images/photos/usa-461.jpg",
         "mtime": 1581363641.8102043,
         "size": [
             2880,
             1920
         ],
-        "src": "images/photos/usa-461.jpg",
+        "type": "image",
+        "description": "View from the De Young Museum Tower",
         "thumbnail": "images/thumbnails/usa-461.jpg",
         "thumbnail_size": [
-            480,
-            320
-        ],
-        "type": "image"
+            234,
+            156
+        ]
     },
     "usa-470.jpg": {
-        "description": "The Embarcadero",
+        "src": "images/photos/usa-470.jpg",
         "mtime": 1581363700.9854796,
         "size": [
             2880,
             2160
         ],
-        "src": "images/photos/usa-470.jpg",
+        "type": "image",
+        "description": "The Embarcadero",
         "thumbnail": "images/thumbnails/usa-470.jpg",
         "thumbnail_size": [
-            427,
-            320
-        ],
-        "type": "image"
+            208,
+            156
+        ]
     },
     "usa-473.jpg": {
-        "description": "Alcatraz",
+        "src": "images/photos/usa-473.jpg",
         "mtime": 1581363709.2527509,
         "size": [
             2880,
             1920
         ],
-        "src": "images/photos/usa-473.jpg",
+        "type": "image",
+        "description": "Alcatraz",
         "thumbnail": "images/thumbnails/usa-473.jpg",
         "thumbnail_size": [
-            480,
-            320
-        ],
-        "type": "image"
+            234,
+            156
+        ]
     },
     "usa-474.jpg": {
-        "description": "The Bay Bridge",
+        "src": "images/photos/usa-474.jpg",
         "mtime": 1581363725.884956,
         "size": [
             2880,
             1920
         ],
-        "src": "images/photos/usa-474.jpg",
+        "type": "image",
+        "description": "The Bay Bridge",
         "thumbnail": "images/thumbnails/usa-474.jpg",
         "thumbnail_size": [
-            480,
-            320
-        ],
-        "type": "image"
+            234,
+            156
+        ]
     },
     "usa-494.jpg": {
-        "description": "View over San Franciscon Downtown and it&apos;s steep streets",
+        "src": "images/photos/usa-494.jpg",
         "mtime": 1581363749.709921,
         "size": [
             2880,
             1920
         ],
-        "src": "images/photos/usa-494.jpg",
+        "type": "image",
+        "description": "View over San Franciscon Downtown and it&apos;s steep streets",
         "thumbnail": "images/thumbnails/usa-494.jpg",
         "thumbnail_size": [
-            480,
-            320
-        ],
-        "type": "image"
+            234,
+            156
+        ]
     },
     "usa-500.jpg": {
-        "description": "Alcatraz also has some nice gardens",
+        "src": "images/photos/usa-500.jpg",
         "mtime": 1581363771.9007921,
         "size": [
             2880,
             2160
         ],
-        "src": "images/photos/usa-500.jpg",
+        "type": "image",
+        "description": "Alcatraz also has some nice gardens",
         "thumbnail": "images/thumbnails/usa-500.jpg",
         "thumbnail_size": [
-            427,
-            320
-        ],
-        "type": "image"
+            208,
+            156
+        ]
     },
     "usa-502.jpg": {
-        "description": "The Golden Gate Bridge from Alcatraz",
+        "src": "images/photos/usa-502.jpg",
         "mtime": 1581363785.0506008,
         "size": [
             2880,
             1920
         ],
-        "src": "images/photos/usa-502.jpg",
+        "type": "image",
+        "description": "The Golden Gate Bridge from Alcatraz",
         "thumbnail": "images/thumbnails/usa-502.jpg",
         "thumbnail_size": [
-            480,
-            320
-        ],
-        "type": "image"
+            234,
+            156
+        ]
     },
     "usa-509.jpg": {
-        "description": "The famous Pier 39",
+        "src": "images/photos/usa-509.jpg",
         "mtime": 1581363812.1040113,
         "size": [
             2880,
             1920
         ],
-        "src": "images/photos/usa-509.jpg",
+        "type": "image",
+        "description": "The famous Pier 39",
         "thumbnail": "images/thumbnails/usa-509.jpg",
         "thumbnail_size": [
-            480,
-            320
-        ],
-        "type": "image"
+            234,
+            156
+        ]
     },
     "usa-514.jpg": {
-        "description": "The seals at Pier 39",
+        "src": "images/photos/usa-514.jpg",
         "mtime": 1581363822.3248794,
         "size": [
             2880,
             1920
         ],
-        "src": "images/photos/usa-514.jpg",
+        "type": "image",
+        "description": "The seals at Pier 39",
         "thumbnail": "images/thumbnails/usa-514.jpg",
         "thumbnail_size": [
-            480,
-            320
-        ],
-        "type": "image"
+            234,
+            156
+        ]
     },
     "usa-515.jpg": {
-        "description": "The seals at Pier 39",
+        "src": "images/photos/usa-515.jpg",
         "mtime": 1581363828.2384586,
         "size": [
             2880,
             1920
         ],
-        "src": "images/photos/usa-515.jpg",
+        "type": "image",
+        "description": "The seals at Pier 39",
         "thumbnail": "images/thumbnails/usa-515.jpg",
         "thumbnail_size": [
-            480,
-            320
-        ],
-        "type": "image"
+            234,
+            156
+        ]
     },
     "usa-530.jpg": {
-        "description": "Yerba Buena Gardens",
+        "src": "images/photos/usa-530.jpg",
         "mtime": 1581363856.166604,
         "size": [
             1920,
             2880
         ],
-        "src": "images/photos/usa-530.jpg",
+        "type": "image",
+        "description": "Yerba Buena Gardens",
         "thumbnail": "images/thumbnails/usa-530.jpg",
         "thumbnail_size": [
-            213,
-            320
-        ],
-        "type": "image"
+            104,
+            156
+        ]
     },
     "usa-531.jpg": {
-        "description": "Shaking Man",
+        "src": "images/photos/usa-531.jpg",
         "mtime": 1581363872.7099297,
         "size": [
             1920,
             2880
         ],
-        "src": "images/photos/usa-531.jpg",
+        "type": "image",
+        "description": "Shaking Man",
         "thumbnail": "images/thumbnails/usa-531.jpg",
         "thumbnail_size": [
-            213,
-            320
-        ],
-        "type": "image"
+            104,
+            156
+        ]
     },
     "usa-538.jpg": {
-        "description": "The cable cars",
+        "src": "images/photos/usa-538.jpg",
         "mtime": 1581363902.6967363,
         "size": [
             1920,
             2880
         ],
-        "src": "images/photos/usa-538.jpg",
+        "type": "image",
+        "description": "The cable cars",
         "thumbnail": "images/thumbnails/usa-538.jpg",
         "thumbnail_size": [
-            213,
-            320
-        ],
-        "type": "image"
+            104,
+            156
+        ]
     },
     "usa-541.jpg": {
-        "description": "The cable cars",
+        "src": "images/photos/usa-541.jpg",
         "mtime": 1581363908.9582872,
         "size": [
             1920,
             2880
         ],
-        "src": "images/photos/usa-541.jpg",
+        "type": "image",
+        "description": "The cable cars",
         "thumbnail": "images/thumbnails/usa-541.jpg",
         "thumbnail_size": [
-            213,
-            320
-        ],
-        "type": "image"
+            104,
+            156
+        ]
     },
     "usa-542.jpg": {
-        "description": "Union Square",
+        "src": "images/photos/usa-542.jpg",
         "mtime": 1581363916.1889355,
         "size": [
             2880,
             1920
         ],
-        "src": "images/photos/usa-542.jpg",
+        "type": "image",
+        "description": "Union Square",
         "thumbnail": "images/thumbnails/usa-542.jpg",
         "thumbnail_size": [
-            480,
-            320
-        ],
-        "type": "image"
+            234,
+            156
+        ]
     },
     "usa-547.mp4": {
-        "description": "",
+        "src": "images/photos/usa-547.mp4",
         "mtime": 1581363921.0924387,
         "size": [
             1920,
             1080
         ],
-        "src": "images/photos/usa-547.mp4",
+        "type": "video",
+        "description": "",
         "thumbnail": "images/thumbnails/usa-547.jpg",
         "thumbnail_size": [
-            569,
-            320
-        ],
-        "type": "video"
+            277,
+            156
+        ]
     },
     "usa-551.jpg": {
-        "description": "The Golden Gate Bridge",
+        "src": "images/photos/usa-551.jpg",
         "mtime": 1581363931.807259,
         "size": [
             2880,
             1920
         ],
-        "src": "images/photos/usa-551.jpg",
+        "type": "image",
+        "description": "The Golden Gate Bridge",
         "thumbnail": "images/thumbnails/usa-551.jpg",
         "thumbnail_size": [
-            480,
-            320
-        ],
-        "type": "image"
+            234,
+            156
+        ]
     },
     "usa-630.jpg": {
-        "description": "Golden Gate Park",
+        "src": "images/photos/usa-630.jpg",
         "mtime": 1581363938.6823792,
         "size": [
             2880,
             1920
         ],
-        "src": "images/photos/usa-630.jpg",
+        "type": "image",
+        "description": "Golden Gate Park",
         "thumbnail": "images/thumbnails/usa-630.jpg",
         "thumbnail_size": [
-            480,
-            320
-        ],
-        "type": "image"
+            234,
+            156
+        ]
     },
     "usa-633.jpg": {
-        "description": "Golden Gate Park",
+        "src": "images/photos/usa-633.jpg",
         "mtime": 1581363942.5027993,
         "size": [
             2880,
             1920
         ],
-        "src": "images/photos/usa-633.jpg",
+        "type": "image",
+        "description": "Golden Gate Park",
         "thumbnail": "images/thumbnails/usa-633.jpg",
         "thumbnail_size": [
-            480,
-            320
-        ],
-        "type": "image"
+            234,
+            156
+        ]
     },
     "usa-639.jpg": {
-        "description": "De Young Museum",
+        "src": "images/photos/usa-639.jpg",
         "mtime": 1581363952.6305473,
         "size": [
             2880,
             1920
         ],
-        "src": "images/photos/usa-639.jpg",
+        "type": "image",
+        "description": "De Young Museum",
         "thumbnail": "images/thumbnails/usa-639.jpg",
         "thumbnail_size": [
-            480,
-            320
-        ],
-        "type": "image"
+            234,
+            156
+        ]
     }
 }
