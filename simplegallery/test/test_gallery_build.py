@@ -90,6 +90,7 @@ class SPGBuildTestCase(unittest.TestCase):
                 self.assertIn('<div class="header-info-details">Default description of my gallery</div>', html)
                 self.assertIn('<h2>My Gallery</h2>', html)
                 self.assertIn('<a href="images/photos/photo.jpg"', html)
+                self.assertIn('background: #333366 url("images/photos/photo.jpg")', html)
 
 
 if __name__ == '__main__':

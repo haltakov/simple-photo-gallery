@@ -45,13 +45,21 @@ def build_html(gallery_config):
 
     images_data_list = [images_data[image] for image in images_data.keys()]
 
+    # Find the first photo for the background if no background photo specified
+    background_photo = gallery_config['background_photo']
+    if not background_photo:
+        for image in images_data:
+            if images_data[image]['type'] == 'image':
+                background_photo = image
+                break
+
     # Setup the jinja2 environment
     file_loader = jinja2.FileSystemLoader(gallery_config['templates_path'])
     env = jinja2.Environment(loader=file_loader)
 
     # Renter the HTML template
     template = env.get_template('index_template.jinja')
-    html = template.render(images=images_data_list, gallery_config=gallery_config)
+    html = template.render(images=images_data_list, gallery_config=gallery_config, background_photo=background_photo)
 
     with open(os.path.join(gallery_config['public_path'], 'index.html'), 'w', encoding='utf-8') as out:
         out.write(html)
