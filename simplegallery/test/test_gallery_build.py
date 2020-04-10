@@ -26,7 +26,7 @@ class SPGBuildTestCase(unittest.TestCase):
 
             self.assertEqual(cm.exception.code, 1)
 
-    @mock.patch('builtins.input', side_effect=['', '', ''])
+    @mock.patch('builtins.input', side_effect=['', '', '', ''])
     def test_thumbnails_generation(self, input):
         with TempDirectory() as tempdir:
             create_mock_image(os.path.join(tempdir.path, 'photo.jpg'), 1000, 500)
@@ -56,7 +56,7 @@ class SPGBuildTestCase(unittest.TestCase):
             gallery_build.main()
             self.assertEqual((320, 320), spg_media.get_image_size(thumbnail_path))
 
-    @mock.patch('builtins.input', side_effect=['', '', ''])
+    @mock.patch('builtins.input', side_effect=['', '', '', ''])
     def test_images_data_generation(self, input):
         with TempDirectory() as tempdir:
             create_mock_image(os.path.join(tempdir.path, 'photo.jpg'), 1000, 500)
@@ -69,7 +69,7 @@ class SPGBuildTestCase(unittest.TestCase):
 
             tempdir.compare(['templates', 'public', 'gallery.json', 'images_data.json'], recursive=False)
 
-    @mock.patch('builtins.input', side_effect=['', '', ''])
+    @mock.patch('builtins.input', side_effect=['', '', '', ''])
     def test_index_html(self, input):
         with TempDirectory() as tempdir:
             create_mock_image(os.path.join(tempdir.path, 'photo.jpg'), 1000, 500)

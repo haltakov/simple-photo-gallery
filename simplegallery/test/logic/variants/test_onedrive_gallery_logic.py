@@ -10,7 +10,7 @@ class OnedriveGalleryTestCase(unittest.TestCase):
 
     remote_link = 'https://1drv.ms/u/s!AkD5kF--59kUf28rkcQAphGO668?e=ELiTW6'
 
-    @mock.patch('builtins.input', side_effect=['', '', ''])
+    @mock.patch('builtins.input', side_effect=['', '', '', ''])
     def test_create_thumbnails(self, input):
         with TempDirectory() as tempdir:
             # Init files gallery logic
@@ -22,7 +22,7 @@ class OnedriveGalleryTestCase(unittest.TestCase):
             tempdir.compare(['.empty'], path='public/images/thumbnails')
 
     @unittest.skipUnless('RUN_LONG_TESTS' in os.environ, 'Long test - it involves downloading files from OneDrive.')
-    @mock.patch('builtins.input', side_effect=['', '', ''])
+    @mock.patch('builtins.input', side_effect=['', '', '', ''])
     def test_generate_images_data(self, input):
         with TempDirectory() as tempdir:
             # Init files gallery logic
