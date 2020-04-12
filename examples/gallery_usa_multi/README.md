@@ -1,8 +1,8 @@
 # Gallery USA Simple
 
-This is an example of a more complex gallery containing 3 photo sections. The gallery code without the photos is available on GitHub. You can view the gallery here: [http://www.haltakov.net/gallery_usa_simple/qn3Sj4RidXdq2SqpCgJk/index.html](http://www.haltakov.net/gallery_usa_multi/CUPcTB5AcbutK3vyLQ26/index.html)
+This is an example of a more complex gallery containing 3 photo sections. The gallery code without the photos is available on GitHub. You can view the gallery here: [https://www.haltakov.net/simple-photo-gallery/gallery_usa_multi/](https://www.haltakov.net/simple-photo-gallery/gallery_usa_multi/)
 
-[![Example gallery simple](https://github.com/haltakov/simple-photo-gallery/blob/master/examples/gallery_usa_multi/screenshot_gallery_usa_multi.jpg?raw=true)](http://www.haltakov.net/gallery_usa_multi/CUPcTB5AcbutK3vyLQ26/index.html)
+[![Example gallery simple](https://github.com/haltakov/simple-photo-gallery/blob/master/examples/gallery_usa_multi/screenshot_gallery_usa_multi.jpg?raw=true)](https://www.haltakov.net/simple-photo-gallery/gallery_usa_multi/)
 
 ## How to create this gallery
 
