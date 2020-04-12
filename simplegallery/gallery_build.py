@@ -53,13 +53,33 @@ def build_html(gallery_config):
                 background_photo = image
                 break
 
+    # Collect the information for a remote gallery attribution
+    remote_data = {}
+    if 'remote_gallery_type' in gallery_config and 'remote_link' in gallery_config:
+        remote_data['link'] = gallery_config['remote_link']
+
+        # This is not a nice place to put this, but it removes the logic out of the Jinja template, which is important
+        # to keep it simple so it can be customized. A better solution is needed in the future.
+        if gallery_config['remote_gallery_type'] == 'google':
+            remote_data['text'] = 'Google Photos album'
+        elif gallery_config['remote_gallery_type'] == 'onedrive':
+            remote_data['text'] = 'OneDrive album'
+        else:
+            remote_data['text'] = 'shared album'
+
+
     # Setup the jinja2 environment
     file_loader = jinja2.FileSystemLoader(gallery_config['templates_path'])
     env = jinja2.Environment(loader=file_loader)
 
     # Renter the HTML template
     template = env.get_template('index_template.jinja')
-    html = template.render(images=images_data_list, gallery_config=gallery_config, background_photo=background_photo)
+    html = template.render(
+        images=images_data_list,
+        gallery_config=gallery_config,
+        background_photo=background_photo,
+        remote_data=remote_data
+    )
 
     with open(os.path.join(gallery_config['public_path'], 'index.html'), 'w', encoding='utf-8') as out:
         out.write(html)
