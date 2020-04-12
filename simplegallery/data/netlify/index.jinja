@@ -8,8 +8,14 @@
         var params = document.location.hash.replace('#','')
         document.location='http://localhost:8080/token?' + params
     </script>
+
+    {% include 'header.jinja' %}
 </head>
 <body>
+
+<h1>Waiting for an answer from Netlify...</h1>
+
+{% include 'footer.jinja' %}
 
 </body>
 </html>
