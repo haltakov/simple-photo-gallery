@@ -1,8 +1,8 @@
 # Simple Photo Gallery
 
-With Simple Photo Gallery you can easily create static HTML galleries that you can host yourself. Check out the [example gallery](http://www.haltakov.net/gallery_usa_multi/CUPcTB5AcbutK3vyLQ26/index.html).
+With Simple Photo Gallery you can easily create static HTML galleries that you can host yourself. Check out the [example gallery](https://www.haltakov.net/simple-photo-gallery/gallery_usa_multi/).
 
-[![Example gallery](https://github.com/haltakov/simple-photo-gallery/blob/master/examples/gallery_usa_multi/screenshot_gallery_usa_multi.jpg?raw=true)](http://www.haltakov.net/gallery_usa_multi/CUPcTB5AcbutK3vyLQ26/index.html)
+[![Example gallery](https://github.com/haltakov/simple-photo-gallery/blob/master/examples/gallery_usa_multi/screenshot_gallery_usa_multi.jpg?raw=true)](https://www.haltakov.net/simple-photo-gallery/gallery_usa_multi/)
 
 
 ## Overview
@@ -73,6 +73,6 @@ You can upload your gallery manually on any static hosting provider, like for ex
 
 ## About
 
-Simple Photo Gallery is developed by [Vladimir Haltakov](http://www.haltakov.net). I wanted an easy way to share photos with friends, but wasn't happy with the limited customization options that existing sharing solutions like Amazon Photos or iCloud offer.
+Simple Photo Gallery is developed by [Vladimir Haltakov](https://www.haltakov.net). I wanted an easy way to share photos with friends, but wasn't happy with the limited customization options that existing sharing solutions like Amazon Photos or iCloud offer.
 
 Please contact me if you have any questions, ideas for improvement or feature requests.
