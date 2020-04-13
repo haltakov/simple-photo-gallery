@@ -106,19 +106,22 @@ def get_netlify_site_id(location, token):
     :param token: OAuth 2.0 authentication token
     :return: the site ID if the site exists, None otherwise
     """
-    sites_url = 'https://api.netlify.com/api/v1/sites'
-    headers = {'Authorization': f'Bearer {token}'}
 
-    response_string = requests.get(sites_url, headers=headers)
-    sites = json.loads(response_string.text)
+    # Check if location invalid
+    if location:
+        sites_url = 'https://api.netlify.com/api/v1/sites'
+        headers = {'Authorization': f'Bearer {token}'}
 
-    for site in sites:
-        if site['name'] == location or site['url'].endswith(location):
-            spg_common.log(f'Found Netlify site: {location}')
-            return site['id']
+        response_string = requests.get(sites_url, headers=headers)
+        sites = json.loads(response_string.text)
 
-    spg_common.log(f'Cannot find Netlify site {location}. Creating new site...')
-    return None
+        for site in sites:
+            if site['name'] == location or site['url'].endswith(location):
+                spg_common.log(f'Found Netlify site: {location}')
+                return site['id']
+    else:
+        spg_common.log(f'Cannot find Netlify site {location}. Creating new site...')
+        return None
 
 
 def deploy_to_netlify(zip_file_path, token, site_id):

@@ -42,6 +42,7 @@ class NetlifyUploaderTestCase(unittest.TestCase):
         requests_get.return_value = response
 
         self.assertEqual('1', netlify.get_netlify_site_id('existing_site', 'test_token'))
+        self.assertEqual(None, netlify.get_netlify_site_id('', 'test_token'))
         self.assertEqual(None, netlify.get_netlify_site_id('non_existing_site', 'test_token'))
 
     @mock.patch('requests.post')
