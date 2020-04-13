@@ -67,7 +67,6 @@ def build_html(gallery_config):
         else:
             remote_data['text'] = 'shared album'
 
-
     # Setup the jinja2 environment
     file_loader = jinja2.FileSystemLoader(gallery_config['templates_path'])
     env = jinja2.Environment(loader=file_loader)

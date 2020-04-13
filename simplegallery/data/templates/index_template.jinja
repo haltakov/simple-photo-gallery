@@ -97,7 +97,7 @@
   </div>
 
   <footer class="container-fluid text-right">
-    {% if remote_data is defined %}
+    {% if 'link' in remote_data %}
       <p>The images in this gallery are hosted in a <a href="{{ remote_data['link'] }}">{{ remote_data['text'] }}</a></p>
     {% endif %}
     <p>Created by <a href="https://www.haltakov.net/simple-photo-gallery">Simple Photo Gallery</a></p>
