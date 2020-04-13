@@ -7,11 +7,11 @@ with open(os.path.join(current_folder, 'README.md'), encoding='utf-8') as f:
 
 setup(
     name='simple-photo-gallery',
-    version='1.1rc2',
+    version='1.1rc3',
     description='Pretty and simple HTML photo galleries you can host yourself.',
     long_description=long_description,
     long_description_content_type='text/markdown',
-    url='https://github.com/haltakov/simple-photo-gallery',
+    url='https://www.haltakov.net/simple-photo-gallery',
     author='Vladimir Haltakov',
     author_email='vladimir.haltakov@gmail.com',
     license='MIT',
@@ -24,7 +24,7 @@ setup(
     packages=find_packages(),
     python_requires='>=3.6',
     project_urls={
-        'Documentation': r'https://github.com/haltakov/simple-photo-gallery'
+        'Documentation': r'https://www.haltakov.net/simple-photo-gallery'
     },
     include_package_data=True,
     entry_points={
