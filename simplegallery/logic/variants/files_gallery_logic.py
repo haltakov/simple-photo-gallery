@@ -32,14 +32,21 @@ class FilesGalleryLogic(BaseGalleryLogic):
     Gallery logic for a gallery composed of photos and videos stored as local files.
     """
 
+    """
+    Factor by which the size of the generated thumbnail should be multiplied in comparison to the size in the HTML.
+    This is useful to generate larger thumbnails so that they can be displayed in high-quality on retina displays. 
+    """
+    THUMBNAIL_SIZE_FACTOR = 2
+
     def create_thumbnails(self, force=False):
         """
         Checks if every image has an existing thumbnail and generates it if not (or if forced by the user)
         :param force: Forces generation of thumbnails if set to true
         """
 
+        # Multiply the thumbnail size by the factor to generate larger thumbnails to improve quality on retina displays
+        thumbnail_height = self.gallery_config['thumbnail_height'] * FilesGalleryLogic.THUMBNAIL_SIZE_FACTOR
         thumbnails_path = self.gallery_config['thumbnails_path']
-        thumbnail_height = self.gallery_config['thumbnail_height']
 
         photos = glob.glob(os.path.join(self.gallery_config['images_path'], '*.*'))
 
@@ -94,6 +101,11 @@ class FilesGalleryLogic(BaseGalleryLogic):
 
             thumbnail_path = get_thumbnail_name(self.gallery_config['thumbnails_path'], image)
             image_data = spg_media.get_metadata(image, thumbnail_path, self.gallery_config['public_path'])
+
+            # Scale down the thumbnail size to the display size
+            image_data['thumbnail_size'] = (round(image_data['thumbnail_size'][0] / FilesGalleryLogic.THUMBNAIL_SIZE_FACTOR),
+                                            round(image_data['thumbnail_size'][1] / FilesGalleryLogic.THUMBNAIL_SIZE_FACTOR))
+
 
             # Format the image date
             image_data['date'] = self.format_image_date(image_data['date'])
