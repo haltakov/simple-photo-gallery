@@ -13,8 +13,10 @@ class FileGalleryLogicTestCase(unittest.TestCase):
     def test_create_thumbnails(self, input):
         with TempDirectory() as tempdir:
             helpers.create_mock_image(os.path.join(tempdir.path, 'photo.jpg'), 1000, 500)
+            helpers.create_mock_image(os.path.join(tempdir.path, 'photo2.gif'), 1000, 500)
 
             thumbnail_path = os.path.join(tempdir.path, 'public', 'images', 'thumbnails', 'photo.jpg')
+            thumbnail_gif_path = os.path.join(tempdir.path, 'public', 'images', 'thumbnails', 'photo2.jpg')
 
             # Init files gallery logic
             gallery_config = helpers.init_gallery_and_read_gallery_config(tempdir.path)
@@ -25,8 +27,9 @@ class FileGalleryLogicTestCase(unittest.TestCase):
 
             # Check thumbnail created
             file_gallery_logic.create_thumbnails()
-            tempdir.compare(['.empty', 'photo.jpg'], path='public/images/thumbnails')
+            tempdir.compare(['.empty', 'photo.jpg', 'photo2.jpg'], path='public/images/thumbnails')
             self.assertEqual((320, 160), spg_media.get_image_size(thumbnail_path))
+            self.assertEqual((320, 160), spg_media.get_image_size(thumbnail_gif_path))
 
             # Check thumbnail not regenerated without force
             helpers.create_mock_image(os.path.join(tempdir.path, 'public', 'images', 'photos', 'photo.jpg'), 500, 500)
