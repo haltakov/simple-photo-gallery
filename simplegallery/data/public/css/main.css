@@ -65,6 +65,13 @@ body {
   margin: 0px auto 20px;
 }
 
+.caption-date {
+  font-size: 15px;
+  font-weight: normal;
+  margin-top: 3px;
+  margin-bottom: 0px;
+}
+
 footer {
   margin-top: 30px;
 }
