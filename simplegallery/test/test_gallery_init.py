@@ -73,7 +73,7 @@ class SPGInitTestCase(unittest.TestCase):
 
             check_gallery_files(tempdir, files_photos, files_other)
             self.check_gallery_config(os.path.join(tempdir.path, 'gallery.json'), tempdir.path, 'Test Gallery',
-                                      'Test Description', 320, 'photo.jpg', 'example.com')
+                                      'Test Description', 160, 'photo.jpg', 'example.com')
 
     @mock.patch('builtins.input', side_effect=['Test Gallery', 'Test Description', 'photo.jpg', 'example.com'])
     def test_existing_gallery_override(self, input):
@@ -91,7 +91,7 @@ class SPGInitTestCase(unittest.TestCase):
 
             check_gallery_files(tempdir, files_photos, files_other)
             self.check_gallery_config(os.path.join(tempdir.path, 'gallery.json'), tempdir.path, 'Test Gallery',
-                                      'Test Description', 320, 'photo.jpg', 'example.com')
+                                      'Test Description', 160, 'photo.jpg', 'example.com')
 
     @mock.patch('builtins.input', side_effect=['', '', '', ''])
     def test_default_gallery_config(self, input):
@@ -100,7 +100,7 @@ class SPGInitTestCase(unittest.TestCase):
             gallery_init.main()
 
             self.check_gallery_config(os.path.join(tempdir.path, 'gallery.json'), tempdir.path, 'My Gallery',
-                                      'Default description of my gallery', 320, '')
+                                      'Default description of my gallery', 160, '')
 
     @mock.patch('builtins.input', side_effect=['Test Gallery', 'Test Description', 'photo.jpg', 'example.com'])
     def test_new_onedrive_gallery_created(self, input):
@@ -110,7 +110,7 @@ class SPGInitTestCase(unittest.TestCase):
 
             check_gallery_files(tempdir, [], [])
             self.check_gallery_config(os.path.join(tempdir.path, 'gallery.json'), tempdir.path, 'Test Gallery',
-                                      'Test Description', 320, 'photo.jpg', 'example.com', 'onedrive', 'https://onedrive.live.com/test')
+                                      'Test Description', 160, 'photo.jpg', 'example.com', 'onedrive', 'https://onedrive.live.com/test')
 
     @mock.patch('builtins.input', side_effect=['Test Gallery', 'Test Description', 'photo.jpg', 'example.com'])
     def test_new_google_gallery_created(self, input):
@@ -120,7 +120,7 @@ class SPGInitTestCase(unittest.TestCase):
 
             check_gallery_files(tempdir, [], [])
             self.check_gallery_config(os.path.join(tempdir.path, 'gallery.json'), tempdir.path, 'Test Gallery',
-                                      'Test Description', 320, 'photo.jpg', 'example.com', 'google', 'https://photos.app.goo.gl/test')
+                                      'Test Description', 160, 'photo.jpg', 'example.com', 'google', 'https://photos.app.goo.gl/test')
 
     @mock.patch('builtins.input', side_effect=['Test Gallery', 'Test Description', 'photo.jpg', 'example.com'])
     def test_new_invalid_remote_gallery(self, input):

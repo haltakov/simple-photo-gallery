@@ -40,7 +40,7 @@ class GoogleGalleryTestCase(unittest.TestCase):
                 'tGPJDmxLbrr9BTX_IHjh_MH1gJ7JhlcBnMBXPgWQslNLQSUjKGFdYd3TqTqTsGsYkpOJakSgcB05yB9aZJQ03JvRxHRLC0R0W4pYfbV2hXPlAgLHxIy1izHbhdWtrj4izcGbax6Pqw',
                 '',
                 (800, 600),
-                (427, 320),
+                (213, 160),
             )
             helpers.check_image_data(
                 self,
@@ -48,7 +48,7 @@ class GoogleGalleryTestCase(unittest.TestCase):
                 'lOHX7xeJqCo_lqxKBobKGjwFTW8qPMPCbaAKeqS3baU-VT_SPC0HrapdAEXFzkL98dAb9nCjlRhnmCSLoz520E1fZ-xuNPXAwXvM2PapP6uolH6rZsR3QKivxr_rtVADKuWVm2lz8Q',
                 '',
                 (1000, 1000),
-                (320, 320),
+                (160, 160),
             )
 
 
