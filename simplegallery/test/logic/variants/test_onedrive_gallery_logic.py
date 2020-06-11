@@ -40,7 +40,7 @@ class OnedriveGalleryTestCase(unittest.TestCase):
                 'image1.jpg',
                 '',
                 (800, 600),
-                (427, 320),
+                (213, 160),
             )
             helpers.check_image_data(
                 self,
@@ -48,7 +48,7 @@ class OnedriveGalleryTestCase(unittest.TestCase):
                 'image2.jpg',
                 '',
                 (1000, 1000),
-                (320, 320),
+                (160, 160),
             )
 
 

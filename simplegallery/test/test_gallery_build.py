@@ -43,18 +43,18 @@ class SPGBuildTestCase(unittest.TestCase):
             sys.argv = ['gallery_build', '-p', tempdir.path]
             gallery_build.main()
             tempdir.compare(['.empty', 'photo.jpg'], path='public/images/thumbnails')
-            self.assertEqual((640, 320), spg_media.get_image_size(thumbnail_path))
+            self.assertEqual((320, 160), spg_media.get_image_size(thumbnail_path))
 
             # Check thumbnail not regenerated without force
             create_mock_image(os.path.join(tempdir.path, 'public', 'images', 'photos', 'photo.jpg'), 500, 500)
             sys.argv = ['gallery_build', '-p', tempdir.path]
             gallery_build.main()
-            self.assertEqual((640, 320), spg_media.get_image_size(thumbnail_path))
+            self.assertEqual((320, 160), spg_media.get_image_size(thumbnail_path))
 
             # Check thumbnail regenerated with force
             sys.argv = ['gallery_build', '-p', tempdir.path, '-ft']
             gallery_build.main()
-            self.assertEqual((320, 320), spg_media.get_image_size(thumbnail_path))
+            self.assertEqual((160, 160), spg_media.get_image_size(thumbnail_path))
 
     @mock.patch('builtins.input', side_effect=['', '', '', ''])
     def test_images_data_generation(self, input):

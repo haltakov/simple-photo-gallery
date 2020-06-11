@@ -26,16 +26,16 @@ class FileGalleryLogicTestCase(unittest.TestCase):
             # Check thumbnail created
             file_gallery_logic.create_thumbnails()
             tempdir.compare(['.empty', 'photo.jpg'], path='public/images/thumbnails')
-            self.assertEqual((640, 320), spg_media.get_image_size(thumbnail_path))
+            self.assertEqual((320, 160), spg_media.get_image_size(thumbnail_path))
 
             # Check thumbnail not regenerated without force
             helpers.create_mock_image(os.path.join(tempdir.path, 'public', 'images', 'photos', 'photo.jpg'), 500, 500)
             file_gallery_logic.create_thumbnails()
-            self.assertEqual((640, 320), spg_media.get_image_size(thumbnail_path))
+            self.assertEqual((320, 160), spg_media.get_image_size(thumbnail_path))
 
             # Check thumbnail regenerated with force
             file_gallery_logic.create_thumbnails(force=True)
-            self.assertEqual((320, 320), spg_media.get_image_size(thumbnail_path))
+            self.assertEqual((160, 160), spg_media.get_image_size(thumbnail_path))
 
     @mock.patch('builtins.input', side_effect=['', '', '', ''])
     def test_generate_images_data(self, input):
@@ -51,7 +51,7 @@ class FileGalleryLogicTestCase(unittest.TestCase):
             images_data = file_gallery_logic.generate_images_data({})
 
             self.assertEqual(1, len(images_data))
-            helpers.check_image_data(self, images_data, 'photo.jpg', '', (1000, 500), (640, 320), local_files=True)
+            helpers.check_image_data(self, images_data, 'photo.jpg', '', (1000, 500), (320, 160), local_files=True)
 
             # Change a description, add a new image and check description of the first is preserved
             images_data['photo.jpg']['description'] = 'Test description'
@@ -59,7 +59,7 @@ class FileGalleryLogicTestCase(unittest.TestCase):
             file_gallery_logic.create_thumbnails()
             images_data = file_gallery_logic.generate_images_data(images_data)
             self.assertEqual(2, len(images_data))
-            helpers.check_image_data(self, images_data, 'photo.jpg', 'Test description', (1000, 500), (640, 320), local_files=True)
+            helpers.check_image_data(self, images_data, 'photo.jpg', 'Test description', (1000, 500), (320, 160), local_files=True)
 
 
 if __name__ == '__main__':

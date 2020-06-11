@@ -123,7 +123,7 @@ def create_gallery_json(gallery_root, remote_link):
         templates_path=os.path.join(gallery_root, 'templates'),
         images_path=os.path.join(gallery_root, 'public', 'images', 'photos'),
         thumbnails_path=os.path.join(gallery_root, 'public', 'images', 'thumbnails'),
-        thumbnail_height=320,
+        thumbnail_height=160,
     )
 
     # Initialize remote gallery configuration
