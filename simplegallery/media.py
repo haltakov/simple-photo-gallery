@@ -80,20 +80,18 @@ def create_video_thumbnail(video_path, thumbnail_path, height):
     cv2.imwrite(thumbnail_path, thumbnail)
 
 
-def create_thumbnail(input_path, thumbnails_path, height):
+def create_thumbnail(input_path, thumbnail_path, height):
     """
     Creates a thumbnail for a media file (image or video)
     :param input_path: input media path (image or video)
-    :param thumbnails_path: path to the folder, where the thumbnail should be stored
+    :param thumbnail_path: path to the thumbnail file to be created
     :param height: height of the thumbnail in pixels
     """
     # Handle JPGs and GIFs
     if input_path.lower().endswith('.jpg') or input_path.lower().endswith('.jpeg') or input_path.lower().endswith('.gif'):
-        thumbnail_path = os.path.join(thumbnails_path, os.path.basename(input_path))
         create_image_thumbnail(input_path, thumbnail_path, height)
     # Handle MP4s
     elif input_path.lower().endswith('.mp4'):
-        thumbnail_path = os.path.join(thumbnails_path, os.path.basename(input_path)).replace('.mp4', '.jpg').replace('.MP4', '.jpg')
         create_video_thumbnail(input_path, thumbnail_path, height)
     else:
         raise spg_common.SPGException(f'Unsupported file type ({os.path.basename(input_path)})')

@@ -37,6 +37,13 @@ class FileGalleryLogicTestCase(unittest.TestCase):
             file_gallery_logic.create_thumbnails(force=True)
             self.assertEqual((160, 160), spg_media.get_image_size(thumbnail_path))
 
+            # Check thumbnail regenerated after size changed
+            gallery_config['thumbnail_height'] = 320
+            file_gallery_logic = FilesGalleryLogic(gallery_config)
+
+            file_gallery_logic.create_thumbnails()
+            self.assertEqual((320, 320), spg_media.get_image_size(thumbnail_path))
+
     @mock.patch('builtins.input', side_effect=['', '', '', ''])
     def test_generate_images_data(self, input):
         with TempDirectory() as tempdir:
