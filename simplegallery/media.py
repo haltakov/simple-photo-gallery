@@ -56,7 +56,9 @@ def create_image_thumbnail(image_path, thumbnail_path, height):
     """
     image = Image.open(image_path)
 
-    image = rotate_image_by_orientation(image)
+    # Only rotate JPEGs, because they have the orientation in their metadata
+    if image_path.lower().endswith('.jpg') or image_path.lower().endswith('.jpeg'):
+        image = rotate_image_by_orientation(image)
 
     thumbnail_size = get_thumbnail_size(image.size, height)
     image = image.resize(thumbnail_size, Image.ANTIALIAS)
