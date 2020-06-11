@@ -5,6 +5,16 @@ import simplegallery.media as spg_media
 from simplegallery.logic.base_gallery_logic import BaseGalleryLogic
 
 
+def check_correct_thumbnail_size(thumbnail_path, expected_height):
+    """
+    Check if a thumbnail has the correct height
+    :param thumbnail_path: Path to the thumbnail file
+    :param expected_height: Expected height of the thumbnail in pixels
+    :return: True if the height of the thumbnail equals the expected height, False otherwise
+    """
+    return expected_height == spg_media.get_image_size(thumbnail_path)[1]
+
+
 class FilesGalleryLogic(BaseGalleryLogic):
     """
     Gallery logic for a gallery composed of photos and videos stored as local files.
@@ -17,7 +27,7 @@ class FilesGalleryLogic(BaseGalleryLogic):
         """
 
         thumbnails_path = self.gallery_config['thumbnails_path']
-        thumbnails_height = self.gallery_config['thumbnail_height']
+        thumbnail_height = self.gallery_config['thumbnail_height']
 
         photos = glob.glob(os.path.join(self.gallery_config['images_path'], '*.*'))
 
@@ -27,10 +37,14 @@ class FilesGalleryLogic(BaseGalleryLogic):
         count_thumbnails_created = 0
         for photo in photos:
             photo_name = os.path.basename(photo).split('.')[0]
+            thumbnail_path = os.path.join(thumbnails_path, photo_name + ".jpg")
 
-            # Check if the corresponding thumbnail is missing or if forced by the user
-            if force or len(glob.glob(os.path.join(thumbnails_path, photo_name + '.*'))) == 0:
-                spg_media.create_thumbnail(photo, thumbnails_path, thumbnails_height)
+            # Check if the thumbnail should be generated. This happens if one of the following applies:
+            # - Forced by the user with -f
+            # - No thumbnail for this image
+            # - The thumbnail image size doesn't correspond to the specified size
+            if force or not os.path.exists(thumbnail_path) or not check_correct_thumbnail_size(thumbnail_path, thumbnail_height):
+                spg_media.create_thumbnail(photo, thumbnail_path, thumbnail_height)
                 count_thumbnails_created += 1
 
         spg_common.log(f'New thumbnails generated: {count_thumbnails_created}')
