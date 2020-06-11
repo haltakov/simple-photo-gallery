@@ -15,6 +15,17 @@ def check_correct_thumbnail_size(thumbnail_path, expected_height):
     return expected_height == spg_media.get_image_size(thumbnail_path)[1]
 
 
+def get_thumbnail_name(thumbnails_path, photo_name):
+    """
+    Generates the full path to a thumbnail file
+    :param thumbnails_path: Path to the folders where the thumbnails will be stored
+    :param photo_name: Name of the original photo
+    :return: Full path to the thumbnail file
+    """
+    photo_name_without_extension = os.path.basename(photo_name).split('.')[0]
+    return os.path.join(thumbnails_path, photo_name_without_extension + '.jpg')
+
+
 class FilesGalleryLogic(BaseGalleryLogic):
     """
     Gallery logic for a gallery composed of photos and videos stored as local files.
@@ -36,8 +47,7 @@ class FilesGalleryLogic(BaseGalleryLogic):
 
         count_thumbnails_created = 0
         for photo in photos:
-            photo_name = os.path.basename(photo).split('.')[0]
-            thumbnail_path = os.path.join(thumbnails_path, photo_name + ".jpg")
+            thumbnail_path = get_thumbnail_name(thumbnails_path, photo)
 
             # Check if the thumbnail should be generated. This happens if one of the following applies:
             # - Forced by the user with -f
@@ -63,8 +73,8 @@ class FilesGalleryLogic(BaseGalleryLogic):
         # Get the required metadata for each image
         for image in images:
             photo_name = os.path.basename(image)
-            thumbnail_path = os.path.join(self.gallery_config['thumbnails_path'], photo_name)
 
+            thumbnail_path = get_thumbnail_name(self.gallery_config['thumbnails_path'], image)
             image_data = spg_media.get_metadata(image, thumbnail_path, self.gallery_config['public_path'])
 
             # Check if the image file has changed and only then use the new metadata. This allows changes that were made
