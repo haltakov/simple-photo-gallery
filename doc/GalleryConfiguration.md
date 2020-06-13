@@ -11,7 +11,7 @@ The `gallery.json` file in the gallery root folder contains important settings f
 * `background_photo` - the file name of the photo that should be used as background image. Example: `"usa-170.jpg"`.
 * `background_photo_offset` - the vertical offset of the overview image in percentage. Use this to shift the portion of the overview image that is shown to focus on the most important pars. Example: `30`.
 * `url` - URL of the website where your gallery will be hosted. This information is only needed to enable better display when you share a link to your gallery on social media like Twitter or Facebook. Example: `"https://www.haltakov.net/gallery_usa_multi/CUPcTB5AcbutK3vyLQ26"`.
-
+* `date_format` - optional parameter if you want to display the date the image is taken in the caption. See [Photo Date](#photo-date) for more information. Disabled by default.
 
 ## Photo Captions
 
@@ -20,6 +20,20 @@ You can show a caption for each photo that is shown on the bottom of the image w
 1. **Image metadata**: some photo editors, like for example Adobe Lightroom, allow you to define a description for each image. It is written in the image metadata and the `gallery-build` can read it from there. It reads the `ImageDescription` EXIF tag. All captions are then stored in the `images_data.json` file.
 2. **Manually**: executing the `gallery-build` command will create a file called `images_data.json`. It contains some metadata for each photo and a property called `description` where you can enter the caption for each image.
 
+### Photo Date
+
+If you want to include the date the photo is take, you can do it by adding the `date_format` setting in `gallery.json`. The value of this setting determines the format of the date. The format is specified using the [Python `strftime` codes](https://docs.python.org/3/library/datetime.html#strftime-strptime-behavior). See some examples for common use-cases below.
+
+| Format | Example |
+| --- | --- |
+| `"date_format": "%d.%m.%Y"` | 13.06.2020 |
+| `"date_format": "Date: %d.%m.%Y"` | Date: 13.06.2020 |
+| `"date_format": "Date: %m/%d/%Y"` | Date: 06/13/2020 |
+| `"date_format": "Date: %b %d %Y"` | Date: Jun 06 2020 |
+| `"date_format": "Date: %B %d %Y"` | Date: June 06 2020 |
+| `"date_format": "Photo date: %Y-%m-%d"` | Photo date: 2020-06-13 |
+
+Remember to run `gallery-build` after modifying `gallery.json`.
 
 ## Sections
 
