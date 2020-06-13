@@ -28,24 +28,25 @@ class FileGalleryLogicTestCase(unittest.TestCase):
             # Check thumbnail created
             file_gallery_logic.create_thumbnails()
             tempdir.compare(['.empty', 'photo.jpg', 'photo2.jpg'], path='public/images/thumbnails')
-            self.assertEqual((320, 160), spg_media.get_image_size(thumbnail_path))
-            self.assertEqual((320, 160), spg_media.get_image_size(thumbnail_gif_path))
+            # The thumbnails are generated twice as big in order to improve the quality on retina displays
+            self.assertEqual((640, 320), spg_media.get_image_size(thumbnail_path))
+            self.assertEqual((640, 320), spg_media.get_image_size(thumbnail_gif_path))
 
             # Check thumbnail not regenerated without force
             helpers.create_mock_image(os.path.join(tempdir.path, 'public', 'images', 'photos', 'photo.jpg'), 500, 500)
             file_gallery_logic.create_thumbnails()
-            self.assertEqual((320, 160), spg_media.get_image_size(thumbnail_path))
+            self.assertEqual((640, 320), spg_media.get_image_size(thumbnail_path))
 
             # Check thumbnail regenerated with force
             file_gallery_logic.create_thumbnails(force=True)
-            self.assertEqual((160, 160), spg_media.get_image_size(thumbnail_path))
+            self.assertEqual((320, 320), spg_media.get_image_size(thumbnail_path))
 
             # Check thumbnail regenerated after size changed
             gallery_config['thumbnail_height'] = 320
             file_gallery_logic = FilesGalleryLogic(gallery_config)
 
             file_gallery_logic.create_thumbnails()
-            self.assertEqual((320, 320), spg_media.get_image_size(thumbnail_path))
+            self.assertEqual((640, 640), spg_media.get_image_size(thumbnail_path))
 
     @mock.patch('builtins.input', side_effect=['', '', '', ''])
     def test_generate_images_data(self, input):
