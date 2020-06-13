@@ -1,5 +1,6 @@
 import os
 import glob
+from datetime import datetime
 import simplegallery.common as spg_common
 import simplegallery.media as spg_media
 from simplegallery.logic.base_gallery_logic import BaseGalleryLogic
@@ -59,6 +60,23 @@ class FilesGalleryLogic(BaseGalleryLogic):
 
         spg_common.log(f'New thumbnails generated: {count_thumbnails_created}')
 
+    def format_image_date(self, timestamp):
+        """
+        Formats an image date according to the format specified in the gallery config.
+        If no format is specified an empty string is returned
+        :param timestamp: datetime object
+        :return: Image date string or an empty string
+        """
+        image_date_string = ''
+
+        if 'date_format' in self.gallery_config:
+            try:
+                image_date_string = timestamp.strftime(self.gallery_config['date_format'])
+            except ValueError:
+                pass
+
+        return image_date_string
+
     def generate_images_data(self, images_data):
         """
         Generates the metadata of each image file
@@ -77,10 +95,18 @@ class FilesGalleryLogic(BaseGalleryLogic):
             thumbnail_path = get_thumbnail_name(self.gallery_config['thumbnails_path'], image)
             image_data = spg_media.get_metadata(image, thumbnail_path, self.gallery_config['public_path'])
 
-            # Check if the image file has changed and only then use the new metadata. This allows changes that were made
-            # to the metadata (for example to the descriptions) to be preserved, unless the photo itself changed.
-            if photo_name not in images_data or images_data[photo_name]['mtime'] != image_data['mtime']:
-                images_data[photo_name] = image_data
+            # Format the image date
+            image_data['date'] = self.format_image_date(image_data['date'])
+
+            # If the date is filled, set the description to a non-empty string so it is shown
+            if image_data['date'] and not image_data['description']:
+                image_data['description'] = ' '
+
+            # Preserve the image description if the photo hasn't changed since the last time
+            if photo_name in images_data and images_data[photo_name]['mtime'] == image_data['mtime'] and images_data[photo_name]['description']:
+                image_data['description'] = images_data[photo_name]['description']
+
+            images_data[photo_name] = image_data
 
         return images_data
 

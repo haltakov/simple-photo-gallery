@@ -3,6 +3,7 @@ import cv2
 import requests
 from io import BytesIO
 from PIL import Image, ExifTags
+from datetime import datetime
 import simplegallery.common as spg_common
 
 
@@ -128,7 +129,6 @@ def get_image_size(image_path):
     return size
 
 
-# Get the size of a video in pixels
 def get_video_size(video):
     """
     Gets the size of a frame of a video in pixels
@@ -140,7 +140,6 @@ def get_video_size(video):
     return image.shape[1], image.shape[0]
 
 
-# Get the image description from the EXIF data
 def get_image_description(image_path):
     """
     Gets the description of an image from the ImageDescription tag as a utf-8 string
@@ -160,17 +159,60 @@ def get_image_description(image_path):
     return description
 
 
+def parse_exif_datetime(timestamp_string):
+    """
+    Parses a date and time string as contained in the EXIF data of an image
+    :param date_string: Date and time string
+    :return:
+    """
+    timestamp_string = timestamp_string.split('+')[0]
+    try:
+        timestamp = datetime.strptime(timestamp_string, '%Y:%m:%d %H:%M:%S')
+    except ValueError:
+        timestamp = None
+
+    return timestamp
+
+
+def get_image_date(image_path):
+    """
+    Gets the date at which the image was taken from the EXIF data or from the creation date of the file
+    :param image_path: Path to the image
+    :return: The date the image was taken
+    """
+    image_date = None
+
+    if image_path.lower().endswith('.jpeg') or image_path.lower().endswith('.jpg'):
+        image = Image.open(image_path)
+        exif = image._getexif()
+        image.close()
+
+        if exif:
+            if EXIF_TAG_MAP['DateTimeOriginal'] in exif:
+                image_date = parse_exif_datetime(exif[EXIF_TAG_MAP['DateTimeOriginal']])
+            elif EXIF_TAG_MAP['DateTimeDigitized'] in exif:
+                image_date = parse_exif_datetime(exif[EXIF_TAG_MAP['DateTimeDigitized']])
+            elif EXIF_TAG_MAP['DateTime'] in exif:
+                image_date = parse_exif_datetime(exif[EXIF_TAG_MAP['DateTime']])
+
+    if not image_date:
+        image_date = datetime.fromtimestamp(os.path.getctime(image_path))
+
+    return image_date
+
+
 def get_metadata(image, thumbnail_path, public_path):
     """
-    Gets the metadata of a media file (image or vieo)
-    :param image: Path to the media fule
+    Gets the metadata of a media file (image or video)
+    :param image: Path to the media file
     :param thumbnail_path: Path to the thumbnail image of the media file
     :param public_path: Path to the public folder of the gallery
     :return:
     """
     # Paths should be relative to the public folder, because they will directly be used in the HTML
     image_data = dict(src=os.path.relpath(image, public_path),
-                      mtime=os.path.getmtime(image))
+                      mtime=os.path.getmtime(image),
+                      date=get_image_date(image))
 
     if image.lower().endswith('.jpg') or image.lower().endswith('.jpeg'):
         image_data['size'] = get_image_size(image)

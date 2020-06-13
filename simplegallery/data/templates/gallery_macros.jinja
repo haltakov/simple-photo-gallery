@@ -9,6 +9,7 @@
          data-gallery="{{ from }}"
          data-width="{{ images[i].size[0] }}"
          data-height="{{ images[i].size[1] }}"
+         data-date="{{ images[i].date }}"
          style="--w: {{ images[i].thumbnail_size[0] }}; --h: {{ images[i].thumbnail_size[1] }}">
          <img src="{{ images[i].thumbnail }}" class="thumbnail rounded" alt="{{ images[i].description }}"/></a>
     {% endfor %}
