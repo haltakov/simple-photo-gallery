@@ -51,7 +51,7 @@ The gallery is ready! You can view it by opening the `index.html` file in the `p
 
 4. Optionally, you can directly publish the gallery on [Netlify](https://www.netlify.com/), which offers a free plan.
 
-See [Gallery Configuration](doc/GalleryConfiguration.md) for more details how you can customize your gallery. You can also find two example galleries in the [`examples`](https://github.com/haltakov/simple-photo-gallery/tree/create_readme/examples) folder.
+See [Gallery Configuration](doc/GalleryConfiguration.md) for more details how you can customize your gallery. You can also find two example galleries in the [`examples`](https://github.com/haltakov/simple-photo-gallery/tree/master/examples) folder.
 
 
 ## Hosting
