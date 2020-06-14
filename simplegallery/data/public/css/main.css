@@ -15,6 +15,7 @@ body {
 .gallery>a {
   margin: 0.25rem;
   flex-grow: calc(var(--w) / var(--h) * 100);
+  width: calc(var(--w) * 1px);
 }
 
 .gallery::after {
