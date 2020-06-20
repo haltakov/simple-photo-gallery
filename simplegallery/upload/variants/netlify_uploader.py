@@ -20,7 +20,7 @@ class SimplePhotoGalleryHTTPServer(HTTPServer):
     """
     Authentication token that was sent to the server by the Netlify API
     """
-    token = ''
+    token = ""
 
     """
     Flag specifying if an error occurred during the OAuth 2.0 process
@@ -50,16 +50,18 @@ class SimplePhotoGalleryHTTPRequestHandler(BaseHTTPRequestHandler):
         self.send_response(status)
         self.end_headers()
 
-        file_loader = jinja2.FileSystemLoader(pkg_resources.resource_filename('simplegallery', 'data/netlify'))
+        file_loader = jinja2.FileSystemLoader(
+            pkg_resources.resource_filename("simplegallery", "data/netlify")
+        )
         env = jinja2.Environment(loader=file_loader)
         template = env.get_template(page)
-        self.wfile.write(template.render(data=data).encode('utf-8'))
+        self.wfile.write(template.render(data=data).encode("utf-8"))
 
     def process_index(self):
         """
         Renders the default index page
         """
-        self.render_page('index.jinja', [], 200)
+        self.render_page("index.jinja", [], 200)
 
     def process_token(self):
         """
@@ -67,11 +69,11 @@ class SimplePhotoGalleryHTTPRequestHandler(BaseHTTPRequestHandler):
         """
         params = self.get_params()
 
-        if 'access_token' in params:
-            self.server.token = params['access_token']
-            self.render_page('deploy.jinja', [], 200)
+        if "access_token" in params:
+            self.server.token = params["access_token"]
+            self.render_page("deploy.jinja", [], 200)
         else:
-            self.process_error('Did not receive a valid access token')
+            self.process_error("Did not receive a valid access token")
 
     def process_error(self, message):
         """
@@ -79,7 +81,7 @@ class SimplePhotoGalleryHTTPRequestHandler(BaseHTTPRequestHandler):
         :param message: error message
         """
         self.server.error_detected = True
-        self.render_page('error.jinja', dict(message=message), 400)
+        self.render_page("error.jinja", dict(message=message), 400)
 
     def log_message(self, format, *args):
         """
@@ -91,12 +93,12 @@ class SimplePhotoGalleryHTTPRequestHandler(BaseHTTPRequestHandler):
         """
         Handles GET requests to the server
         """
-        if self.path == '/':
+        if self.path == "/":
             self.process_index()
-        elif self.path.startswith('/token'):
+        elif self.path.startswith("/token"):
             self.process_token()
         else:
-            self.process_error('Invalid request')
+            self.process_error("Invalid request")
 
 
 def get_netlify_site_id(location, token):
@@ -109,18 +111,18 @@ def get_netlify_site_id(location, token):
 
     # Check if location invalid
     if location:
-        sites_url = 'https://api.netlify.com/api/v1/sites'
-        headers = {'Authorization': f'Bearer {token}'}
+        sites_url = "https://api.netlify.com/api/v1/sites"
+        headers = {"Authorization": f"Bearer {token}"}
 
         response_string = requests.get(sites_url, headers=headers)
         sites = json.loads(response_string.text)
 
         for site in sites:
-            if site['name'] == location or site['url'].endswith(location):
-                spg_common.log(f'Found Netlify site: {location}')
-                return site['id']
+            if site["name"] == location or site["url"].endswith(location):
+                spg_common.log(f"Found Netlify site: {location}")
+                return site["id"]
     else:
-        spg_common.log(f'Cannot find Netlify site {location}. Creating new site...')
+        spg_common.log(f"Cannot find Netlify site {location}. Creating new site...")
         return None
 
 
@@ -133,14 +135,15 @@ def deploy_to_netlify(zip_file_path, token, site_id):
     :return: URL to the site where the gallery was uploaded
     """
     # Read the content of the ZIP file
-    with open(zip_file_path, 'rb') as zip_in:
+    with open(zip_file_path, "rb") as zip_in:
         gallery_data = zip_in.read()
 
-    sites_url = 'https://api.netlify.com/api/v1/sites' + (f'/{site_id}' if site_id else '')
-    headers = {'Authorization': f'Bearer {token}',
-               'Content-Type': 'application/zip'}
+    sites_url = "https://api.netlify.com/api/v1/sites" + (
+        f"/{site_id}" if site_id else ""
+    )
+    headers = {"Authorization": f"Bearer {token}", "Content-Type": "application/zip"}
 
-    spg_common.log('Uploading gallery to Netlify...')
+    spg_common.log("Uploading gallery to Netlify...")
 
     if site_id:
         response_string = requests.put(sites_url, headers=headers, data=gallery_data)
@@ -158,7 +161,7 @@ def create_website_zip(gallery_path, zip_file_path):
     :param gallery_path: path to the public files of the gallery
     :param zip_file_path: path where the zip file should be stored
     """
-    zip_file = zipfile.ZipFile(zip_file_path, 'w', zipfile.ZIP_DEFLATED)
+    zip_file = zipfile.ZipFile(zip_file_path, "w", zipfile.ZIP_DEFLATED)
 
     for root, dirs, files in os.walk(gallery_path):
         for file in files:
@@ -169,10 +172,10 @@ def create_website_zip(gallery_path, zip_file_path):
 
 
 class NetlifyUploader(BaseUploader):
-    client_id = 'f5668dd35a2fceaecbef1acd0b979a9d17484ae794df0c9b519b343ee2188596'
-    client_secret = '9283bc00893b493c8b4e1ceed167dd4463767362b6ae669ccb5f513f2704d876'
-    redirect_uri = 'http://localhost:8080'
-    state = ''
+    client_id = "f5668dd35a2fceaecbef1acd0b979a9d17484ae794df0c9b519b343ee2188596"
+    client_secret = "9283bc00893b493c8b4e1ceed167dd4463767362b6ae669ccb5f513f2704d876"
+    redirect_uri = "http://localhost:8080"
+    state = ""
 
     def check_location(self, location):
         """
@@ -190,11 +193,13 @@ class NetlifyUploader(BaseUploader):
         :return: authentication token
         """
         # Open the Netlify authorization page
-        auth_code_url = f'https://app.netlify.com/authorize?' + \
-                        f'response_type=token&' + \
-                        f'client_id={self.client_id}&' + \
-                        f'redirect_uri={self.redirect_uri}&' + \
-                        f'state={self.state}'
+        auth_code_url = (
+            f"https://app.netlify.com/authorize?"
+            + f"response_type=token&"
+            + f"client_id={self.client_id}&"
+            + f"redirect_uri={self.redirect_uri}&"
+            + f"state={self.state}"
+        )
         webbrowser.open(auth_code_url)
 
         # Process requests until the server receives the token
@@ -210,13 +215,15 @@ class NetlifyUploader(BaseUploader):
         :param gallery_path: path to the root of the public files of the gallery
         """
         # Create a zip file for the gallery
-        spg_common.log('Creating ZIP file of the gallery...')
-        zip_file_path = os.path.join(tempfile.gettempdir(), 'simple_photo_gallery.zip')
+        spg_common.log("Creating ZIP file of the gallery...")
+        zip_file_path = os.path.join(tempfile.gettempdir(), "simple_photo_gallery.zip")
         create_website_zip(gallery_path, zip_file_path)
-        spg_common.log('Gallery ZIP file created!')
+        spg_common.log("Gallery ZIP file created!")
 
         # Start the HTTP server that handles OAuth authentication at Netlify
-        httpd = SimplePhotoGalleryHTTPServer(('localhost', 8080), SimplePhotoGalleryHTTPRequestHandler)
+        httpd = SimplePhotoGalleryHTTPServer(
+            ("localhost", 8080), SimplePhotoGalleryHTTPRequestHandler
+        )
 
         # Get the authorization token
         token = self.get_authorization_token(httpd)
@@ -232,9 +239,9 @@ class NetlifyUploader(BaseUploader):
 
         # Open the Netlify gallery if successful
         if gallery_url:
-            spg_common.log(f'Gallery uploaded successfully to:\n{gallery_url}')
+            spg_common.log(f"Gallery uploaded successfully to:\n{gallery_url}")
             webbrowser.open(gallery_url)
         else:
-            raise spg_common.SPGException(f'Something went wrong while uploading to Netlify')
-
-
+            raise spg_common.SPGException(
+                f"Something went wrong while uploading to Netlify"
+            )
