@@ -54,7 +54,7 @@ def create_mock_image(path, width, height):
     :param width: width of the image
     :param height: height of the image
     """
-    if path.lower().endswith('.jpg') or path.lower().endswith('.jpeg'):
+    if path.lower().endswith('.jpg') or path.lower().endswith('.jpeg') or path.lower().endswith('.png'):
         img = Image.new('RGB', (width, height), color='red')
     elif path.lower().endswith('.gif'):
         img = Image.new('P', (width, height), color='red')

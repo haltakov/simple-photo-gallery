@@ -93,7 +93,7 @@ def create_thumbnail(input_path, thumbnail_path, height):
     :param height: height of the thumbnail in pixels
     """
     # Handle JPGs and GIFs
-    if input_path.lower().endswith('.jpg') or input_path.lower().endswith('.jpeg') or input_path.lower().endswith('.gif'):
+    if input_path.lower().endswith('.jpg') or input_path.lower().endswith('.jpeg') or input_path.lower().endswith('.gif') or input_path.lower().endswith('.png'):
         create_image_thumbnail(input_path, thumbnail_path, height)
     # Handle MP4s
     elif input_path.lower().endswith('.mp4'):
@@ -218,7 +218,7 @@ def get_metadata(image, thumbnail_path, public_path):
         image_data['size'] = get_image_size(image)
         image_data['type'] = 'image'
         image_data['description'] = get_image_description(image)
-    elif image.lower().endswith('.gif'):
+    elif image.lower().endswith('.gif') or image.lower().endswith('.png'):
         image_data['size'] = get_image_size(image)
         image_data['type'] = 'image'
         image_data['description'] = ''

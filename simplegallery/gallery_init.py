@@ -101,7 +101,7 @@ def create_gallery_folder_structure(gallery_root):
 
     for path in glob.glob(os.path.join(gallery_root, '*')):
         basename_lower = os.path.basename(path).lower()
-        if basename_lower.endswith('.jpg') or basename_lower.endswith('.jpeg') or basename_lower.endswith('.gif') or basename_lower.endswith('.mp4'):
+        if basename_lower.endswith('.jpg') or basename_lower.endswith('.jpeg') or basename_lower.endswith('.gif') or basename_lower.endswith('.mp4') or basename_lower.endswith('.png'):
             shutil.move(path, os.path.join(photos_dir, os.path.basename(path)))
 
 
