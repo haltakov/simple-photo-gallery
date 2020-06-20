@@ -19,8 +19,8 @@ def rotate_image_by_orientation(image):
     """
 
     exif = image._getexif()
-    if exif and EXIF_TAG_MAP['Orientation'] in exif:
-        orientation = exif[EXIF_TAG_MAP['Orientation']]
+    if exif and EXIF_TAG_MAP["Orientation"] in exif:
+        orientation = exif[EXIF_TAG_MAP["Orientation"]]
 
         if orientation == 3:
             rotation_angle = 180
@@ -58,7 +58,7 @@ def create_image_thumbnail(image_path, thumbnail_path, height):
     image = Image.open(image_path)
 
     # Only rotate JPEGs, because they have the orientation in their metadata
-    if image_path.lower().endswith('.jpg') or image_path.lower().endswith('.jpeg'):
+    if image_path.lower().endswith(".jpg") or image_path.lower().endswith(".jpeg"):
         image = rotate_image_by_orientation(image)
 
     thumbnail_size = get_thumbnail_size(image.size, height)
@@ -66,7 +66,7 @@ def create_image_thumbnail(image_path, thumbnail_path, height):
 
     # Convert to RGB if needed
     if image.mode == "P":
-        image = image.convert('RGB')
+        image = image.convert("RGB")
 
     image.save(thumbnail_path)
     image.close()
@@ -81,7 +81,9 @@ def create_video_thumbnail(video_path, thumbnail_path, height):
     """
     video_capture = cv2.VideoCapture(video_path)
     _, image = video_capture.read()
-    thumbnail = cv2.resize(image, (round(image.shape[1] * float(height)/image.shape[0]), height))
+    thumbnail = cv2.resize(
+        image, (round(image.shape[1] * float(height) / image.shape[0]), height)
+    )
     cv2.imwrite(thumbnail_path, thumbnail)
 
 
@@ -93,13 +95,20 @@ def create_thumbnail(input_path, thumbnail_path, height):
     :param height: height of the thumbnail in pixels
     """
     # Handle JPGs and GIFs
-    if input_path.lower().endswith('.jpg') or input_path.lower().endswith('.jpeg') or input_path.lower().endswith('.gif') or input_path.lower().endswith('.png'):
+    if (
+        input_path.lower().endswith(".jpg")
+        or input_path.lower().endswith(".jpeg")
+        or input_path.lower().endswith(".gif")
+        or input_path.lower().endswith(".png")
+    ):
         create_image_thumbnail(input_path, thumbnail_path, height)
     # Handle MP4s
-    elif input_path.lower().endswith('.mp4'):
+    elif input_path.lower().endswith(".mp4"):
         create_video_thumbnail(input_path, thumbnail_path, height)
     else:
-        raise spg_common.SPGException(f'Unsupported file type ({os.path.basename(input_path)})')
+        raise spg_common.SPGException(
+            f"Unsupported file type ({os.path.basename(input_path)})"
+        )
 
 
 def get_remote_image_size(image_url):
@@ -148,11 +157,15 @@ def get_image_description(image_path):
     """
     image = Image.open(image_path)
     exif = image._getexif()
-    if exif and EXIF_TAG_MAP['ImageDescription'] in exif:
-        description = exif[EXIF_TAG_MAP['ImageDescription']].encode(encoding='utf-16')[2::2].decode('utf-8')
-        description = description.replace('\'', '&apos;').replace('"', '&quot;')
+    if exif and EXIF_TAG_MAP["ImageDescription"] in exif:
+        description = (
+            exif[EXIF_TAG_MAP["ImageDescription"]]
+            .encode(encoding="utf-16")[2::2]
+            .decode("utf-8")
+        )
+        description = description.replace("'", "&apos;").replace('"', "&quot;")
     else:
-        description = ''
+        description = ""
 
     image.close()
 
@@ -165,9 +178,9 @@ def parse_exif_datetime(timestamp_string):
     :param date_string: Date and time string
     :return:
     """
-    timestamp_string = timestamp_string.split('+')[0]
+    timestamp_string = timestamp_string.split("+")[0]
     try:
-        timestamp = datetime.strptime(timestamp_string, '%Y:%m:%d %H:%M:%S')
+        timestamp = datetime.strptime(timestamp_string, "%Y:%m:%d %H:%M:%S")
     except ValueError:
         timestamp = None
 
@@ -182,18 +195,20 @@ def get_image_date(image_path):
     """
     image_date = None
 
-    if image_path.lower().endswith('.jpeg') or image_path.lower().endswith('.jpg'):
+    if image_path.lower().endswith(".jpeg") or image_path.lower().endswith(".jpg"):
         image = Image.open(image_path)
         exif = image._getexif()
         image.close()
 
         if exif:
-            if EXIF_TAG_MAP['DateTimeOriginal'] in exif:
-                image_date = parse_exif_datetime(exif[EXIF_TAG_MAP['DateTimeOriginal']])
-            elif EXIF_TAG_MAP['DateTimeDigitized'] in exif:
-                image_date = parse_exif_datetime(exif[EXIF_TAG_MAP['DateTimeDigitized']])
-            elif EXIF_TAG_MAP['DateTime'] in exif:
-                image_date = parse_exif_datetime(exif[EXIF_TAG_MAP['DateTime']])
+            if EXIF_TAG_MAP["DateTimeOriginal"] in exif:
+                image_date = parse_exif_datetime(exif[EXIF_TAG_MAP["DateTimeOriginal"]])
+            elif EXIF_TAG_MAP["DateTimeDigitized"] in exif:
+                image_date = parse_exif_datetime(
+                    exif[EXIF_TAG_MAP["DateTimeDigitized"]]
+                )
+            elif EXIF_TAG_MAP["DateTime"] in exif:
+                image_date = parse_exif_datetime(exif[EXIF_TAG_MAP["DateTime"]])
 
     if not image_date:
         image_date = datetime.fromtimestamp(os.path.getctime(image_path))
@@ -210,27 +225,31 @@ def get_metadata(image, thumbnail_path, public_path):
     :return:
     """
     # Paths should be relative to the public folder, because they will directly be used in the HTML
-    image_data = dict(src=os.path.relpath(image, public_path),
-                      mtime=os.path.getmtime(image),
-                      date=get_image_date(image))
+    image_data = dict(
+        src=os.path.relpath(image, public_path),
+        mtime=os.path.getmtime(image),
+        date=get_image_date(image),
+    )
 
-    if image.lower().endswith('.jpg') or image.lower().endswith('.jpeg'):
-        image_data['size'] = get_image_size(image)
-        image_data['type'] = 'image'
-        image_data['description'] = get_image_description(image)
-    elif image.lower().endswith('.gif') or image.lower().endswith('.png'):
-        image_data['size'] = get_image_size(image)
-        image_data['type'] = 'image'
-        image_data['description'] = ''
-    elif image.lower().endswith('.mp4'):
-        image_data['size'] = get_video_size(image)
-        image_data['type'] = 'video'
-        image_data['description'] = ''
-        thumbnail_path = thumbnail_path.replace('.mp4', '.jpg')
+    if image.lower().endswith(".jpg") or image.lower().endswith(".jpeg"):
+        image_data["size"] = get_image_size(image)
+        image_data["type"] = "image"
+        image_data["description"] = get_image_description(image)
+    elif image.lower().endswith(".gif") or image.lower().endswith(".png"):
+        image_data["size"] = get_image_size(image)
+        image_data["type"] = "image"
+        image_data["description"] = ""
+    elif image.lower().endswith(".mp4"):
+        image_data["size"] = get_video_size(image)
+        image_data["type"] = "video"
+        image_data["description"] = ""
+        thumbnail_path = thumbnail_path.replace(".mp4", ".jpg")
     else:
-        raise spg_common.SPGException(f'Unsupported file type {os.path.basename(image)}')
+        raise spg_common.SPGException(
+            f"Unsupported file type {os.path.basename(image)}"
+        )
 
-    image_data['thumbnail'] = os.path.relpath(thumbnail_path, public_path)
-    image_data['thumbnail_size'] = get_image_size(thumbnail_path)
+    image_data["thumbnail"] = os.path.relpath(thumbnail_path, public_path)
+    image_data["thumbnail_size"] = get_image_size(thumbnail_path)
 
     return image_data

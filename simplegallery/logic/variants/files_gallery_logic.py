@@ -23,8 +23,8 @@ def get_thumbnail_name(thumbnails_path, photo_name):
     :param photo_name: Name of the original photo
     :return: Full path to the thumbnail file
     """
-    photo_name_without_extension = os.path.basename(photo_name).split('.')[0]
-    return os.path.join(thumbnails_path, photo_name_without_extension + '.jpg')
+    photo_name_without_extension = os.path.basename(photo_name).split(".")[0]
+    return os.path.join(thumbnails_path, photo_name_without_extension + ".jpg")
 
 
 class FilesGalleryLogic(BaseGalleryLogic):
@@ -45,13 +45,18 @@ class FilesGalleryLogic(BaseGalleryLogic):
         """
 
         # Multiply the thumbnail size by the factor to generate larger thumbnails to improve quality on retina displays
-        thumbnail_height = self.gallery_config['thumbnail_height'] * FilesGalleryLogic.THUMBNAIL_SIZE_FACTOR
-        thumbnails_path = self.gallery_config['thumbnails_path']
+        thumbnail_height = (
+            self.gallery_config["thumbnail_height"]
+            * FilesGalleryLogic.THUMBNAIL_SIZE_FACTOR
+        )
+        thumbnails_path = self.gallery_config["thumbnails_path"]
 
-        photos = glob.glob(os.path.join(self.gallery_config['images_path'], '*.*'))
+        photos = glob.glob(os.path.join(self.gallery_config["images_path"], "*.*"))
 
         if not photos:
-            raise spg_common.SPGException(f'No photos could be found under {self.gallery_config["images_path"]}')
+            raise spg_common.SPGException(
+                f'No photos could be found under {self.gallery_config["images_path"]}'
+            )
 
         count_thumbnails_created = 0
         for photo in photos:
@@ -61,11 +66,15 @@ class FilesGalleryLogic(BaseGalleryLogic):
             # - Forced by the user with -f
             # - No thumbnail for this image
             # - The thumbnail image size doesn't correspond to the specified size
-            if force or not os.path.exists(thumbnail_path) or not check_correct_thumbnail_size(thumbnail_path, thumbnail_height):
+            if (
+                force
+                or not os.path.exists(thumbnail_path)
+                or not check_correct_thumbnail_size(thumbnail_path, thumbnail_height)
+            ):
                 spg_media.create_thumbnail(photo, thumbnail_path, thumbnail_height)
                 count_thumbnails_created += 1
 
-        spg_common.log(f'New thumbnails generated: {count_thumbnails_created}')
+        spg_common.log(f"New thumbnails generated: {count_thumbnails_created}")
 
     def format_image_date(self, timestamp):
         """
@@ -74,11 +83,13 @@ class FilesGalleryLogic(BaseGalleryLogic):
         :param timestamp: datetime object
         :return: Image date string or an empty string
         """
-        image_date_string = ''
+        image_date_string = ""
 
-        if 'date_format' in self.gallery_config:
+        if "date_format" in self.gallery_config:
             try:
-                image_date_string = timestamp.strftime(self.gallery_config['date_format'])
+                image_date_string = timestamp.strftime(
+                    self.gallery_config["date_format"]
+                )
             except ValueError:
                 pass
 
@@ -93,34 +104,48 @@ class FilesGalleryLogic(BaseGalleryLogic):
         """
 
         # Get all images sorted by name
-        images = sorted(glob.glob(os.path.join(self.gallery_config['images_path'], '*.*')))
+        images = sorted(
+            glob.glob(os.path.join(self.gallery_config["images_path"], "*.*"))
+        )
 
         # Get the required metadata for each image
         for image in images:
             photo_name = os.path.basename(image)
 
-            thumbnail_path = get_thumbnail_name(self.gallery_config['thumbnails_path'], image)
-            image_data = spg_media.get_metadata(image, thumbnail_path, self.gallery_config['public_path'])
+            thumbnail_path = get_thumbnail_name(
+                self.gallery_config["thumbnails_path"], image
+            )
+            image_data = spg_media.get_metadata(
+                image, thumbnail_path, self.gallery_config["public_path"]
+            )
 
             # Scale down the thumbnail size to the display size
-            image_data['thumbnail_size'] = (round(image_data['thumbnail_size'][0] / FilesGalleryLogic.THUMBNAIL_SIZE_FACTOR),
-                                            round(image_data['thumbnail_size'][1] / FilesGalleryLogic.THUMBNAIL_SIZE_FACTOR))
-
+            image_data["thumbnail_size"] = (
+                round(
+                    image_data["thumbnail_size"][0]
+                    / FilesGalleryLogic.THUMBNAIL_SIZE_FACTOR
+                ),
+                round(
+                    image_data["thumbnail_size"][1]
+                    / FilesGalleryLogic.THUMBNAIL_SIZE_FACTOR
+                ),
+            )
 
             # Format the image date
-            image_data['date'] = self.format_image_date(image_data['date'])
+            image_data["date"] = self.format_image_date(image_data["date"])
 
             # If the date is filled, set the description to a non-empty string so it is shown
-            if image_data['date'] and not image_data['description']:
-                image_data['description'] = ' '
+            if image_data["date"] and not image_data["description"]:
+                image_data["description"] = " "
 
             # Preserve the image description if the photo hasn't changed since the last time
-            if photo_name in images_data and images_data[photo_name]['mtime'] == image_data['mtime'] and images_data[photo_name]['description']:
-                image_data['description'] = images_data[photo_name]['description']
+            if (
+                photo_name in images_data
+                and images_data[photo_name]["mtime"] == image_data["mtime"]
+                and images_data[photo_name]["description"]
+            ):
+                image_data["description"] = images_data[photo_name]["description"]
 
             images_data[photo_name] = image_data
 
         return images_data
-
-
-

@@ -36,11 +36,11 @@ class BaseGalleryLogic:
         """
         Creates or updates the images_data.json file with metadata for each image (e.g. size, description and thumbnail)
         """
-        images_data_path = self.gallery_config['images_data_file']
+        images_data_path = self.gallery_config["images_data_file"]
 
         # Load the existing file or create an empty dict
         if os.path.exists(images_data_path):
-            with open(images_data_path, 'r') as images_data_in:
+            with open(images_data_path, "r") as images_data_in:
                 images_data = json.load(images_data_in, object_pairs_hook=OrderedDict)
         else:
             images_data = {}
@@ -49,5 +49,5 @@ class BaseGalleryLogic:
         self.generate_images_data(images_data)
 
         # Write the data to the JSON file
-        with open(images_data_path, 'w', encoding='utf-8') as images_out:
-            json.dump(images_data, images_out, indent=4, separators=(',', ': '))
+        with open(images_data_path, "w", encoding="utf-8") as images_out:
+            json.dump(images_data, images_out, indent=4, separators=(",", ": "))

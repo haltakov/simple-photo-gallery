@@ -13,9 +13,9 @@ def get_uploader(hosting_type):
     :param hosting_type: name of the hosting provider (aws or netlify)
     :return: uploader object
     """
-    if hosting_type == 'aws':
+    if hosting_type == "aws":
         return AWSUploader()
-    elif hosting_type == 'netlify':
+    elif hosting_type == "netlify":
         return NetlifyUploader()
     else:
         raise spg_common.SPGException(f"Hosting type not supported: {hosting_type}")
