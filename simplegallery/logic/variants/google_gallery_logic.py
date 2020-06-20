@@ -13,14 +13,13 @@ def parse_photo_link(photo_url):
     :param photo_url: photo URL
     :return: base URL and photo name
     """
-    base_url = photo_url.split('=')[0]
-    name = base_url.split('/')[-1]
+    base_url = photo_url.split("=")[0]
+    name = base_url.split("/")[-1]
 
     return base_url, name
 
 
 class GoogleGalleryLogic(BaseGalleryLogic):
-
     def create_thumbnails(self, force=False):
         """
         This function doesn't do anything, because the thumbnails are links to OneDrive
@@ -37,12 +36,14 @@ class GoogleGalleryLogic(BaseGalleryLogic):
         """
 
         # Get the path to the Firefox webdriver
-        webdriver_path = pkg_resources.resource_filename('simplegallery', 'bin/geckodriver')
+        webdriver_path = pkg_resources.resource_filename(
+            "simplegallery", "bin/geckodriver"
+        )
 
         # Configure the driver in headless mode
         options = Options()
         options.headless = True
-        spg_common.log(f'Starting Firefox webdriver...')
+        spg_common.log(f"Starting Firefox webdriver...")
         driver = webdriver.Firefox(options=options, executable_path=webdriver_path)
 
         # Load the album page
@@ -57,39 +58,43 @@ class GoogleGalleryLogic(BaseGalleryLogic):
             if image_count > 1 and image_count == last_image_count:
                 break
             last_image_count = image_count
-            if (time.time()-loading_start) > 30:
-                raise spg_common.SPGException('Loading the page took too long.')
+            if (time.time() - loading_start) > 30:
+                raise spg_common.SPGException("Loading the page took too long.")
             time.sleep(5)
 
         # Parse all photos
-        spg_common.log('Finding photos...')
+        spg_common.log("Finding photos...")
         photos = driver.find_elements_by_xpath("//div[@data-latest-bg]")
 
-        spg_common.log(f'Photos found: {len(photos)}')
+        spg_common.log(f"Photos found: {len(photos)}")
         current_photo = 1
         for photo in photos:
-            photo_url = photo.get_attribute('data-latest-bg')
+            photo_url = photo.get_attribute("data-latest-bg")
             photo_base_url, photo_name = parse_photo_link(photo_url)
-            spg_common.log(f'{current_photo}/{len(photos)}\t\tProcessing photo {photo_name}: {photo_url}')
+            spg_common.log(
+                f"{current_photo}/{len(photos)}\t\tProcessing photo {photo_name}: {photo_url}"
+            )
             current_photo += 1
 
             # Compute photo and thumbnail sizes
-            photo_link_max_size = f'{photo_base_url}=w9999-h9999-no'
+            photo_link_max_size = f"{photo_base_url}=w9999-h9999-no"
             size = spg_media.get_remote_image_size(photo_link_max_size)
-            thumbnail_size = spg_media.get_thumbnail_size(size, self.gallery_config['thumbnail_height'])
+            thumbnail_size = spg_media.get_thumbnail_size(
+                size, self.gallery_config["thumbnail_height"]
+            )
 
             # Add the photo to the images_data dict
             images_data[photo_name] = dict(
-                description='',
+                description="",
                 mtime=time.time(),
                 size=size,
-                src=f'{photo_base_url}=w{size[0]}-h{size[1]}-no',
-                thumbnail=f'{photo_base_url}=w{thumbnail_size[0]}-h{thumbnail_size[1]}-no',
+                src=f"{photo_base_url}=w{size[0]}-h{size[1]}-no",
+                thumbnail=f"{photo_base_url}=w{thumbnail_size[0]}-h{thumbnail_size[1]}-no",
                 thumbnail_size=thumbnail_size,
-                type='image',
+                type="image",
             )
 
-        spg_common.log(f'All photos processed!')
+        spg_common.log(f"All photos processed!")
 
         driver.quit()
 

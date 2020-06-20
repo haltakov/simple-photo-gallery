@@ -1,4 +1,3 @@
-
 class BaseUploader:
     """
     Base class defining the interface to a remote uploader.
