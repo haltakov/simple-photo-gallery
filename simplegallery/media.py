@@ -18,21 +18,24 @@ def rotate_image_by_orientation(image):
     :return: Rotated image
     """
 
-    exif = image._getexif()
-    if exif and EXIF_TAG_MAP["Orientation"] in exif:
-        orientation = exif[EXIF_TAG_MAP["Orientation"]]
+    try:
+        exif = image._getexif()
+        if exif and EXIF_TAG_MAP["Orientation"] in exif:
+            orientation = exif[EXIF_TAG_MAP["Orientation"]]
 
-        if orientation == 3:
-            rotation_angle = 180
-        elif orientation == 6:
-            rotation_angle = 270
-        elif orientation == 8:
-            rotation_angle = 90
-        else:
-            rotation_angle = 0
+            if orientation == 3:
+                rotation_angle = 180
+            elif orientation == 6:
+                rotation_angle = 270
+            elif orientation == 8:
+                rotation_angle = 90
+            else:
+                rotation_angle = 0
 
-        if rotation_angle != 0:
-            return image.rotate(rotation_angle, expand=True)
+            if rotation_angle != 0:
+                return image.rotate(rotation_angle, expand=True)
+    except:
+        pass
 
     return image
 
@@ -132,6 +135,7 @@ def get_image_size(image_path):
     :return: tuple containing the width and the height of the image in pixels
     """
     image = Image.open(image_path)
+    image = rotate_image_by_orientation(image)
     size = image.size
     image.close()
 
