@@ -1,6 +1,8 @@
 # Simple Photo Gallery
 
-With Simple Photo Gallery you can easily create static HTML galleries that you can host yourself. Check out the [example gallery](https://www.haltakov.net/simple-photo-gallery/gallery_usa_multi/).
+### Check out the new [Project Page](https://haltakov.net/simple-photo-gallery)!
+
+With Simple Photo Gallery you can create beautiful and simple photo galleries that help you tell your story. Check out the [example gallery](https://www.haltakov.net/simple-photo-gallery/gallery_usa_multi/).
 
 [![Example gallery](https://github.com/haltakov/simple-photo-gallery/blob/master/examples/gallery_usa_multi/screenshot_gallery_usa_multi.jpg?raw=true)](https://www.haltakov.net/simple-photo-gallery/gallery_usa_multi/)
 
@@ -13,7 +15,7 @@ With Simple Photo Gallery you can easily create static HTML galleries that you c
 4. [Configuration](#configuration)
 5. [About](#about)
 
-Simple Photo Gallery is a simple command line tool that helps you create static HTML photo and video galleries that tell a story. Thumbnails, HTML, CSS and JavaScript files are generated automatically and can be uploaded to any static hosting, like for example [AWS S3](https://aws.amazon.com/s3/) or [Netlify](https://www.netlify.com/). The most important features:
+Simple Photo Gallery is a simple command line tool written in Python that helps you create static HTML photo and video galleries that tell a story. Thumbnails, HTML, CSS and JavaScript files are generated automatically and can be uploaded to any static hosting, like for example [AWS S3](https://aws.amazon.com/s3/) or [Netlify](https://www.netlify.com/). The most important features:
 
 * Responsive layout suitable for any device (including touch gestures support).
 * Image captions extracted from the image metadata (EXIF tags).
@@ -75,4 +77,4 @@ You can upload your gallery manually on any static hosting provider, like for ex
 
 Simple Photo Gallery is developed by [Vladimir Haltakov](https://www.haltakov.net). I wanted an easy way to share photos with friends, but wasn't happy with the limited customization options that existing sharing solutions like Amazon Photos or iCloud offer.
 
-Please contact me if you have any questions, ideas for improvement or feature requests.
+Please contact me on [Twitter](https://twitter.com/haltakov) if you have any questions, ideas for improvement or feature requests.
