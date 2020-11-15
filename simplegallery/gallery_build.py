@@ -51,6 +51,11 @@ def build_html(gallery_config):
 
     images_data_list = [images_data[image] for image in images_data.keys()]
 
+    # Remove descriptions if the corresponding option is enabled
+    if 'disbale_captions' in gallery_config and gallery_config['disbale_captions']:
+        for image in images_data:
+            images_data[image]['description'] = ''
+
     # Find the first photo for the background if no background photo specified
     background_photo = gallery_config["background_photo"]
     if not background_photo:
