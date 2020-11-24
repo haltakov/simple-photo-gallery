@@ -61,6 +61,23 @@ body {
   margin-top: 30px;
 }
 
+.gallery-section h2 a {
+  visibility: hidden;
+  color: #aaaaaa;
+}
+
+.gallery-section h2 a:hover {
+  color: #0056b3;
+}
+
+.gallery-section:hover h2 a {
+  visibility: visible;
+}
+
+.gallery-section h2 a svg {
+  height: 1.2rem
+}
+
 .gallery-section p {
   width: 70%;
   margin: 0px auto 20px;

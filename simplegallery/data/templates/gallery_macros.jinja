@@ -22,8 +22,17 @@
 <div class="container-fluid">
   <div class="row">
     <div class="col gallery-section">
-      <h2>{{ title }}</h2>
-      <p>{{ description }}</p>
+
+        <h2>
+          <a name="section_{{ from }}"></a>
+          {{ title }}
+          <a href="#section_{{ from }}">
+              <svg class="section-link-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
+              </svg>
+          </a>
+        </h2>
+        <p>{{ description }}</p>
     </div>
   </div>
   {{ gallery_images(from, to, images) }}
