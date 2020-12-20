@@ -1,4 +1,5 @@
-{% macro gallery_images(from, to, images) -%}
+{% macro gallery_images_index(from, to, images) -%}
+
 <div class="row">
   <div class="col gallery">
     {% for i in range(from, to) %}
@@ -12,6 +13,33 @@
          data-date="{{ images[i].date }}"
          style="--w: {{ images[i].thumbnail_size[0] }}; --h: {{ images[i].thumbnail_size[1] }}">
          <img src="{{ images[i].thumbnail }}" class="thumbnail rounded" alt="{{ images[i].description }}"/></a>
+    {% endfor %}
+  </div>
+</div>
+{%- endmacro %}
+
+
+
+{% macro gallery_images_string(from, to, images) -%}
+
+<div class="row">
+  <div class="col gallery">
+    {% set index = namespace(value=0) %}
+    {% for image in images %}
+      {% if image.name >= from and image.name <= to %}
+        <a href="{{ image.src }}"
+           class="gallery-photo"
+           data-index="{{ index.value }}"
+           data-type="{{ image.type }}"
+           data-gallery="{{ from }}"
+           data-width="{{ image.size[0] }}"
+           data-height="{{ image.size[1] }}"
+           data-date="{{ image.date }}"
+           style="--w: {{ image.thumbnail_size[0] }}; --h: {{ image.thumbnail_size[1] }}">
+           <img src="{{ image.thumbnail }}" class="thumbnail rounded" alt="{{ image.description }}"/></a>
+
+           {% set index.value = index.value + 1 %}
+      {% endif %}
     {% endfor %}
   </div>
 </div>
@@ -35,6 +63,10 @@
         <p>{{ description }}</p>
     </div>
   </div>
-  {{ gallery_images(from, to, images) }}
+  {% if from is number %}
+    {{ gallery_images_index(from, to, images) }}
+  {% else %}
+    {{ gallery_images_string(from, to, images) }}
+  {% endif %}
 </div>
 {%- endmacro %}
