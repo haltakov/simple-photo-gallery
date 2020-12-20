@@ -16,7 +16,7 @@ function createSlides() {
       slide['html'] = '<video style="margin: 0px auto; height: 100%; max-width: 100%; max-height: 100%; display: block" data-index="' + photo.getAttribute('data-index') +
                       '" controls><source src="' + photo.getAttribute('href') + '" type="video/mp4"></video>';
 
-    var gallery_id = parseInt(photo.getAttribute('data-gallery'));
+    var gallery_id = photo.getAttribute('data-gallery');
     if (!(gallery_id in slides))
       slides[gallery_id] = [];
 

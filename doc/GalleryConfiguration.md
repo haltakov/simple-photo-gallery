@@ -80,6 +80,15 @@ In the [multi-section example gallery](https://github.com/haltakov/simple-photo-
                               images)}}
 ```
 
+Alternatively, you can reference the photos by their name, instead of their index. In this case the second argument is the last photo you want to be shown in the section.
+
+```
+{{ gallery_macros.section('usa-123.jpg', 'use-203.jpg',
+                          'Joshua Tree National Park',
+                          'We spent 2 days in Joshua Tree National park. We spent the first night in the Black Rock campground. After that we travelled through the park for the whole day visiting several interesting view points and trails. After we spent the second night in the Jumbo Rocks campground we left the park from the south exit stopping at several places along the way.',
+                          images)}}
+```
+
 ## Advanced Layout Configuration
 
 Feel free to modify any part of the layout you want by just modifying the corresponding HTML, CSS or JavaScript files.

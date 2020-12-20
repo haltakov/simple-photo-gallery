@@ -49,7 +49,7 @@ def build_html(gallery_config):
     with open(gallery_config["images_data_file"], "r") as images_data_in:
         images_data = json.load(images_data_in, object_pairs_hook=OrderedDict)
 
-    images_data_list = [images_data[image] for image in images_data.keys()]
+    images_data_list = [{**images_data[image], "name": image} for image in images_data.keys()]
 
     # Remove descriptions if the corresponding option is enabled
     if 'disbale_captions' in gallery_config and gallery_config['disbale_captions']:
