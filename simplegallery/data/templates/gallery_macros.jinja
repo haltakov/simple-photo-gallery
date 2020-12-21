@@ -25,13 +25,18 @@
 <div class="row">
   <div class="col gallery">
     {% set index = namespace(value=0) %}
+    {% set first_photo = namespace(value=-1) %}
     {% for image in images %}
       {% if image.name >= from and image.name <= to %}
+        {% if first_photo.value == -1 %}
+          {% set first_photo.value = loop.index %}
+        {% endif %}
+
         <a href="{{ image.src }}"
            class="gallery-photo"
            data-index="{{ index.value }}"
            data-type="{{ image.type }}"
-           data-gallery="{{ from }}"
+           data-gallery="{{ first_photo.value }}"
            data-width="{{ image.size[0] }}"
            data-height="{{ image.size[1] }}"
            data-date="{{ image.date }}"
