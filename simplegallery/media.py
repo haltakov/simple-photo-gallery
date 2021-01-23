@@ -68,7 +68,7 @@ def create_image_thumbnail(image_path, thumbnail_path, height):
     image = image.resize(thumbnail_size, Image.ANTIALIAS)
 
     # Convert to RGB if needed
-    if image.mode == "P":
+    if image.mode != "RGB":
         image = image.convert("RGB")
 
     image.save(thumbnail_path)
