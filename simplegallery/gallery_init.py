@@ -39,6 +39,14 @@ def parse_args():
     )
 
     parser.add_argument(
+        "--image-source",
+        dest="image_source",
+        action="store",
+        default=None,
+        help="Path to a directory from where the images should be copied into the gallery.",
+    )
+
+    parser.add_argument(
         "--force",
         dest="force",
         action="store_true",
@@ -92,7 +100,7 @@ def check_if_gallery_already_exists(gallery_root):
     return False
 
 
-def create_gallery_folder_structure(gallery_root):
+def create_gallery_folder_structure(gallery_root, image_source):
     """
     Creates the gallery folder structure by copying all the gallery templates and moving all images and videos to the
     photos subfolder
@@ -114,7 +122,11 @@ def create_gallery_folder_structure(gallery_root):
     photos_dir = os.path.join(gallery_root, "public", "images", "photos")
     spg_common.log(f"Moving all photos and videos to {photos_dir}...")
 
-    for path in glob.glob(os.path.join(gallery_root, "*")):
+    only_copy = True
+    if not image_source:
+        image_source = gallery_root
+        only_copy = False
+    for path in glob.glob(os.path.join(image_source, "*")):
         basename_lower = os.path.basename(path).lower()
         if (
             basename_lower.endswith(".jpg")
@@ -123,7 +135,10 @@ def create_gallery_folder_structure(gallery_root):
             or basename_lower.endswith(".mp4")
             or basename_lower.endswith(".png")
         ):
-            shutil.move(path, os.path.join(photos_dir, os.path.basename(path)))
+            if only_copy:
+                shutil.copy(path, os.path.join(photos_dir, os.path.basename(path)))
+            else:
+                shutil.move(path, os.path.join(photos_dir, os.path.basename(path)))
 
 
 def create_gallery_json(gallery_root, remote_link):
@@ -211,6 +226,9 @@ def main():
     # Get the gallery root from the arguments
     gallery_root = args.path
 
+    # Get the image source directory
+    image_source = args.image_source
+
     # Check if a gallery can be created at this location
     if not check_if_gallery_creation_possible(gallery_root):
         sys.exit(1)
@@ -244,7 +262,7 @@ def main():
 
     # Copy the template files to the gallery root
     try:
-        create_gallery_folder_structure(gallery_root)
+        create_gallery_folder_structure(gallery_root, image_source)
     except Exception as exception:
         spg_common.log(
             f"Something went wrong while generating the gallery structure: {str(exception)}"
