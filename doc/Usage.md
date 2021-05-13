@@ -47,6 +47,14 @@ gallery-init <link_to_shared_album>
 
 Using an online album will not download the photos, but just create links to them.
 
+### Skip questions on the console
+
+You can skip asking questions on the console by the script with the following parameter. In this case the defaults will be used to create the configuration.
+
+```
+gallery-init --use-defaults
+```
+
 
 ## Build the gallery files (`gallery-build`)
 
