@@ -60,6 +60,13 @@ def parse_args():
         help="Use to copy the template files only, without generating a gallery.json",
     )
 
+    parser.add_argument(
+        "--use-defaults",
+        dest="use_defaults",
+        action="store_true",
+        help="Skip the questions on the console and use defaults",
+    )
+
     return parser.parse_args()
 
 
@@ -141,11 +148,12 @@ def create_gallery_folder_structure(gallery_root, image_source):
                 shutil.move(path, os.path.join(photos_dir, os.path.basename(path)))
 
 
-def create_gallery_json(gallery_root, remote_link):
+def create_gallery_json(gallery_root, remote_link, use_defaults=False):
     """
     Creates a new gallery.json file, based on settings specified by the user
     :param gallery_root: Path to the gallery root
     :param remote_link: Optional link to a remote shared album containing the photos for the gallery
+    :param use_defaults: If set to True, there will be no questions asked on the console
     """
 
     spg_common.log("Creating the gallery config...")
@@ -162,6 +170,11 @@ def create_gallery_json(gallery_root, remote_link):
         images_path=os.path.join(gallery_root, "public", "images", "photos"),
         thumbnails_path=os.path.join(gallery_root, "public", "images", "thumbnails"),
         thumbnail_height=160,
+        title="My Gallery",
+        description="Default description of my gallery",
+        background_photo="",
+        url="",
+        background_photo_offset=30,
     )
 
     # Initialize remote gallery configuration
@@ -180,32 +193,34 @@ def create_gallery_json(gallery_root, remote_link):
     default_title = "My Gallery"
     default_description = "Default description of my gallery"
 
-    # Ask the user for the title
-    gallery_config["title"] = (
-        input(f'What is the title of your gallery? (default: "{default_title}")\n')
-        or default_title
-    )
-
-    # Ask the user for the description
-    gallery_config["description"] = (
-        input(
-            f'What is the description of your gallery? (default: "{default_description}")\n'
+    # If defaults are not used, ask the user to provide input to some important settings
+    if not use_defaults:
+        # Ask the user for the title
+        gallery_config["title"] = (
+            input(f'What is the title of your gallery? (default: "{default_title}")\n')
+            or gallery_config["title"]
         )
-        or default_description
-    )
 
-    # Ask the user for the background image
-    gallery_config["background_photo"] = input(
-        f'Which image should be used as background for the header? (default: "")\n'
-    )
+        # Ask the user for the description
+        gallery_config["description"] = (
+            input(
+                f'What is the description of your gallery? (default: "{default_description}")\n'
+            )
+            or gallery_config["description"]
+        )
 
-    # Ask the user for the site URL
-    gallery_config["url"] = input(
-        f'What is your site URL? This is only needed to better show links to your galleries on social media (default: "")\n'
-    )
+        # Ask the user for the background image
+        gallery_config["background_photo"] = input(
+            f'Which image should be used as background for the header? (default: "")\n'
+        )
 
-    # Set the default background offset right after the background image
-    gallery_config["background_photo_offset"] = 30
+        # Ask the user for the site URL
+        gallery_config["url"] = input(
+            f'What is your site URL? This is only needed to better show links to your galleries on social media (default: "")\n'
+        )
+
+        # Set the default background offset right after the background image
+        gallery_config["background_photo_offset"] = 30
 
     # Save the configuration to a file
     gallery_config_path = os.path.join(gallery_root, "gallery.json")
@@ -250,7 +265,7 @@ def main():
     # Create the gallery json file
     try:
         if not args.keep_gallery_config:
-            create_gallery_json(gallery_root, args.remote_link)
+            create_gallery_json(gallery_root, args.remote_link, args.use_defaults)
     except spg_common.SPGException as exception:
         spg_common.log(exception.message)
         sys.exit(1)
