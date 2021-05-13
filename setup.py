@@ -7,7 +7,7 @@ with open(os.path.join(current_folder, 'README.md'), encoding='utf-8') as f:
 
 setup(
     name='simple-photo-gallery',
-    version='1.5.0',
+    version='1.5.1b1',
     description='Pretty and simple HTML photo galleries you can host yourself.',
     long_description=long_description,
     long_description_content_type='text/markdown',
@@ -35,10 +35,10 @@ setup(
         ]
     },
     install_requires=[
-        'opencv-python>=4.2.0.32',
-        'pillow>=7.0.0',
-        'jinja2>=2.10.3',
-        'selenium>=3.141.0',
-        'requests>=2.22.0',
+        'opencv-python',
+        'pillow',
+        'jinja2',
+        'selenium',
+        'requests',
     ]
 )
