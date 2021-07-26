@@ -33,7 +33,7 @@ pip install simple-photo-gallery
 
 ## Example Usage
 
-You can quickly create a gallery with the default settings. For more detailed information see [Usage](doc/Usage.md).
+You can quickly create a gallery with the default settings. For more detailed information see [Usage](https://github.com/haltakov/simple-photo-gallery/blob/master/doc/Usage.md).
 
 1. Collect all the photos and videos you want to have in the gallery into a folder.
 2. Open a terminal and go to the folder with your photos. Use the following command to initialize the gallery. The script will ask you a few questions, like gallery name or background image. You can always just press Enter for the default settings and change them later.
@@ -53,7 +53,7 @@ The gallery is ready! You can view it by opening the `index.html` file in the `p
 
 4. Optionally, you can directly publish the gallery on [Netlify](https://www.netlify.com/), which offers a free plan.
 
-See [Gallery Configuration](doc/GalleryConfiguration.md) for more details how you can customize your gallery. You can also find two example galleries in the [`examples`](https://github.com/haltakov/simple-photo-gallery/tree/master/examples) folder.
+See [Gallery Configuration](https://github.com/haltakov/simple-photo-gallery/blob/master/doc/GalleryConfiguration.md) for more details how you can customize your gallery. You can also find two example galleries in the [`examples`](https://github.com/haltakov/simple-photo-gallery/tree/master/examples) folder.
 
 
 ## Hosting
