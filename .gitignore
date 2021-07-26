@@ -10,3 +10,4 @@ htmlcov
 *.jpg
 *.mp4
 *.log
+.venv
