@@ -50,7 +50,7 @@ def build_html(gallery_config):
         images_data = json.load(images_data_in, object_pairs_hook=OrderedDict)
 
     # Remove descriptions if the corresponding option is enabled
-    if 'disbale_captions' in gallery_config and gallery_config['disbale_captions']:
+    if 'disable_captions' in gallery_config and gallery_config['disable_captions']:
         for image in images_data:
             images_data[image]['description'] = ''
 
