@@ -24,7 +24,7 @@ You can show a caption for each photo that is shown on the bottom of the image w
 
 You can disable the captions by adding the following like to your `gallery.json` file. This is useful if your photos have some metadata in the `ImageDescription` EXIF tag. 
 ```
-"disbale_captions": true
+"disable_captions": true
 ```
 
 ### Photo Date
