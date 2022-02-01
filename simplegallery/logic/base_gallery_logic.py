@@ -23,11 +23,13 @@ class BaseGalleryLogic:
         """
         pass
 
-    def generate_images_data(self, images_data):
+    def generate_images_data(self, images_data, reuse_descriptions=False):
         """
         Generate the metadata for each image
         :param images_data: Images data dictionary containing the existing metadata of the images and which will be
         updated by this function
+        :param reuse_descriptions: keep existing descriptions even if a file
+        change is detected
         :return updated images data dictionary
         """
         return images_data
@@ -37,6 +39,10 @@ class BaseGalleryLogic:
         Creates or updates the images_data.json file with metadata for each image (e.g. size, description and thumbnail)
         """
         images_data_path = self.gallery_config["images_data_file"]
+        if "force_description_reuse" in self.gallery_config:
+            reuse_descriptions = self.gallery_config["force_description_reuse"]
+        else:
+            reuse_descriptions = False
 
         # Load the existing file or create an empty dict
         if os.path.exists(images_data_path):
@@ -46,7 +52,7 @@ class BaseGalleryLogic:
             images_data = {}
 
         # Generate the images data
-        self.generate_images_data(images_data)
+        self.generate_images_data(images_data, reuse_descriptions)
 
         # Write the data to the JSON file
         with open(images_data_path, "w", encoding="utf-8") as images_out:

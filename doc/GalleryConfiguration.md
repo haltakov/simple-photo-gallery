@@ -14,6 +14,7 @@ The `gallery.json` file in the gallery root folder contains important settings f
 * `url` - URL of the website where your gallery will be hosted. This information is only needed to enable better display when you share a link to your gallery on social media like Twitter or Facebook. Example: `"https://www.haltakov.net/gallery_usa_multi/CUPcTB5AcbutK3vyLQ26"`.
 * `date_format` - optional parameter if you want to display the date the image is taken in the caption. See [Photo Date](#photo-date) for more information. Disabled by default.
 * `disable_captions` - optional parameter that you can set to `true` if you want to disable the photo captions entirely. Set to `false` by default.
+* `force_description_reuse` - will reuse existing image descriptions in the images_data.json file, even if the file hash or modification time does not match. Set to `false` by default.
 
 ## Photo Captions
 

@@ -176,6 +176,7 @@ def create_gallery_json(gallery_root, remote_link, use_defaults=False):
         url="",
         background_photo_offset=30,
         disable_captions=False,
+        force_description_reuse=False,
     )
 
     # Initialize remote gallery configuration
