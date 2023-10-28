@@ -65,7 +65,11 @@ def create_image_thumbnail(image_path, thumbnail_path, height):
         image = rotate_image_by_orientation(image)
 
     thumbnail_size = get_thumbnail_size(image.size, height)
-    image = image.resize(thumbnail_size, Image.ANTIALIAS)
+    if hasattr(Image, "ANTIALIAS"):
+        antialias = Image.ANTIALIAS            # PIL < 10.0.0
+    else:
+        antialias = Image.LANCZOS              # PIL >= 10.0.0
+    image = image.resize(thumbnail_size, antialias)
 
     # Convert to RGB if needed
     if image.mode != "RGB":
