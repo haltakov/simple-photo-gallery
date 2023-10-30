@@ -49,8 +49,12 @@ def build_html(gallery_config):
     with open(gallery_config["images_data_file"], "r") as images_data_in:
         images_data = json.load(images_data_in, object_pairs_hook=OrderedDict)
 
-    # Remove descriptions if the corresponding option is enabled
-    if 'disable_captions' in gallery_config and gallery_config['disable_captions']:
+# Add descriptions if the caption option is disable or description option is enabled
+    for image in images_data:
+        images_data[image]['description'] = ''.join(image).split(".")[0]
+
+    # Remove descriptions if the caption option is enabled or description option is disable
+    if gallery_config['disable_captions'] or gallery_config['description_photo_as_filename'] == False:
         for image in images_data:
             images_data[image]['description'] = ''
 
