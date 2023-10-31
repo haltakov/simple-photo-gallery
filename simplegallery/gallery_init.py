@@ -194,7 +194,6 @@ def create_gallery_json(gallery_root, remote_link, use_defaults=False):
     # Set configuration defaults
     default_title = "My Gallery"
     default_description = "Default description of my gallery"
-    default_description_photo_as_filename="True"
 
     # If defaults are not used, ask the user to provide input to some important settings
     if not use_defaults:
@@ -213,8 +212,8 @@ def create_gallery_json(gallery_root, remote_link, use_defaults=False):
         )
 
         if input(
-                    f'Set the description of your photos as their name? (Only True or False, other answers set as default) (default: "{default_description_photo_as_filename}")\n'
-                    ) == "False": gallery_config["description_photo_as_filename"] = False
+                    f'Do you want to set the description of your photos as their name? (Only [y]es or [n]o, other answers set as default) (default: "yes")\n'
+                    ).lower() == "n": gallery_config["description_photo_as_filename"] = False
         else: gallery_config["description_photo_as_filename"] = gallery_config["description_photo_as_filename"]
 
         # Ask the user for the background image
