@@ -274,11 +274,11 @@ a.pswp__share--download:hover {
   text-align: left;
   max-width: 420px;
   margin: 0 auto;
-  font-size: 18px;
+  font-size: 22px;
   font-weight: bold;
   padding: 10px;
   line-height: 20px;
-  color: #CCC; }
+  color: white; }
 
 .pswp__caption--empty {
   display: none; }
@@ -441,10 +441,9 @@ a.pswp__share--download:hover {
 .pswp--has_mouse .pswp__button--arrow--left,
 .pswp--has_mouse .pswp__button--arrow--right {
   visibility: visible; }
-
 .pswp__top-bar,
 .pswp__caption {
-  background-color: rgba(0, 0, 0, 0.5); }
+  background-color: rgba(0, 0, 0, 0.7); }
 
 /* pswp__ui--fit class is added when main image "fits" between top bar and bottom bar (caption) */
 .pswp__ui--fit .pswp__top-bar,

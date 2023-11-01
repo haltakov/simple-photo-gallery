@@ -172,6 +172,7 @@ def create_gallery_json(gallery_root, remote_link, use_defaults=False):
         thumbnail_height=160,
         title="My Gallery",
         description="Default description of my gallery",
+        description_photo_as_filename=True,
         background_photo="",
         url="",
         background_photo_offset=30,
@@ -209,6 +210,11 @@ def create_gallery_json(gallery_root, remote_link, use_defaults=False):
             )
             or gallery_config["description"]
         )
+
+        if input(
+                    f'Do you want to set the description of your photos as their name? (Only [y]es or [n]o, other answers set as default) (default: "yes")\n'
+                    ).lower() == "n": gallery_config["description_photo_as_filename"] = False
+        else: gallery_config["description_photo_as_filename"] = gallery_config["description_photo_as_filename"]
 
         # Ask the user for the background image
         gallery_config["background_photo"] = input(
