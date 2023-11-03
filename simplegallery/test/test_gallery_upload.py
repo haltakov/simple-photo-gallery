@@ -32,12 +32,12 @@ def setup_gallery(tempdir):
 
 
 def add_remote_location(tempdir, location):
-    with open(os.path.join(tempdir.path, "gallery.json"), "r") as gallery_json_file:
+    with open(os.path.join(tempdir.path, "gallery.json"), "r",encoding="utf-8") as gallery_json_file:
         gallery_config = json.load(gallery_json_file)
 
     gallery_config["remote_location"] = location
 
-    with open(os.path.join(tempdir.path, "gallery.json"), "w") as gallery_json_file:
+    with open(os.path.join(tempdir.path, "gallery.json"), "w",encoding="utf-8") as gallery_json_file:
         json.dump(gallery_config, gallery_json_file)
 
 

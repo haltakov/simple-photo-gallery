@@ -16,7 +16,7 @@ def init_gallery_and_read_gallery_config(path, remote_link=""):
     sys.argv = ["gallery_init", remote_link, "-p", path]
     gallery_init.main()
 
-    with open(os.path.join(path, "gallery.json"), "r") as json_in:
+    with open(os.path.join(path, "gallery.json"), "r",encoding="utf-8") as json_in:
         gallery_config = json.load(json_in)
 
     return gallery_config

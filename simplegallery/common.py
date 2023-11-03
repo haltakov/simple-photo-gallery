@@ -28,7 +28,7 @@ def read_gallery_config(gallery_path):
     :return: dict containing the gallery config
     """
     try:
-        with open(gallery_path, "r") as gallery_in:
+        with open(gallery_path, "r", encoding="utf-8") as gallery_in:
             return json.load(gallery_in)
     except OSError:
         return []

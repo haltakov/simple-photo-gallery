@@ -135,7 +135,7 @@ def deploy_to_netlify(zip_file_path, token, site_id):
     :return: URL to the site where the gallery was uploaded
     """
     # Read the content of the ZIP file
-    with open(zip_file_path, "rb") as zip_in:
+    with open(zip_file_path, "rb",encoding="utf-8") as zip_in:
         gallery_data = zip_in.read()
 
     sites_url = "https://api.netlify.com/api/v1/sites" + (

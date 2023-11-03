@@ -4,7 +4,7 @@ import sys
 import json
 import jinja2
 from collections import OrderedDict
-import simplegallery.common as spg_common
+import common as spg_common
 from simplegallery.logic.gallery_logic import get_gallery_logic
 
 
@@ -46,7 +46,7 @@ def build_html(gallery_config):
     """
 
     # Load the images_data
-    with open(gallery_config["images_data_file"], "r") as images_data_in:
+    with open(gallery_config["images_data_file"], "r",encoding="utf-8") as images_data_in:
         images_data = json.load(images_data_in, object_pairs_hook=OrderedDict)
 
 # Add descriptions if the caption option is disable or description option is enabled

@@ -56,7 +56,7 @@ class SPGInitTestCase(unittest.TestCase):
         remote_type=None,
         remote_link=None,
     ):
-        with open(gallery_config_file, "r") as json_in:
+        with open(gallery_config_file, "r",encoding="utf-8") as json_in:
             gallery_config = json.load(json_in)
 
         self.assertEqual(

@@ -93,7 +93,7 @@ class SPGBuildTestCase(unittest.TestCase):
             )
 
             with open(
-                os.path.join(tempdir.path, "public", "index.html"), "r"
+                os.path.join(tempdir.path, "public", "index.html"), "r",encoding="utf-8"
             ) as html_in:
                 html = html_in.read()
 
