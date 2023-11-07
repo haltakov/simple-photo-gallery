@@ -1,5 +1,7 @@
 # Simple Photo Gallery
 
+> Important: I'm currently very busy in my job, so I don't have much time to support this project. It seems there is some interest in it on a regular basis, so I'd be happy to give admin access to another developer that wants to maintain/develop the project further. Please get in touch with me if you are interested.
+
 ### Check out the new [Project Page](https://haltakov.net/simple-photo-gallery)!
 
 With Simple Photo Gallery you can create beautiful and simple photo galleries that help you tell your story. Check out the [example gallery](https://www.haltakov.net/simple-photo-gallery/gallery_usa_multi/).
