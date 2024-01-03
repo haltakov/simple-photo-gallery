@@ -20,12 +20,32 @@ def parse_photo_link(photo_url):
 
 
 class GoogleGalleryLogic(BaseGalleryLogic):
+
+    photos = {}
+
     def create_thumbnails(self, force=False):
         """
         This function doesn't do anything, because the thumbnails are links to OneDrive
         :param force: Forces generation of thumbnails if set to true
         """
         pass
+
+    def is_scroll_bottom(self,driver):
+        return driver.execute_script("return document.querySelector('c-wiz[id]').scrollHeight-document.querySelector('c-wiz[id]').scrollTop-document.querySelector('c-wiz[id]').getBoundingClientRect().height == 0;")
+
+    # Function to scroll down the page using JavaScript
+    def scroll_down(self,driver):
+        driver.execute_script(f"document.querySelector('c-wiz[id]').scrollBy(0, document.querySelector('c-wiz[id]').getBoundingClientRect().height);")
+
+    def store_photos(self,new_photos):
+
+        for new_photo in new_photos:
+            photo_url = new_photo.get_attribute("data-latest-bg")
+            photo_base_url, photo_name = parse_photo_link(photo_url)
+            self.photos[photo_url] = {
+                "photo_base_url": photo_base_url,
+                "photo_name": photo_name
+            }
 
     def generate_images_data(self, images_data):
         """
@@ -42,7 +62,9 @@ class GoogleGalleryLogic(BaseGalleryLogic):
 
         # Configure the driver in headless mode
         options = Options()
-        options.headless = True
+        #options.headless = True
+        options.add_argument("--width=1920")
+        options.add_argument("--height=1500")
         spg_common.log(f"Starting Firefox webdriver...")
         driver = webdriver.Firefox(options=options, executable_path=webdriver_path)
 
@@ -50,31 +72,44 @@ class GoogleGalleryLogic(BaseGalleryLogic):
         spg_common.log(f'Loading album from {self.gallery_config["remote_link"]}...')
         driver.get(self.gallery_config["remote_link"])
 
-        # Wait until the page is fully loaded
-        loading_start = time.time()
-        last_image_count = 0
-        while True:
-            image_count = len(driver.find_elements_by_xpath("//div[@data-latest-bg]"))
-            if image_count > 1 and image_count == last_image_count:
-                break
-            last_image_count = image_count
-            if (time.time() - loading_start) > 30:
-                raise spg_common.SPGException("Loading the page took too long.")
-            time.sleep(5)
+        wait = WebDriverWait(driver, 10)
+        wait.until(EC.presence_of_all_elements_located((By.XPATH, '//div[@data-latest-bg]')))
 
-        # Parse all photos
-        spg_common.log("Finding photos...")
-        photos = driver.find_elements_by_xpath("//div[@data-latest-bg]")
+        # Scroll until reaching the total scroll height
+        while not self.is_scroll_bottom(driver):
 
-        spg_common.log(f"Photos found: {len(photos)}")
+            # Capture new elements
+            new_elements = driver.find_elements(By.XPATH, '//div[@data-latest-bg]')
+
+            # Add new elements to the seen set
+            self.store_photos(new_elements)
+
+            # Output information
+            print(f"Scrolled, New Elements: {len(new_elements)}, Total Elements: {len(self.photos)}")
+
+            # Scroll down
+            self.scroll_down(driver)
+
+            # Wait for new elements to load
+            #could use a proper element check here instead of arbitrary wait
+            time.sleep(1)
+
+        spg_common.log(f"Photos found: {len(self.photos)}")
         current_photo = 1
-        for photo in photos:
-            photo_url = photo.get_attribute("data-latest-bg")
-            photo_base_url, photo_name = parse_photo_link(photo_url)
+        for photo_url in self.photos:
+            #photo_url = photo.get_attribute("data-latest-bg")
+            #photo_base_url, photo_name = parse_photo_link(photo_url)
+
+            photo_base_url = self.photos[photo_url]['photo_base_url']
+            photo_name = self.photos[photo_url]["photo_name"]
+
             spg_common.log(
-                f"{current_photo}/{len(photos)}\t\tProcessing photo {photo_name}: {photo_url}"
+                f"{current_photo}/{len(self.photos)}\t\tProcessing photo {photo_name}: {photo_url}"
             )
             current_photo += 1
+
+            if "http" not in photo_url:
+                continue
 
             # Compute photo and thumbnail sizes
             photo_link_max_size = f"{photo_base_url}=w9999-h9999-no"
