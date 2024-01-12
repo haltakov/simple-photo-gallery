@@ -2,7 +2,8 @@ import os
 import cv2
 import requests
 from io import BytesIO
-from PIL import Image, ExifTags
+from PIL import Image, ExifTags, ImageFile
+ImageFile.LOAD_TRUNCATED_IMAGES = True
 from datetime import datetime
 import simplegallery.common as spg_common
 
