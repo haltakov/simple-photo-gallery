@@ -71,7 +71,13 @@
 # and it can uncover problems when dependencies are updated that introduce
 # breakages.
 
+# temp dir where source files and generated site will be located. it can be
+# safely deleted
 TESTDIR=output
+
+# port for local serving the static site. using 8008 because 8000 gets a little
+# overcrowded on my system
+SERVER_PORT=8008
 
 all: help
 
@@ -83,11 +89,14 @@ help:
 	@echo ""
 	@echo "testinit    - test creation of gallery from files (gallery-init)"
 	@echo "testinitrem - test init of gallery from remote album (goog or onedrive)"
-	@echo "              (need to set SPG_REMOTE) variable"
+	@echo "              (need to set SPG_REMOTE variable)"
 	@echo "              (current setting SPG_REMOTE=$(SPG_REMOTE))"
 	@echo "testbuild   - test build of gallery (gallery-build)"
 	@echo "testaws     - test upload to aws (gallery-upload aws)"
+	@echo "              (need to set SPG_AWS_BUCKET)"
+	@echo "              (current setting SPG_AWS_BUCKET=$(SPG_AWS_BUCKET))"
 	@echo "clean       - clean generated files"
+	@echo "serve       - run local python web server for static site"
 	@echo ""
 	@echo "venv        - create python virtual environment (automatic when needed)"
 	@echo "cleanvenv   - clean the python venv"
@@ -112,7 +121,7 @@ testbuild: $(TESTDIR)/public/index.html
 
 .PHONY: testaws
 testaws:
-	. venv/bin/activate; cd $(TESTDIR); gallery-upload aws s3://spg-gallery-test
+	. venv/bin/activate; cd $(TESTDIR); gallery-upload aws $(SPG_AWS_BUCKET)
 
 $(TESTDIR)/public/index.html:
 	. venv/bin/activate; cd $(TESTDIR); gallery-build
@@ -120,6 +129,10 @@ $(TESTDIR)/public/index.html:
 .PHONY: clean
 clean:
 	rm -rf $(TESTDIR)
+
+.PHONY: serve
+serve: venv
+	venv/bin/python -m http.server -d $(TESTDIR)/public $(SERVER_PORT)
 
 venv: venv/bin/activate
 
