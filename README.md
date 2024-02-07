@@ -33,6 +33,9 @@ Simple Photo Gallery can be easily installed with `pip`. If you don't have `pip`
 pip install simple-photo-gallery
 ```
 
+It might be a really good idea to use a [Python virtual environment to install
+simple-photo-gallery](doc/InstallWithVenv.md).
+
 ## Example Usage
 
 You can quickly create a gallery with the default settings. For more detailed information see [Usage](https://github.com/haltakov/simple-photo-gallery/blob/master/doc/Usage.md).
