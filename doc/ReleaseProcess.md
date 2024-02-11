@@ -20,11 +20,15 @@ between virtual environments.
 
 1. Increment the version number in `setup.py`.
 2. Commit setup.py, commit to master branch and push.
-3. `git tag 1.2.3`
-4. `git push origin 1.2.3`
+3. `git tag 1.2.3` (optional - see notes)
+4. `git push origin 1.2.3` (see notes)
 
-Note: If, after tagging you make further commits before releasing, be sure to
-move the tag to be the most recent commit at the time of release.
+**Tag notes:**
+
+* Instead of tagging using command line git in your local repo, you can instead
+  do it from Github UI. If you prefer that, then see the Publish section below.
+* If, after tagging you make further commits before releasing, be sure to move
+  the tag to be the most recent commit at the time of release.
 
 ## Setup
 
@@ -130,7 +134,9 @@ are a maintainer of this project on github):
 1. https://github.com/haltakov/simple-photo-gallery
 2. go to the releases page
 3. click "draft a new release"
-4. under the "choose a tag" dropdown, select the new release tag
+4. under the "choose a tag" dropdown, you can select the tag you creeated
+   earlier, or if you did not create one already you can create a new tag here.
+   (if you create a new tag it should be of the form 1.2.3)
 5. for title, enter "Release v1.2.3" (except use the actual version number)
 6. In the description box, type up the release notes. This should summarize
    changes in the release, any new feature, bugs fixed, etc. (paste the release
