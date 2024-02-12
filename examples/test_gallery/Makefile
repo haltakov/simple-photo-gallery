@@ -99,6 +99,7 @@ help:
 	@echo "serve       - run local python web server for static site"
 	@echo ""
 	@echo "venv        - create python virtual environment (automatic when needed)"
+	@echo "venvdist    - use dist package instead of source (SPG_VER=$(SPG_VER))"
 	@echo "cleanvenv   - clean the python venv"
 	@echo "safety      - run python package checker (automatic when needed)"
 	@echo ""
@@ -135,14 +136,20 @@ serve: venv
 	venv/bin/python -m http.server -d $(TESTDIR)/public $(SERVER_PORT)
 
 venv: venv/bin/activate
+	venv/bin/python -m pip install ../..
+	venv/bin/safety check
+
+.PHONY: venvdist
+venvdist: venv/bin/activate
+	venv/bin/python -m pip install ../../dist/simple_photo_gallery-$(SPG_VER)-py3-none-any.whl
+	venv/bin/safety check
 
 venv/bin/activate:
 	test -d venv || python3 -m venv venv
+	touch $@
 	venv/bin/python -m pip install -U pip setuptools wheel
 	venv/bin/python -m pip install -U safety
-	venv/bin/python -m pip install ../..
-	touch $@
-	venv/bin/safety check
+	touch venv
 
 .PHONY: cleanvenv
 cleanvenv:
