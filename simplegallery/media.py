@@ -1,4 +1,6 @@
 import os
+import sys
+import hashlib
 import cv2
 import requests
 from io import BytesIO
@@ -11,6 +13,22 @@ import simplegallery.common as spg_common
 # Mapping of the string representation if an Exif tag to its id
 EXIF_TAG_MAP = {ExifTags.TAGS[tag]: tag for tag in ExifTags.TAGS}
 
+def get_sha1(imagepath):
+    """
+    Compute SHA1 for an image file.
+
+    :param imagepath: path to image file
+    :return: hexdigest as a string
+    """
+    sha1 = hashlib.sha1()
+    with open(imagepath, 'rb') as imgfile:
+        while True:
+            imgdata = imgfile.read(65536)
+            if not imgdata:
+                break
+            sha1.update(imgdata)
+
+    return sha1.hexdigest()
 
 def rotate_image_by_orientation(image):
     """
@@ -238,6 +256,7 @@ def get_metadata(image, thumbnail_path, public_path):
         src=os.path.relpath(image, public_path),
         mtime=os.path.getmtime(image),
         date=get_image_date(image),
+        imghash=get_sha1(image),
     )
 
     if image.lower().endswith(".jpg") or image.lower().endswith(".jpeg"):

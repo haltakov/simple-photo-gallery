@@ -95,11 +95,13 @@ class FilesGalleryLogic(BaseGalleryLogic):
 
         return image_date_string
 
-    def generate_images_data(self, images_data):
+    def generate_images_data(self, images_data, reuse_descriptions=False):
         """
         Generates the metadata of each image file
         :param images_data: Images data dictionary containing the existing metadata of the images and which will be
         updated by this function
+        :reuse_descriptions: keep existing descriptions even if a file
+        change is detected
         :return updated images data dictionary
         """
 
@@ -139,12 +141,27 @@ class FilesGalleryLogic(BaseGalleryLogic):
                 image_data["description"] = " "
 
             # Preserve the image description if the photo hasn't changed since the last time
-            if (
-                photo_name in images_data
-                and images_data[photo_name]["mtime"] == image_data["mtime"]
-                and images_data[photo_name]["description"]
-            ):
-                image_data["description"] = images_data[photo_name]["description"]
+            if photo_name in images_data:
+                photo_data = images_data[photo_name]
+
+                # if it already has a description, check for file change
+                if photo_data["description"]:
+
+                    # use file hash for comparison if available
+                    if "imghash" in photo_data:
+                        if (reuse_descriptions or
+                            image_data["imghash"] == photo_data["imghash"]):
+                            image_data["description"] = photo_data["description"]
+                        else:
+                            print(f"*** Change detected for {photo_name}, overwriting existing description.")
+
+                    # use mtime if imghash not available
+                    else:
+                        if (reuse_descriptions or
+                            image_data["mtime"] == photo_data["mtime"]):
+                            image_data["description"] = photo_data["description"]
+                        else:
+                            print(f"*** Change detected for {photo_name}, overwriting existing description.")
 
             images_data[photo_name] = image_data
 
