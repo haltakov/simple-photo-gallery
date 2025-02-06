@@ -84,7 +84,7 @@ def main():
         os.path.join(gallery_root, gallery_config["public_path"], "index.html")
     ):
         spg_common.log(
-            f"Cannot find index.html. Please build the gallery first with gallery_build.!"
+            f"Cannot find index.html. Please build the gallery first with gallery-build!"
         )
         sys.exit(1)
 
