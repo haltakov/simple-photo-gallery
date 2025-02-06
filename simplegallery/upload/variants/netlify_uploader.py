@@ -4,7 +4,7 @@ import webbrowser
 import requests
 import zipfile
 import jinja2
-import pkg_resources
+import importlib
 import tempfile
 from urllib import parse
 from http.server import HTTPServer, BaseHTTPRequestHandler
@@ -51,7 +51,7 @@ class SimplePhotoGalleryHTTPRequestHandler(BaseHTTPRequestHandler):
         self.end_headers()
 
         file_loader = jinja2.FileSystemLoader(
-            pkg_resources.resource_filename("simplegallery", "data/netlify")
+            importlib.resources.files("simplegallery").joinpath("data/netlify")
         )
         env = jinja2.Environment(loader=file_loader)
         template = env.get_template(page)

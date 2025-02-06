@@ -1,5 +1,5 @@
 import time
-import pkg_resources
+import importlib
 import simplegallery.common as spg_common
 import simplegallery.media as spg_media
 from selenium import webdriver
@@ -36,9 +36,8 @@ class OnedriveGalleryLogic(BaseGalleryLogic):
         """
 
         # Get the path to the Firefox webdriver
-        webdriver_path = pkg_resources.resource_filename(
-            "simplegallery", "bin/geckodriver"
-        )
+        webdriver_path = importlib.resources.files(
+            "simplegallery").joinpath("bin/geckodriver")
 
         # Configure the driver in headless mode
         options = Options()

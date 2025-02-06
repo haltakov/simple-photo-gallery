@@ -5,7 +5,6 @@ import sys
 import glob
 import shutil
 import json
-from distutils.dir_util import copy_tree
 import simplegallery.common as spg_common
 import simplegallery.logic.gallery_logic as gallery_logic
 
@@ -116,11 +115,11 @@ def create_gallery_folder_structure(gallery_root, image_source):
 
     # Copy the public and templates folder
     spg_common.log("Copying gallery template files...")
-    copy_tree(
+    shutil.copytree(
         importlib.resources.files("simplegallery") / "data/templates",
         os.path.join(gallery_root, "templates"),
     )
-    copy_tree(
+    shutil.copytree(
         importlib.resources.files("simplegallery") / "data/public",
         os.path.join(gallery_root, "public"),
     )
