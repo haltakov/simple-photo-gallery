@@ -152,7 +152,7 @@ def deploy_to_netlify(zip_file_path, token, site_id):
 
     response = json.loads(response_string.text)
 
-    return f'https://{response.get("subdomain")}.netlify.com'
+    return response.get("url")
 
 
 def create_website_zip(gallery_path, zip_file_path):
