@@ -124,6 +124,10 @@ testbuild: $(TESTDIR)/public/index.html
 testaws:
 	. venv/bin/activate; cd $(TESTDIR); gallery-upload aws $(SPG_AWS_BUCKET)
 
+.PHONY: testnetlify
+testnetlify:
+	. venv/bin/activate; cd $(TESTDIR); gallery-upload netlify
+
 $(TESTDIR)/public/index.html:
 	. venv/bin/activate; cd $(TESTDIR); gallery-build
 
