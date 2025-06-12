@@ -6,14 +6,14 @@ The gallery is fully customizable. For the most common use-cases, there are some
 
 The `gallery.json` file in the gallery root folder contains important settings for the gallery. Some of them are filled by the questions asked by the `gallery-init` command, while others are settings used by other scripts. You can modify the following configurations to customize your gallery. You can also take a look at `gallery.json` of the [example gallery](https://github.com/haltakov/simple-photo-gallery/blob/master/examples/gallery_usa_multi/gallery.json).
 
-* `title` - the title of the gallery shown in the browser title and on the overview image. Example: `"USA Trip 2019"`.
-* `description` - a longer text shown under the title on the overview image. Example: `"We took a road trip with an RV..."`.
-* `background_photo` - the file name of the photo that should be used as background image. Example: `"usa-170.jpg"`.
-* `background_photo_offset` - the vertical offset of the overview image in percentage. Use this to shift the portion of the overview image that is shown to focus on the most important pars. Example: `30`.
-* `thumbnail_height` - height of the generated thumbnails in pixels (default 160).
-* `url` - URL of the website where your gallery will be hosted. This information is only needed to enable better display when you share a link to your gallery on social media like Twitter or Facebook. Example: `"https://www.haltakov.net/gallery_usa_multi/CUPcTB5AcbutK3vyLQ26"`.
-* `date_format` - optional parameter if you want to display the date the image is taken in the caption. See [Photo Date](#photo-date) for more information. Disabled by default.
-* `disable_captions` - optional parameter that you can set to `true` if you want to disable the photo captions entirely. Set to `false` by default.
+- `title` - the title of the gallery shown in the browser title and on the overview image. Example: `"USA Trip 2019"`.
+- `description` - a longer text shown under the title on the overview image. Example: `"We took a road trip with an RV..."`.
+- `background_photo` - the file name of the photo that should be used as background image. Example: `"usa-170.jpg"`.
+- `background_photo_offset` - the vertical offset of the overview image in percentage. Use this to shift the portion of the overview image that is shown to focus on the most important pars. Example: `30`.
+- `thumbnail_height` - height of the generated thumbnails in pixels (default 160).
+- `url` - URL of the website where your gallery will be hosted. This information is only needed to enable better display when you share a link to your gallery on social media like Twitter or Facebook. Example: `"https://old.haltakov.net/gallery_usa_multi/CUPcTB5AcbutK3vyLQ26"`.
+- `date_format` - optional parameter if you want to display the date the image is taken in the caption. See [Photo Date](#photo-date) for more information. Disabled by default.
+- `disable_captions` - optional parameter that you can set to `true` if you want to disable the photo captions entirely. Set to `false` by default.
 
 ## Photo Captions
 
@@ -22,7 +22,8 @@ You can show a caption for each photo that is shown on the bottom of the image w
 1. **Image metadata**: some photo editors, like for example Adobe Lightroom, allow you to define a description for each image. It is written in the image metadata and the `gallery-build` can read it from there. It reads the `ImageDescription` EXIF tag. All captions are then stored in the `images_data.json` file.
 2. **Manually**: executing the `gallery-build` command will create a file called `images_data.json`. It contains some metadata for each photo and a property called `description` where you can enter the caption for each image.
 
-You can disable the captions by adding the following like to your `gallery.json` file. This is useful if your photos have some metadata in the `ImageDescription` EXIF tag. 
+You can disable the captions by adding the following like to your `gallery.json` file. This is useful if your photos have some metadata in the `ImageDescription` EXIF tag.
+
 ```
 "disable_captions": true
 ```
@@ -31,13 +32,13 @@ You can disable the captions by adding the following like to your `gallery.json`
 
 If you want to include the date the photo is take, you can do it by adding the `date_format` setting in `gallery.json`. The value of this setting determines the format of the date. The format is specified using the [Python `strftime` codes](https://docs.python.org/3/library/datetime.html#strftime-strptime-behavior). See some examples for common use-cases below.
 
-| Format | Example |
-| --- | --- |
-| `"date_format": "%d.%m.%Y"` | 13.06.2020 |
-| `"date_format": "Date: %d.%m.%Y"` | Date: 13.06.2020 |
-| `"date_format": "Date: %m/%d/%Y"` | Date: 06/13/2020 |
-| `"date_format": "Date: %b %d %Y"` | Date: Jun 06 2020 |
-| `"date_format": "Date: %B %d %Y"` | Date: June 06 2020 |
+| Format                                  | Example                |
+| --------------------------------------- | ---------------------- |
+| `"date_format": "%d.%m.%Y"`             | 13.06.2020             |
+| `"date_format": "Date: %d.%m.%Y"`       | Date: 13.06.2020       |
+| `"date_format": "Date: %m/%d/%Y"`       | Date: 06/13/2020       |
+| `"date_format": "Date: %b %d %Y"`       | Date: Jun 06 2020      |
+| `"date_format": "Date: %B %d %Y"`       | Date: June 06 2020     |
 | `"date_format": "Photo date: %Y-%m-%d"` | Photo date: 2020-06-13 |
 
 Remember to run `gallery-build` after modifying `gallery.json`.
@@ -54,26 +55,28 @@ You can change the gallery layout in the `templates/index_template.jinja` file. 
                                '',
                                images)}}
 ```
+
 You can call the macro as many times as sections you want to have and modify its 5 parameters to specify each section:
 
-* index of the first image in the section (0 by default)
-* index of the first image in the next section (length of the `images` array by default)
-* section title (by default this is the title from the configuration file)
-* description text of the section (by default it is empty)
-* the array containing the images data: `images` (don't change this)
+- index of the first image in the section (0 by default)
+- index of the first image in the next section (length of the `images` array by default)
+- section title (by default this is the title from the configuration file)
+- description text of the section (by default it is empty)
+- the array containing the images data: `images` (don't change this)
 
 In the [multi-section example gallery](https://github.com/haltakov/simple-photo-gallery/blob/master/examples/gallery_usa_multi/templates/index_template.jinja), there are 3 sections defined like this:
+
 ```
 {{ gallery_macros.section(0, 20,
                              'Joshua Tree National Park',
                              'We spent 2 days in Joshua Tree National park. We spent the first night in the Black Rock campground. After that we travelled through the park for the whole day visiting several interesting view points and trails. After we spent the second night in the Jumbo Rocks campground we left the park from the south exit stopping at several places along the way.',
                              images)}}
-                             
+
 {{ gallery_macros.section(20, 36,
                               'Sequoia and Kings Canyon National Park',
                               'We visited Sequoia and Kings Canyon National Park for another two nights. Since all campgrounds were still closed because of the cold weather we stayed at the John Muir and at the Wuksachi Lodge. We looked at the Giant Sequoias along several trails and also drove down the King\'s Canyon to do a tour of the amazing Zumwalt Meadows.',
                               images)}}
-                              
+
 {{ gallery_macros.section(36, images|length,
                               'San Francisco',
                               'Our trip ended in San Francisco, where we spent a lot of time in the great Golden Gate park and other must see places like the Embarcadero, Downtown and Alcatraz.',
@@ -92,4 +95,3 @@ Alternatively, you can reference the photos by their name, instead of their inde
 ## Advanced Layout Configuration
 
 Feel free to modify any part of the layout you want by just modifying the corresponding HTML, CSS or JavaScript files.
-

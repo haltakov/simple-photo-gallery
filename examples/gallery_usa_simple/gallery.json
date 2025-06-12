@@ -1,13 +1,13 @@
 {
-    "images_data_file": "./images_data.json",
-    "public_path": "./public",
-    "templates_path": "./templates",
-    "images_path": "./public/images/photos",
-    "thumbnails_path": "./public/images/thumbnails",
-    "title": "San Francisco 2019",
-    "description": "We visited San Francisco for a couple of days in May 2019 as part of our California trip.",
-    "thumbnail_height": 156,
-    "background_photo": "usa-494.jpg",
-    "url": "https://www.haltakov.net/gallery_usa_simple/qn3Sj4RidXdq2SqpCgJk",
-    "background_photo_offset": 50
+  "images_data_file": "./images_data.json",
+  "public_path": "./public",
+  "templates_path": "./templates",
+  "images_path": "./public/images/photos",
+  "thumbnails_path": "./public/images/thumbnails",
+  "title": "San Francisco 2019",
+  "description": "We visited San Francisco for a couple of days in May 2019 as part of our California trip.",
+  "thumbnail_height": 156,
+  "background_photo": "usa-494.jpg",
+  "url": "https://old.haltakov.net/gallery_usa_simple/qn3Sj4RidXdq2SqpCgJk",
+  "background_photo_offset": 50
 }
