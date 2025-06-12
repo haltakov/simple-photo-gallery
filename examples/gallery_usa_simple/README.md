@@ -1,19 +1,21 @@
 # Gallery USA Simple
 
-This is an example gallery containing only one photo section. The gallery code without the photos is available on GitHub. You can view the gallery here: [https://www.haltakov.net/simple-photo-gallery/gallery_usa_simple/](https://www.haltakov.net/simple-photo-gallery/gallery_usa_simple/)
+This is an example gallery containing only one photo section. The gallery code without the photos is available on GitHub. You can view the gallery here: [https://old.haltakov.net/simple-photo-gallery/gallery_usa_simple/](https://old.haltakov.net/simple-photo-gallery/gallery_usa_simple/)
 
-[![Example gallery simple](https://github.com/haltakov/simple-photo-gallery/blob/master/examples/gallery_usa_simple/screenshot_gallery_usa_simple.jpg?raw=true)](https://www.haltakov.net/simple-photo-gallery/gallery_usa_simple/)
+[![Example gallery simple](https://github.com/haltakov/simple-photo-gallery/blob/master/examples/gallery_usa_simple/screenshot_gallery_usa_simple.jpg?raw=true)](https://old.haltakov.net/simple-photo-gallery/gallery_usa_simple/)
 
 ## How to create this gallery
 
 This gallery was created in the following way.
 
 1. Initialize the gallery - execute the following command in the folder containing the images
+
 ```
 gallery-init
 ```
 
 2. Answer the questions asked by the script as shown below:
+
 ```
 What is the title of your gallery? (default: "My Gallery")
 > San Francisco 2019
@@ -30,7 +32,7 @@ Which image should be used as background for the header? (default: "")
 ```
 
 4. Build the gallery - execute the following command:
+
 ```
 gallery-build
 ```
-

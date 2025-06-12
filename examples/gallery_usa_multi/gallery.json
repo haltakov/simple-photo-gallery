@@ -1,13 +1,13 @@
 {
-    "images_data_file": "./images_data.json",
-    "public_path": "./public",
-    "templates_path": "./templates",
-    "images_path": "./public/images/photos",
-    "thumbnails_path": "./public/images/thumbnails",
-    "title": "USA Trip 2019",
-    "description": "We took a road trip with an RV through California in May 2019. We visited many places, like Los Angeles, Joshua Tree National Park, Palm Springs, Sequoia and King's Canyon National Park, Fresno, Sacramento and San Francisco.",
-    "thumbnail_height": 156,
-    "background_photo": "usa-170.jpg",
-    "url": "https://www.haltakov.net/gallery_usa_multi/CUPcTB5AcbutK3vyLQ26",
-    "background_photo_offset": 20
+  "images_data_file": "./images_data.json",
+  "public_path": "./public",
+  "templates_path": "./templates",
+  "images_path": "./public/images/photos",
+  "thumbnails_path": "./public/images/thumbnails",
+  "title": "USA Trip 2019",
+  "description": "We took a road trip with an RV through California in May 2019. We visited many places, like Los Angeles, Joshua Tree National Park, Palm Springs, Sequoia and King's Canyon National Park, Fresno, Sacramento and San Francisco.",
+  "thumbnail_height": 156,
+  "background_photo": "usa-170.jpg",
+  "url": "https://old.haltakov.net/gallery_usa_multi/CUPcTB5AcbutK3vyLQ26",
+  "background_photo_offset": 20
 }
